@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../common/Modal/Modal";
 import { sendSEND } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
+import BoxItem from "../common/BoxItem/BoxItem";
 
 const Send = ({ navigation }) => {
   const onPress = () => {
@@ -72,7 +73,15 @@ const Send = ({ navigation }) => {
               keyExtractor={(item, index) => index.toString()}
               data={response.wallets}
               renderItem={({ item }) => (
-                <View key={item.id} style={[styles.box__item]}>
+                <BoxItem
+                  balance={item.balance.toFixed(2)}
+                  code={item.currency.code}
+                  onPress={() => {
+                    setChooseId(item.currency_id);
+                    setValue(item.balance);
+                  }}
+                />
+                /*   <View key={item.id} style={[styles.box__item]}>
                   <Text
                     onPress={() => {
                       setChooseId(item.currency_id);
@@ -86,7 +95,7 @@ const Send = ({ navigation }) => {
                   <Text style={styles.box__itemText}>
                     {item.balance.toFixed(2)}
                   </Text>
-                </View>
+                </View> */
               )}
             />
             <View style={styles.box__footer}>
