@@ -75,8 +75,9 @@ const Deposit = ({ navigation, route }) => {
               </CustomButton>
             </View>
           </View>
-          <Footer />
+          
         </ImageBackground>
+        <Footer />
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -84,10 +85,13 @@ const Deposit = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     flexDirection: "column",
     width: "100%",
-    height: "100%",
-    /* height: windowHeight, */
+    /* height: "100%", */
+    height: windowHeight,
+    justifyContent: "center",
+
   },
   logo: {
     marginTop: 100,
@@ -121,7 +125,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inputs: {
-    height: '80%',
+    /* height: '80%', */
+    paddingBottom: 75,
     marginTop: 60,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

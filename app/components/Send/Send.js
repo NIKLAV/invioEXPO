@@ -137,8 +137,9 @@ const Send = ({ navigation }) => {
               <CustomButton onPress={onPress}>Send</CustomButton>
             </View>
           </View>
-          <Footer />
+          
         </ImageBackground>
+        <Footer />
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -146,9 +147,12 @@ const Send = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "column",
+    display: "flex",
+    justifyContent: "center",
+    
+   /*  flexDirection: "column", */
     width: "100%",
-    /* height: '100%', */
+    /* height: windowHeight, */
   },
   logo: {
     marginTop: 100,
@@ -209,7 +213,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inputs: {
-    height: windowHeight,
+    /* height: windowHeight, */
+    paddingBottom: 20,
     marginTop: 60,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
