@@ -28,7 +28,7 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: '0x266E16Ae64C9baC3A175235500Cc2cb1FF61d460',
+    address: address,
   };
 
   const token = await AsyncStorage.getItem("token");

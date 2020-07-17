@@ -43,11 +43,11 @@ const App = () => {
         }}
         drawerContent={(props) => <Navbar {...props} />}
       >
-     {/*    <Drawer.Screen
+     <Drawer.Screen
           options={{ swipeEnabled: false }}
           name="Login"
           component={Login}
-        /> */}
+        /> 
         <Drawer.Screen name="Wallets" component={Wallets} />
         <Drawer.Screen name="Send" component={Send} />
         <Drawer.Screen name="WithDraw" component={WithDraw} />
