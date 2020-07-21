@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from "react";
+import React, { useContext } from "react";
 import Login from "./app/components/Login/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -18,16 +18,24 @@ import DepositWithDraw from "./app/components/DepositWithDraw/DepositWithDraw";
 import SendTable from "./app/components/SendTable/SendTable";
 import Deposit from "./app/components/Deposit/Deposit";
 import History from "./app/components/History/History";
-import { Provider as AuthProvider } from "./app/context/AuthContext";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import {
+  Provider as AuthProvider,
+  Context as AuthContext,
+} from "./app/context/AuthContext";
 import { setNavigator } from "./app/components/Login/navigationRef";
 import Transfer from "./app/components/Transfer/Transfer";
 import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
 
 const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
 const { navigation } = NavigationContainer;
 
 const App = () => {
+  const { state } = useContext(AuthContext);
   return (
     <NavigationContainer>
       <Drawer.Navigator
@@ -43,19 +51,26 @@ const App = () => {
         }}
         drawerContent={(props) => <Navbar {...props} />}
       >
-       <Drawer.Screen
-          options={{ swipeEnabled: false }}
-          name="Login"
-          component={Login}
-        /> 
-        <Drawer.Screen name="Wallets" component={Wallets} />
-        <Drawer.Screen name="Send" component={Send} />
-        <Drawer.Screen name="WithDraw" component={WithDraw} />
-        <Drawer.Screen name="DepositWithDraw" component={DepositWithDraw} />
-        <Drawer.Screen name="SendTable" component={SendTable} />
-        <Drawer.Screen name="Deposit" component={Deposit} />
-        <Drawer.Screen name="History" component={History} />
-        <Drawer.Screen name="Transfer" component={Transfer} />
+        {!state.token ? (
+          <>
+            <Drawer.Screen
+              options={{ swipeEnabled: false }}
+              name="Login"
+              component={Login}
+            />
+          </>
+        ) : (
+          <>
+            <Drawer.Screen name="Wallets" component={Wallets} />
+            <Drawer.Screen name="Send" component={Send} />
+            <Drawer.Screen name="WithDraw" component={WithDraw} />
+            <Drawer.Screen name="DepositWithDraw" component={DepositWithDraw} />
+            <Drawer.Screen name="SendTable" component={SendTable} />
+            <Drawer.Screen name="Deposit" component={Deposit} />
+            <Drawer.Screen name="History" component={History} />
+            <Drawer.Screen name="Transfer" component={Transfer} />
+          </>
+        )}
       </Drawer.Navigator>
     </NavigationContainer>
   );

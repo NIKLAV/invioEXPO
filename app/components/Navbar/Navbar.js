@@ -97,7 +97,7 @@ const Navbar = (props) => {
           label={"Transfer"}
           onPress={() => props.navigation.navigate("Transfer")}
           labelStyle={styles.labelStyle}
-          style={styles.borderTop, {marginRight: 10}}
+          style={(styles.borderTop, { marginRight: 10 })}
         />
 
         <DrawerItem
@@ -105,9 +105,9 @@ const Navbar = (props) => {
             <Image source={require("../../assets/images/navbar/logout.png")} />
           )}
           label={"Logout"}
-          onPress={() => {
+          onPress={async () => {
             setCredentialsToNull();
-            signout();
+            await signout();
             props.navigation.navigate("Login");
           }}
           labelStyle={styles.labelStyle}
