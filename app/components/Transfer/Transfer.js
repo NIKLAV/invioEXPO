@@ -48,6 +48,7 @@ const Transfer = ({navigation}) => {
     for (let item of transfer.data) {
       items.push(
         <Accordian
+        key={item.created_at}
           title={item.created_at}
           list={
             <View key={item.created_at} style={styles.child}>
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     /* height: '100%', */
-    height: windowHeight,
+    /* height: windowHeight, */
   },
   child: {
     width: '100%',

@@ -23,8 +23,8 @@ const useForm = (callback, validateLogin, currencyValue) => {
     if (
       Object.keys(errors).length === 0 &&
       password.length > 0 &&
-      login.length > 0 &&
-      totp.length > 0
+      login.length > 0
+      /* totp.length > 0 */
     ) {
       setDisableButton(false);
     } else setDisableButton(true);

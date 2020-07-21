@@ -30,6 +30,7 @@ const History = ({ navigation }) => {
       console.log("item amount", item.amount);
       items.push(
         <Accordian
+          key={item.created_at}
           title={item.created_at}
           list={
             <View key={item.created_at} style={styles.child}>
@@ -43,9 +44,7 @@ const History = ({ navigation }) => {
               </View>
               <View style={styles.child__item}>
                 <Text style={styles.child__item__text}>Amount</Text>
-                <Text style={styles.child__item__value}>
-                  {item.amount}
-                </Text>
+                <Text style={styles.child__item__value}>{item.amount}</Text>
               </View>
               <View style={styles.child__item}>
                 <Text style={styles.child__item__text}>Fee</Text>
@@ -123,7 +122,7 @@ const styles = StyleSheet.create({
   },
   child__item__value: {
     paddingLeft: 8,
-    
+
     width: "60%",
     backgroundColor: "#fff",
     textAlignVertical: "center",

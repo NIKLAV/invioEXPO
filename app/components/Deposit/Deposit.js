@@ -16,6 +16,8 @@ import Header from "../common/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
 import { generateAddress } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
+import Clipboard, { useClipboard } from "@react-native-community/clipboard";
+import CustomButtonLightSmall from "../common/Button/CustomButtonLightSmall";
 
 const Deposit = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -27,6 +29,10 @@ const Deposit = ({ navigation, route }) => {
 
   const createNewAddress = () => {
     dispatch(generateAddress(data));
+  };
+
+  const copyToClipboard = () => {
+    Clipboard.setString('pussy');
   };
 
   return (
@@ -74,8 +80,10 @@ const Deposit = ({ navigation, route }) => {
                 Generate address
               </CustomButton>
             </View>
+            <CustomButtonLightSmall onPress={copyToClipboard}>
+              Copy address
+            </CustomButtonLightSmall>
           </View>
-          
         </ImageBackground>
         <Footer />
       </KeyboardAvoidingView>
@@ -85,13 +93,12 @@ const Deposit = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
+    display: "flex",
     flexDirection: "column",
     width: "100%",
     /* height: "100%", */
     height: windowHeight,
     justifyContent: "center",
-
   },
   logo: {
     marginTop: 100,
