@@ -14,12 +14,12 @@ import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
 import CustomButtonLight from "../common/Button/CustomButtonLight";
 import CustomButtonLightSmall from "../common/Button/CustomButtonLightSmall";
-import useFetch from "../../hooks/useFetch";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchWallets } from "../../redux/actions";
 import CustomModal from "../common/Modal/Modal";
 import { windowHeight } from "../../utilts/windowHeight";
 import BoxItem from "../common/BoxItem/BoxItem";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Wallets = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +27,24 @@ const Wallets = ({ navigation }) => {
   const errors = useSelector((state) => state.walletsPage.errorMessagesWallet);
   useEffect(() => {
     dispatch(fetchWallets());
+  }, []);
+
+  const [userKyc, setUserKyc] = useState("");
+  const [userBanDraw, setUserBanDraw] = useState(null);
+  const [userBanDeposit, setUserBanDeposit] = useState(null);
+  console.log("userbanDraw", userBanDraw);
+  console.log("userBanDeposit", userBanDeposit);
+  useEffect(() => {
+    const getValues = async () => {
+      const banDraw = await AsyncStorage.getItem("banDraw");
+      const banDeposit = await AsyncStorage.getItem("banDeposit");
+      const kyc = await AsyncStorage.getItem("kyc");
+
+      setUserKyc(kyc);
+      setUserBanDraw(banDraw);
+      setUserBanDeposit(banDeposit);
+    };
+    getValues();
   }, []);
 
   const [totalPosts, setTotalPosts] = useState(0);
@@ -134,7 +152,13 @@ const Wallets = ({ navigation }) => {
           <View style={styles.button__container}>
             <CustomButtonLight
               onPress={() => {
-                if (!nameCurrency.name) {
+                if (userKyc.includes("not_verified")) {
+                  dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+                } else if (+userBanDeposit) {
+                  dispatch({ type: "ERROR_WALLETS_BAN" });
+                } else if (userKyc.includes("pending")) {
+                  dispatch({ type: "ERROR_WALLETS_PENDING" });
+                } else if (!nameCurrency.name) {
                   dispatch({ type: "ERROR_WALLETS" });
                 } else {
                   navigation.navigate("Deposit", {
@@ -150,7 +174,13 @@ const Wallets = ({ navigation }) => {
           <View style={styles.button__container}>
             <CustomButton
               onPress={() => {
-                if (!nameCurrency.name) {
+                if (userKyc.includes("not_verified")) {
+                  dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+                } else if (userKyc.includes("pending")) {
+                  dispatch({ type: "ERROR_WALLETS_PENDING" });
+                } else if (+userBanDraw) {
+                  dispatch({ type: "ERROR_WALLETS_BAN" });
+                } else if (!nameCurrency.name) {
                   dispatch({ type: "ERROR_WALLETS" });
                 } else {
                   navigation.navigate("WithDraw", {

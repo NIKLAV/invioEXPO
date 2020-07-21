@@ -64,7 +64,7 @@ export const generateAddress = (name) => async (dispatch) => {
         authorization: token ? `Bearer ${token}` : "",
       },
     }
-  );
+  ).then(console.warn(response));
 
   dispatch({
     type: "GENERATE_ADDRESS",

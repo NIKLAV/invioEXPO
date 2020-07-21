@@ -104,9 +104,12 @@ const Transfer = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
+    display: 'flex',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    /* height: '100%', */
+    height: windowHeight,
   },
   child: {
     width: '100%',

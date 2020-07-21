@@ -20,15 +20,36 @@ import CustomModal from "../common/Modal/Modal";
 import { sendSEND } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
 import BoxItem from "../common/BoxItem/BoxItem";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Send = ({ navigation }) => {
+  const [userKyc, setUserKyc] = useState("");
+  const [userSendBan, setUserSendBan] = useState(null);
+
   const onPress = () => {
-    if (amount.length === 0 || username.length === 0 || !chooseId) {
+    if (userKyc.includes("not_verified")) {
+      dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+    } else if (userKyc.includes("pending")) {
+      dispatch({ type: "ERROR_WALLETS_PENDING" });
+    } else if (+userSendBan) {
+      dispatch({ type: "ERROR_WALLETS_BAN" });
+    } else if (amount.length === 0 || username.length === 0 || !chooseId) {
       dispatch({ type: "ADD_ERROR_LENGTH_SEND" });
     } else if (amount > value) {
       dispatch({ type: "ADD_ERROR_AMOUNT_SEND" });
     } else dispatch(sendSEND(chooseId, amount, username, currencyCode));
   };
+
+  console.log(userKyc);
+  useEffect(() => {
+    const getValues = async () => {
+      const kyc = await AsyncStorage.getItem("kyc");
+      const sendBan = await AsyncStorage.getItem("banTransfer");
+      setUserKyc(kyc);
+      setUserSendBan(sendBan);
+    };
+    getValues();
+  }, []);
 
   const [username, setUserName] = useState("");
   const [amount, setAmount] = useState("");
@@ -137,7 +158,6 @@ const Send = ({ navigation }) => {
               <CustomButton onPress={onPress}>Send</CustomButton>
             </View>
           </View>
-          
         </ImageBackground>
         <Footer />
       </KeyboardAvoidingView>
@@ -149,8 +169,8 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     justifyContent: "center",
-    
-   /*  flexDirection: "column", */
+
+    /*  flexDirection: "column", */
     width: "100%",
     /* height: windowHeight, */
   },

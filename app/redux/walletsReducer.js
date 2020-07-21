@@ -1,24 +1,48 @@
 const initialState = {
-  errorMessagesWallet: '',
+  errorMessagesWallet: "",
 };
 
 const walletsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'LOAD_WALLETS':
-      return {...state, data: action.payload};
-    case 'ERROR_WALLETS':
+    case "LOAD_WALLETS":
+      return { ...state, data: action.payload };
+    case "ERROR_WALLETS":
       return {
         ...state,
         errorMessagesWallet: [
           ...state.errorMessagesWallet,
-          'Select currency first',
+          "Select currency first",
         ],
       };
-    case 'CLEAR_ERROR_WALLETS':
+    case "CLEAR_ERROR_WALLETS":
       return {
         ...state,
-        errorMessagesWallet: '',
+        errorMessagesWallet: "",
       };
+    case "ERROR_WALLETS_NOTVEFIFIED":
+      return {
+        ...state,
+        errorMessagesWallet: [
+          ...state.errorMessagesWallet,
+          "Please, verify your account. You can do it in the Settings menu - Account verification",
+        ],
+      };
+      case "ERROR_WALLETS_PENDING":
+      return {
+        ...state,
+        errorMessagesWallet: [
+          ...state.errorMessagesWallet,
+          "Pending Your account wasn't verified yet. Please, contact our support if you have any questions",
+        ],
+      };
+      case "ERROR_WALLETS_BAN":
+        return {
+          ...state,
+          errorMessagesWallet: [
+            ...state.errorMessagesWallet,
+            "This function was banned for you. Please contact our support team.",
+          ],
+        };
     default:
       return state;
   }
