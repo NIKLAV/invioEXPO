@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
-const BoxItem = ({ onPress, balance, code }) => {
-  const [touched, setTouched] = useState(false);
+const BoxItem = ({ onPress, balance, code, touched, setTouched }) => {
+
   return (
     <TouchableOpacity
       onPress={() => {
         onPress();
-        setTouched(true);
+        setTouched(code);
       }}
       on
-      style={[styles.box__item /* touched ? styles.box__itemTouched : null */]}
+      style={[styles.box__item,  touched === code ? styles.box__itemTouched : null ]}
     >
       <Text style={styles.box__itemText}>{code}</Text>
 

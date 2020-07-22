@@ -8,7 +8,7 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Image,
-  Linking
+  Linking,
 } from "react-native";
 import Header from "../common/Header/Header";
 import CustomButton from "../common/Button/CustomButton";
@@ -68,6 +68,8 @@ const Wallets = ({ navigation }) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const [touched, setTouched] = useState("");
+
   return (
     <ScrollView>
       <ImageBackground
@@ -92,6 +94,8 @@ const Wallets = ({ navigation }) => {
               data={currentPosts}
               renderItem={({ item }) => (
                 <BoxItem
+                  touched={touched}
+                  setTouched={setTouched}
                   key={item.id}
                   code={item.currency.code}
                   balance={item.balance.toFixed(8)}
@@ -109,7 +113,9 @@ const Wallets = ({ navigation }) => {
             <View style={styles.box__footer}>
               <Text style={styles.box__footerText}>Total Balance = </Text>
               {response && (
-                <Text style={styles.box__footerText}>{response.total_usd} USD</Text>
+                <Text style={styles.box__footerText}>
+                  {response.total_usd} USD
+                </Text>
               )}
             </View>
           </View>
@@ -195,12 +201,14 @@ const Wallets = ({ navigation }) => {
             </CustomButton>
           </View>
           <View style={styles.buttonSmall__container}>
-            <CustomButtonLightSmall onPress={
-            () =>
-              Linking.openURL(
-                "http://185.181.8.210:8902/marketplace"
-              ) /* props.navigation.navigate('Transactions') */
-          }>
+            <CustomButtonLightSmall
+              onPress={
+                () =>
+                  Linking.openURL(
+                    "http://185.181.8.210:8902/marketplace"
+                  ) /* props.navigation.navigate('Transactions') */
+              }
+            >
               Buy/Sell
             </CustomButtonLightSmall>
             {/* <CustomButtonLightSmall>Sell/Buy</CustomButtonLightSmall> */}

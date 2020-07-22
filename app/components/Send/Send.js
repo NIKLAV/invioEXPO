@@ -73,6 +73,8 @@ const Send = ({ navigation }) => {
     }
   }, [errors]);
 
+  const [touched, setTouched] = useState("");
+
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -95,6 +97,8 @@ const Send = ({ navigation }) => {
               data={response.wallets}
               renderItem={({ item }) => (
                 <BoxItem
+                  touched={touched}
+                  setTouched={setTouched}
                   balance={item.balance.toFixed(2)}
                   code={item.currency.code}
                   onPress={() => {
