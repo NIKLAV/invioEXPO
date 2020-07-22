@@ -76,7 +76,7 @@ const Deposit = ({ navigation, route }) => {
                 Generate address
               </CustomButton>
             </View>
-            {/*  <CustomButtonLightSmall onPress={() => Clipboard.setString('sss')}>
+           {/*  <CustomButtonLightSmall onPress={Clipboard.setString('sss')}>
               Copy address
             </CustomButtonLightSmall> */}
           </View>
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     /* height: "100%", */
-    height: windowHeight,
+    /* height: windowHeight, */
     justifyContent: "center",
   },
   logo: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   button__container: {
     marginTop: 35,
-    marginBottom: 100,
+    marginBottom: 70,
   },
 });
 
