@@ -31,10 +31,6 @@ const Deposit = ({ navigation, route }) => {
     dispatch(generateAddress(data));
   };
 
-  const copyToClipboard = () => {
-    Clipboard.setString('pussy');
-  };
-
   return (
     <ScrollView>
       <KeyboardAvoidingView
@@ -80,9 +76,9 @@ const Deposit = ({ navigation, route }) => {
                 Generate address
               </CustomButton>
             </View>
-            <CustomButtonLightSmall onPress={copyToClipboard}>
+            {/*  <CustomButtonLightSmall onPress={() => Clipboard.setString('sss')}>
               Copy address
-            </CustomButtonLightSmall>
+            </CustomButtonLightSmall> */}
           </View>
         </ImageBackground>
         <Footer />
@@ -133,7 +129,7 @@ const styles = StyleSheet.create({
   },
   inputs: {
     /* height: '80%', */
-    paddingBottom: 75,
+    paddingBottom: 80,
     marginTop: 60,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

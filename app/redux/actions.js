@@ -28,7 +28,7 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: address,
+    address: '0x68F69D2E85Df0fA1cb80664585A435C7B2E1683d',
   };
 
   const token = await AsyncStorage.getItem("token");
@@ -44,27 +44,29 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
     .then((response) => response.json())
     .then((response) => {
       if (response.errors) {
-        
         dispatch({ type: "ADD_ERROR_DRAW", payload: response.errors });
       } else {
         const { fee, status, created_at, asset_code } = response;
         console.log(fee, status, created_at, asset_code);
         dispatch({ type: "SEND_CURRENCY" });
         dispatch(fetchHistory());
+        dispatch(fetchWallets());
       }
     });
 };
 
 export const generateAddress = (name) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
-  const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/wallets/generate_address?asset_code=${name}`,
-    {
-      headers: {
-        authorization: token ? `Bearer ${token}` : "",
-      },
-    }
-  ).then(console.warn(response));
+  const response = await axios
+    .get(
+      `http://185.181.8.210:8901/api/user/wallets/generate_address?asset_code=${name}`,
+      {
+        headers: {
+          authorization: token ? `Bearer ${token}` : "",
+        },
+      }
+    )
+    .then(console.warn(response));
 
   dispatch({
     type: "GENERATE_ADDRESS",
@@ -101,7 +103,7 @@ export const fetchTransfer = () => async (dispatch) => {
       },
     }
   );
-  console.warn('action 106')
+  console.warn("action 106");
   dispatch({
     type: "FETCH_ALL_TRANSFER",
     payload: response.data,
@@ -127,12 +129,13 @@ export const sendSEND = (assetId, amount, name) => async (dispatch) => {
   })
     .then((response) => response.json())
     .then((response) => {
-      console.warn('response 132', response)
+      console.warn("response 132", response);
       if (response.errors) {
         dispatch({ type: "ADD_ERROR_SEND", payload: response.errors });
       } else {
         dispatch({ type: "SEND_SEND" });
-         dispatch(fetchTransfer());
+        dispatch(fetchTransfer());
+        dispatch(fetchWallets());
       }
-    })
+    });
 };

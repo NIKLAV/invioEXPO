@@ -6,9 +6,11 @@ const BoxItem = ({ onPress, balance, code }) => {
   return (
     <TouchableOpacity
       onPress={() => {
-        onPress(); setTouched(true);
+        onPress();
+        setTouched(true);
       }}
-      style={[styles.box__item/* , touched ? styles.box__itemTouched : null */]}
+      on
+      style={[styles.box__item /* touched ? styles.box__itemTouched : null */]}
     >
       <Text style={styles.box__itemText}>{code}</Text>
 
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
   },
   box__itemText: {
     color: "#fff",
+    textTransform: "uppercase",
   },
 });
 
