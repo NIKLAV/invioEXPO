@@ -27,7 +27,6 @@ const History = ({ navigation }) => {
     let i = 1;
 
     for (let item of history.data) {
-      console.log("item amount", item.amount);
       items.push(
         <Accordian
           key={item.created_at}

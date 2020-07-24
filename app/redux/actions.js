@@ -47,7 +47,7 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
         dispatch({ type: "ADD_ERROR_DRAW", payload: response.errors });
       } else {
         const { fee, status, created_at, asset_code } = response;
-        console.log(fee, status, created_at, asset_code);
+
         dispatch({ type: "SEND_CURRENCY" });
         dispatch(fetchHistory());
         dispatch(fetchWallets());
@@ -57,16 +57,14 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
 
 export const generateAddress = (name) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
-  const response = await axios
-    .get(
-      `http://185.181.8.210:8901/api/user/wallets/generate_address?asset_code=${name}`,
-      {
-        headers: {
-          authorization: token ? `Bearer ${token}` : "",
-        },
-      }
-    )
-    .then(console.warn(response));
+  const response = await axios.get(
+    `http://185.181.8.210:8901/api/user/wallets/generate_address?asset_code=${name}`,
+    {
+      headers: {
+        authorization: token ? `Bearer ${token}` : "",
+      },
+    }
+  );
 
   dispatch({
     type: "GENERATE_ADDRESS",
@@ -103,7 +101,7 @@ export const fetchTransfer = () => async (dispatch) => {
       },
     }
   );
-  console.warn("action 106");
+
   dispatch({
     type: "FETCH_ALL_TRANSFER",
     payload: response.data,

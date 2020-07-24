@@ -1,5 +1,6 @@
 const initialState = {
   errorMessagesWallet: "",
+  currencyData: {},
 };
 
 const walletsReducer = (state = initialState, action) => {
@@ -43,6 +44,12 @@ const walletsReducer = (state = initialState, action) => {
             "This function was banned for you. Please contact our support team.",
           ],
         };
+        case 'SEND_PARAMS_ON_DEPOSIT_OR_WITHDRAW':
+          console.log(state)
+          return {
+            ...state,
+            currencyData: action.payload 
+          }
     default:
       return state;
   }

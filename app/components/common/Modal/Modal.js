@@ -14,7 +14,6 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
     errors = ['The amount must be a number'];
   }
   if (errors.includes('wrong_withdrawal_address')) errors = ['This address is not registered']
-  console.log(errors);
   if (errors.includes('min_quantity_limit_exceeded')) errors = ['The amount must be more than 0']
   if (errors.includes('the_selected_username_is_invalid')) errors = ['This username is not registred']
    if (errors.includes('the_amount_must_be_greater_than_0')) errors = ['The amount must be more than 0'] 

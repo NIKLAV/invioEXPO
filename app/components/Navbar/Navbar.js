@@ -34,26 +34,23 @@ const Navbar = (props) => {
   const { signout, state } = useContext(AuthContext);
 
   return (
-    <DrawerContentScrollView {...props}>
+    <DrawerContentScrollView {...props} style={{ paddingVertical: 35 }}>
       <View style={styles.header}>
         <ImageBackground
           source={require("../../assets/images/navbar/logo.png")}
           style={styles.logo}
         >
           <Text style={styles.hello}>Hi, {userName || state.username}!</Text>
-          {/* захаркодженный текст */}
         </ImageBackground>
       </View>
       <View>
-        {/* <DrawerItemList {...props} /> */}
-
         <DrawerItem
           icon={() => (
             <Image source={require("../../assets/images/navbar/wallets.png")} />
           )}
           label={"Wallets"}
           onPress={() => props.navigation.navigate("Wallets")}
-          labelStyle={styles.labelStyle}
+          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
 
@@ -63,7 +60,7 @@ const Navbar = (props) => {
           )}
           label={"Send"}
           onPress={() => props.navigation.navigate("Send")}
-          labelStyle={styles.labelStyle}
+          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
 
@@ -80,7 +77,7 @@ const Navbar = (props) => {
                 "https://reactnative.dev/docs/linking#get-the-deep-link"
               ) /* props.navigation.navigate('Transactions') */
           }
-          labelStyle={styles.labelStyle}
+          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
 
@@ -88,16 +85,16 @@ const Navbar = (props) => {
           icon={() => <Image source={require("../../assets/history.png")} />}
           label={"History"}
           onPress={() => props.navigation.navigate("History")}
-          labelStyle={styles.labelStyle}
+          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
 
         <DrawerItem
-          icon={() => <Image source={require("../../assets/transfer.png")} />}
+          icon={() => <Image source={require("../../assets/transfer1.png")} />}
           label={"Transfer"}
           onPress={() => props.navigation.navigate("Transfer")}
-          labelStyle={styles.labelStyle}
-          style={(styles.borderTop, { marginRight: 10 })}
+          labelStyle={[styles.labelStyle]}
+          style={[styles.borderTop]}
         />
 
         <DrawerItem
@@ -110,7 +107,7 @@ const Navbar = (props) => {
             await signout();
             props.navigation.navigate("Login");
           }}
-          labelStyle={styles.labelStyle}
+          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
       </View>
@@ -139,7 +136,7 @@ const styles = StyleSheet.create({
     color: "#212123",
   },
   borderTop: {
-    borderTopWidth: 0.2,
+    borderTopWidth: 0.3,
     borderColor: "#a0a0a0",
   },
   logout: {

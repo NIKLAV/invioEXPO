@@ -33,8 +33,7 @@ const Wallets = ({ navigation }) => {
   const [userKyc, setUserKyc] = useState("");
   const [userBanDraw, setUserBanDraw] = useState(null);
   const [userBanDeposit, setUserBanDeposit] = useState(null);
-  console.log("userbanDraw", userBanDraw);
-  console.log("userBanDeposit", userBanDeposit);
+
   useEffect(() => {
     const getValues = async () => {
       const banDraw = await AsyncStorage.getItem("banDraw");
@@ -51,7 +50,7 @@ const Wallets = ({ navigation }) => {
   const [totalPosts, setTotalPosts] = useState(0);
   let [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState(0);
-  const [nameCurrency, setNameCurrency] = useState({});
+  const [nameCurrency, setNameCurrency] = useState({}); 
 
   const [postsPerPage] = useState(4);
   const lastPage = Math.ceil(totalPosts / postsPerPage);
@@ -105,6 +104,15 @@ const Wallets = ({ navigation }) => {
                       value: item.balance,
                       assetId: item.currency_id,
                       walletId: item.id,
+                    }); 
+                    dispatch({
+                      type: "SEND_PARAMS_ON_DEPOSIT_OR_WITHDRAW",
+                      payload: {
+                        name: item.currency.code,
+                        value: item.balance,
+                        assetId: item.currency_id,
+                        walletId: item.id,
+                      },
                     });
                   }}
                 />
@@ -170,7 +178,7 @@ const Wallets = ({ navigation }) => {
                 } else {
                   navigation.navigate("Deposit", {
                     screen: "Wallets",
-                    params: nameCurrency.name,
+                   /*  params: nameCurrency.name, */
                   });
                 }
               }}
@@ -192,7 +200,7 @@ const Wallets = ({ navigation }) => {
                 } else {
                   navigation.navigate("WithDraw", {
                     screen: "Wallets",
-                    params: nameCurrency,
+                    /* params: nameCurrency, */
                   });
                 }
               }}
@@ -223,7 +231,7 @@ const styles = StyleSheet.create({
   container: {
     position: "relative",
     width: "100%",
-    height: windowHeight,
+    /* height: windowHeight, */
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -304,15 +312,19 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingTop: 23,
     marginTop: 8,
+    paddingBottom: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
+    /* flexDirection: "column",
+    justifyContent: "space-between", */
   },
   button__container: {
-    marginVertical: 10,
+    marginVertical: 25,
   },
   buttonSmall__container: {
+    paddingBottom: 20,
     width: 280,
     marginTop: 7,
     marginBottom: 30,

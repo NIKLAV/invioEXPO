@@ -24,11 +24,12 @@ const Deposit = ({ navigation, route }) => {
   const generatedAddress = useSelector(
     (state) => state.depositPage.data.address
   );
+  const name = useSelector(state => state. walletsPage.currencyData.name)
 
-  const data = route.params.params;
+  /* const data = route.params.params; */
 
   const createNewAddress = () => {
-    dispatch(generateAddress(data));
+    dispatch(generateAddress(name));
   };
 
   return (
@@ -65,7 +66,7 @@ const Deposit = ({ navigation, route }) => {
                 <Text style={styles.label}>Deposit fee</Text>
                 <Text style={{ width: 260 }}>
                   This deposit address accept only{" "}
-                  <Text style={{ textTransform: "uppercase" }}>{data}</Text>.
+                  <Text style={{ textTransform: "uppercase" }}>{name}</Text>.
                 </Text>
                 <Text>Do not send other coins to it.</Text>
               </View>
@@ -93,8 +94,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     width: "100%",
     /* height: "100%", */
-    /* height: windowHeight, */
-    justifyContent: "center",
+    height: windowHeight,
+    /* justifyContent: "center", */
   },
   logo: {
     marginTop: 100,
@@ -128,6 +129,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inputs: {
+    flex: 1,
     /* height: '80%', */
     paddingBottom: 80,
     marginTop: 60,

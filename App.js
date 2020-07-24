@@ -28,6 +28,7 @@ import { setNavigator } from "./app/components/Login/navigationRef";
 import Transfer from "./app/components/Transfer/Transfer";
 import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
+import { fetchWallets } from "./app/redux/actions";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -44,7 +45,6 @@ const App = () => {
           activeBackgroundColor: "#fff",
           inactiveTintColor: "#212123",
           inactiveBackgroundColor: "#fff",
-          itemStyle: { borderTopWidth: 0.3, borderColor: "#b4b4b4" },
         }}
         drawerStyle={{
           borderRadius: 25,

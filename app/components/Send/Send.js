@@ -40,7 +40,6 @@ const Send = ({ navigation }) => {
     } else dispatch(sendSEND(chooseId, amount, username, currencyCode));
   };
 
-  console.log(userKyc);
   useEffect(() => {
     const getValues = async () => {
       const kyc = await AsyncStorage.getItem("kyc");

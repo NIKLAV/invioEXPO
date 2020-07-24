@@ -14,10 +14,10 @@ import Footer from "../common/Footer/Footer";
 import Header from "../common/Header/Header";
 import Balance from "../common/Balance/Balance";
 import CustomModal from "../common/Modal/Modal";
-import useForm from "../../hooks/useForm";
+
 import { useDispatch, useSelector } from "react-redux";
 import { sendCurrency, fetchWallets } from "../../redux/actions";
-import useFetch from "../../hooks/useFetch";
+
 import AsyncStorage from "@react-native-community/async-storage";
 import { windowHeight } from "../../utilts/windowHeight";
 import axios from "axios";
@@ -25,24 +25,6 @@ import axios from "axios";
 const WithDraw = ({ navigation, route }) => {
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
-  /*   const [{isLoading, response, errors}, doFetch] = useFetch(
-    'user/wallets/withdrawals/create',
-  ); */
-  /*  const fetchData = async () => {
-    const token = await AsyncStorage.getItem('token');
-    doFetch({
-      method: 'post',
-      headers: {
-        headers: {
-          authorization: token ? `Bearer ${token}` : '',
-        },
-      },
-      wallet_id: data.walletId,
-      asset_id: data.assetId,
-      amount,
-      address,
-    });
-  }; */
 
   const dispatch = useDispatch();
 
@@ -66,7 +48,9 @@ const WithDraw = ({ navigation, route }) => {
     dispatch({ type: "CLEAR_ERROR_DRAW" });
   };
 
-  const data = route.params.params;
+  /* const data = route.params.params; */
+  const data = useSelector(state => state. walletsPage.currencyData)
+
 
   const [currentValue, setCurrentValue] = useState("");
 

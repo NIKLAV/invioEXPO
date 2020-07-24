@@ -24,6 +24,7 @@ const Header = ({children, onPress}) => {
 
 const styles = StyleSheet.create({
   header: {
+    marginTop: 30,
     minHeight: 50,
     position: 'relative',
     width: '100%',
