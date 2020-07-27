@@ -11,7 +11,7 @@ import Footer from '../common/Footer/Footer';
 import Accordian from '../common/Accordion/Accordion';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchTransfer} from '../../redux/actions';
-import Preloader from '../common/Preloader/preloader';
+import Preloader, { Spiner } from '../common/Preloader/preloader';
 import {windowHeight} from '../../utilts/windowHeight';
 
 const Transfer = ({navigation}) => {
@@ -97,7 +97,7 @@ const Transfer = ({navigation}) => {
           <Footer />
         </View>
       ) : (
-        <Preloader />
+        <Spiner />
       )}
     </ScrollView>
   );

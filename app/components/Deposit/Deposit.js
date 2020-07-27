@@ -24,7 +24,9 @@ const Deposit = ({ navigation, route }) => {
   const generatedAddress = useSelector(
     (state) => state.depositPage.data.address
   );
-  const name = useSelector(state => state. walletsPage.currencyData.name)
+  const name = useSelector((state) => state.walletsPage.currencyData.name);
+  const deposit_fee = useSelector((state) => state.walletsPage.currencyData.deposit_fee);
+  
 
   /* const data = route.params.params; */
 
@@ -63,7 +65,7 @@ const Deposit = ({ navigation, route }) => {
                 <TextInput value={generatedAddress} style={styles.input} />
               </View>
               <View style={styles.textContainer}>
-                <Text style={styles.label}>Deposit fee</Text>
+                <Text style={styles.label}>Deposit fee:      {deposit_fee}%</Text>
                 <Text style={{ width: 260 }}>
                   This deposit address accept only{" "}
                   <Text style={{ textTransform: "uppercase" }}>{name}</Text>.
@@ -77,7 +79,7 @@ const Deposit = ({ navigation, route }) => {
                 Generate address
               </CustomButton>
             </View>
-           {/*  <CustomButtonLightSmall onPress={Clipboard.setString('sss')}>
+            {/*  <CustomButtonLightSmall onPress={Clipboard.setString('sss')}>
               Copy address
             </CustomButtonLightSmall> */}
           </View>

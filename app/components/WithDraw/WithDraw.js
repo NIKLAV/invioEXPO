@@ -23,16 +23,50 @@ import { windowHeight } from "../../utilts/windowHeight";
 import axios from "axios";
 
 const WithDraw = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.walletsPage.currencyData);
+
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
+  const [currentValue, setCurrentValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
+  const [info, setInfo] = useState({
+    withdraw_max: data.withdraw_max,
+    withdraw_min: data.withdraw_min,
+    withdraw_fee: data.withdraw_fee,
+    withdraw_available_day: data.withdraw_available_day,
+  });
+
+  useEffect(() => {
+    setInfo({
+      withdraw_max: data.withdraw_max,
+      withdraw_min: data.withdraw_min,
+      withdraw_fee: data.withdraw_fee,
+      withdraw_available_day: data.withdraw_available_day,
+    });
+    setCurrentValue(data.value)
+  }, [data]);
 
   const onPress = () => {
     if (amount.length === 0 || address.length === 0) {
       dispatch({ type: "ADD_ERROR_LENGTH" });
     } else if (amount > data.value) {
       dispatch({ type: "ADD_ERROR_AMOUNT" });
+    } else if (amount > info.withdraw_available_day) {
+      dispatch({
+        type: "ADD_ERROR_MAX_DAY",
+      });
+    } else if (amount > info.withdraw_max) {
+      dispatch({
+        type: "ADD_ERROR_AMOUNT_MAX",
+        payload: { code: data.name, max: info.withdraw_max },
+      });
+    } else if (amount < info.withdraw_min) {
+      dispatch({
+        type: "ADD_ERROR_MIN_AMOUNT",
+        payload: { code: data.name, min: data.withdraw_min },
+      });
     } else dispatch(sendCurrency(data.walletId, data.assetId, amount, address));
   };
 
@@ -49,13 +83,10 @@ const WithDraw = ({ navigation, route }) => {
   };
 
   /* const data = route.params.params; */
-  const data = useSelector(state => state. walletsPage.currencyData)
-
-
-  const [currentValue, setCurrentValue] = useState("");
 
   useEffect(() => {
     const fetchCurrentValue = async () => {
+      setLoading(true);
       const token = await AsyncStorage.getItem("token");
       const response = await axios
         .get(`http://185.181.8.210:8901/api/user/wallets/${data.name}`, {
@@ -63,11 +94,22 @@ const WithDraw = ({ navigation, route }) => {
             authorization: token ? `Bearer ${token}` : "",
           },
         })
-        .then((response) => setCurrentValue(response.data.wallet.balance));
+        .then((response) => {
+          setLoading(false);
+          setCurrentValue(response.data.wallet.balance);
+          setInfo({
+            ...info,
+            withdraw_max: response.data.wallet.asset.withdraw_max,
+            withdraw_min: response.data.wallet.asset.withdraw_min,
+            withdraw_fee: response.data.wallet.asset.withdraw_fee,
+            withdraw_available_day: response.data.wallet.withdraw_available_day,
+          });
+        });
     };
     fetchCurrentValue();
   }, [errors]);
-
+  console.log("info", info);
+  console.log("data", data);
   return (
     <ScrollView>
       <KeyboardAvoidingView behavior={"height"} keyboardVerticalOffset="-160">
@@ -100,6 +142,7 @@ const WithDraw = ({ navigation, route }) => {
                   style={styles.input}
                 />
               </View>
+
               <View style={styles.input__container}>
                 <Text style={styles.label}>Amount</Text>
                 <TextInput
@@ -107,6 +150,28 @@ const WithDraw = ({ navigation, route }) => {
                   value={amount}
                   style={styles.input}
                 />
+                {!loading && Object.keys(info).length > 0 ? (
+                  <>
+                    <Text style={styles.after_input}>
+                      Maximum USDT Withdrawal: {info.withdraw_max}
+                      {/* {data.withdraw_max} */} {data.name.toUpperCase()}
+                    </Text>
+                    <Text style={styles.after_input}>
+                      Minimum USDT Withdrawal: {info.withdraw_min}
+                      {/* {data.withdraw_min} */} {data.name.toUpperCase()}
+                    </Text>
+                    <Text style={styles.after_input}>
+                      Withdrawal fee: {info.withdraw_fee}{" "}
+                      {/*  {data.withdraw_fee} */} %
+                    </Text>
+                    <Text style={styles.after_input}>
+                      Available withdrawal per day:{" "}
+                      {info.withdraw_available_day}{" "}
+                      {/* {data.withdraw_available_day} */}{" "}
+                      {data.name.toUpperCase()}
+                    </Text>
+                  </>
+                ) : null}
               </View>
             </View>
 
@@ -188,6 +253,11 @@ const styles = StyleSheet.create({
     color: "#38383b",
     fontSize: 15,
     fontWeight: "bold",
+  },
+  after_input: {
+    marginVertical: 4,
+    color: "#38383b",
+    fontSize: 15,
   },
   button__container: {
     marginTop: 35,

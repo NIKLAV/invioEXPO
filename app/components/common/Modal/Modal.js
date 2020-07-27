@@ -13,11 +13,13 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
   } else if (errors.amount) {
     errors = ['The amount must be a number'];
   }
-  if (errors.includes('wrong_withdrawal_address')) errors = ['This address is not registered']
+  if (errors.includes('wrong_withdrawal_address')) errors = ['Wrong withdrawal address']
   if (errors.includes('min_quantity_limit_exceeded')) errors = ['The amount must be more than 0']
   if (errors.includes('the_selected_username_is_invalid')) errors = ['This username is not registred']
    if (errors.includes('the_amount_must_be_greater_than_0')) errors = ['The amount must be more than 0'] 
-   if (errors.includes('invalid_credentials')) errors = ['Invalid credentials'] 
+   if (errors.includes('invalid_credentials')) errors = ['Invalid credentials']
+   if (errors.includes('the_totp_field_is_required')) errors = ['Please enter the TOTP code']
+   if (errors.includes('invalid_totp_code')) errors = ['Invalid TOTP code']
 
   return (
    <View>

@@ -30,6 +30,20 @@ const Wallets = ({ navigation }) => {
     dispatch(fetchWallets());
   }, []);
 
+  /*   const setOnPress = (item) => {
+    setNameCurrency({
+      name: item.currency.code,
+      value: item.balance,
+      assetId: item.currency_id,
+      walletId: item.id,
+      deposit_fee: item.currency.deposit_fee,
+      withdraw_max: item.currency.withdraw_max,
+      withdraw_min: item.currency.withdraw_min,
+      withdraw_fee: item.currency.withdraw_fee,
+      withdraw_available_day: item.withdraw_available_day,
+    });
+  }; */
+
   const [userKyc, setUserKyc] = useState("");
   const [userBanDraw, setUserBanDraw] = useState(null);
   const [userBanDeposit, setUserBanDeposit] = useState(null);
@@ -50,7 +64,7 @@ const Wallets = ({ navigation }) => {
   const [totalPosts, setTotalPosts] = useState(0);
   let [currentPage, setCurrentPage] = useState(1);
   const [currentPosts, setCurrentPosts] = useState(0);
-  const [nameCurrency, setNameCurrency] = useState({}); 
+  const [nameCurrency, setNameCurrency] = useState({});
 
   const [postsPerPage] = useState(4);
   const lastPage = Math.ceil(totalPosts / postsPerPage);
@@ -99,12 +113,19 @@ const Wallets = ({ navigation }) => {
                   code={item.currency.code}
                   balance={item.balance.toFixed(8)}
                   onPress={() => {
+                    /* setOnPress(item); */
                     setNameCurrency({
                       name: item.currency.code,
                       value: item.balance,
                       assetId: item.currency_id,
                       walletId: item.id,
-                    }); 
+                      deposit_fee: item.currency.deposit_fee,
+                      withdraw_max: item.currency.withdraw_max,
+                      withdraw_min: item.currency.withdraw_min,
+                      withdraw_fee: item.currency.withdraw_fee,
+                      withdraw_available_day: item.withdraw_available_day,
+                    });
+
                     dispatch({
                       type: "SEND_PARAMS_ON_DEPOSIT_OR_WITHDRAW",
                       payload: {
@@ -112,6 +133,11 @@ const Wallets = ({ navigation }) => {
                         value: item.balance,
                         assetId: item.currency_id,
                         walletId: item.id,
+                        deposit_fee: item.currency.deposit_fee,
+                        withdraw_max: item.currency.withdraw_max,
+                        withdraw_min: item.currency.withdraw_min,
+                        withdraw_fee: item.currency.withdraw_fee,
+                        withdraw_available_day: item.withdraw_available_day,
                       },
                     });
                   }}
@@ -119,7 +145,7 @@ const Wallets = ({ navigation }) => {
               )}
             />
             <View style={styles.box__footer}>
-              <Text style={styles.box__footerText}>Total Balance = </Text>
+              <Text style={styles.box__footerText}>Total balance: </Text>
               {response && (
                 <Text style={styles.box__footerText}>
                   {response.total_usd} USD
@@ -178,7 +204,7 @@ const Wallets = ({ navigation }) => {
                 } else {
                   navigation.navigate("Deposit", {
                     screen: "Wallets",
-                   /*  params: nameCurrency.name, */
+                    /*  params: nameCurrency.name, */
                   });
                 }
               }}

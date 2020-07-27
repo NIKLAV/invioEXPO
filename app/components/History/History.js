@@ -6,12 +6,13 @@ import {
   View,
   StyleSheet,
   Text,
+  FlatList,
 } from "react-native";
 import Footer from "../common/Footer/Footer";
 import Accordian from "../common/Accordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHistory } from "../../redux/actions";
-import Preloader from "../common/Preloader/preloader";
+import { Preloader, Spiner } from "../common/Preloader/preloader";
 
 const History = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -81,13 +82,73 @@ const History = ({ navigation }) => {
           style={styles.container}
         >
           <Header onPress={() => navigation.openDrawer()}>HISTORY</Header>
-          {history ? (
+          {/* {history ? (
             <View style={styles.accordionContainer}>{renderAccordians()}</View>
-          ) : null}
+          ) : null} */}
+          <View style={styles.accordionContainer}>
+            <FlatList
+              keyExtractor={(item, index) => index.toString()}
+              data={history.data}
+              renderItem={({ item }) => (
+                <Accordian
+                  key={item.created_at}
+                  title={item.created_at}
+                  list={
+                    <View key={item.created_at} style={styles.child}>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Date/Time</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.created_at}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Coin</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.asset_code}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Amount</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.amount}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Fee</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.fee}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>
+                          WalletAddress
+                        </Text>
+                        <Text style={styles.child__item__value}>
+                          {item.address}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Type</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.transaction_type}
+                        </Text>
+                      </View>
+                      <View style={styles.child__item}>
+                        <Text style={styles.child__item__text}>Status</Text>
+                        <Text style={styles.child__item__value}>
+                          {item.status}
+                        </Text>
+                      </View>
+                    </View>
+                  }
+                />
+              )}
+            />
+          </View>
           <Footer />
         </ImageBackground>
       ) : (
-        <Preloader />
+        <Spiner />
       )}
     </ScrollView>
   );
