@@ -28,7 +28,7 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: '0x68F69D2E85Df0fA1cb80664585A435C7B2E1683d',
+    address: address,
   };
 
   const token = await AsyncStorage.getItem("token");
@@ -72,11 +72,11 @@ export const generateAddress = (name) => async (dispatch) => {
   });
 };
 
-export const fetchHistory = () => async (dispatch) => {
+export const fetchHistory = (page) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    "http://185.181.8.210:8901/api/user/wallets/history",
+    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=19`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",

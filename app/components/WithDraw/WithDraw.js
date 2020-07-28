@@ -153,11 +153,11 @@ const WithDraw = ({ navigation, route }) => {
                 {!loading && Object.keys(info).length > 0 ? (
                   <>
                     <Text style={styles.after_input}>
-                      Maximum USDT Withdrawal: {info.withdraw_max}
+                      Maximum {data.name.toUpperCase()} Withdrawal: {info.withdraw_max}
                       {/* {data.withdraw_max} */} {data.name.toUpperCase()}
                     </Text>
                     <Text style={styles.after_input}>
-                      Minimum USDT Withdrawal: {info.withdraw_min}
+                      Minimum {data.name.toUpperCase()} Withdrawal: {info.withdraw_min}
                       {/* {data.withdraw_min} */} {data.name.toUpperCase()}
                     </Text>
                     <Text style={styles.after_input}>

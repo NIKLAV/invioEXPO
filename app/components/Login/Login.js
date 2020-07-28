@@ -26,12 +26,9 @@ import { windowHeight } from "../../utilts/windowHeight";
 
 const Login = ({ navigation }) => {
   const { state, signin, clearErrorMessage } = useContext(AuthContext);
-  /* const [, dispatch] = useContext(AuthContext); */
-  /*  const dispatch = useDispatch(); */
-  /*   const [login, setLogin] = useState('');
-  const [password, setPassword] = useState(''); */
+
   const [showModal, setSwhoModal] = useState(false);
-  /*  if (state.errorMessage) setSwhoModal(true); */
+
   const {
     handleSubmit,
     login,
@@ -134,12 +131,13 @@ const Login = ({ navigation }) => {
             <CustomButton
               disabled={disableButton}
               onPress={() => {
+                setErrors(validateLogin(login, password, totp));
+
                 signin({ login, password, totp });
               }}
             >
               Login
             </CustomButton>
-            {/* <CustomButton onPress={() => null} text="Login" theme="primary" /> */}
           </View>
         </ImageBackground>
         <Footer />

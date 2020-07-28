@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../common/Header/Header";
 import {
   ImageBackground,
@@ -15,14 +15,21 @@ import { fetchHistory } from "../../redux/actions";
 import { Preloader, Spiner } from "../common/Preloader/preloader";
 
 const History = ({ navigation }) => {
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
+  /* const [history, setHistory] = useState()  */
+
   useEffect(() => {
-    dispatch(fetchHistory());
-  }, []);
+    dispatch(fetchHistory(page));
+  }, [page]);
 
   const history = useSelector((state) => state.historyPage.data.transactions);
 
-  const renderAccordians = () => {
+  const onList = () => {
+    setPage(page + 1);
+  };
+
+  /* const renderAccordians = () => {
     const items = [];
 
     let i = 1;
@@ -71,7 +78,7 @@ const History = ({ navigation }) => {
       i++;
     }
     return items;
-  };
+  }; */
 
   return (
     <ScrollView>
@@ -89,6 +96,8 @@ const History = ({ navigation }) => {
             <FlatList
               keyExtractor={(item, index) => index.toString()}
               data={history.data}
+              onEndReached={() => onList()}
+              onEndReachedThreshold={0.5}
               renderItem={({ item }) => (
                 <Accordian
                   key={item.created_at}

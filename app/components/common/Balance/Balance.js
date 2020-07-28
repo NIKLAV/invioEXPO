@@ -6,7 +6,7 @@ const Balance = ({value, name}) => {
   return (
     <View style={styles.balance}>
       <Text style={styles.balance__num}>{value}</Text>
-      <Text style={styles.balance__usd}>{name}</Text>
+      <Text style={styles.balance__usd}>{name.toUpperCase()}</Text>
     </View>
   );
 };
@@ -22,13 +22,13 @@ const styles = StyleSheet.create({
   },
   balance__num: {
     color: '#fff',
-    fontSize: 42,
+    fontSize: 32,
     fontWeight: 'bold',
     paddingHorizontal: 12,
   },
   balance__usd: {
     color: '#fff',
-    fontSize: 22,
+    fontSize: 15,
     fontWeight: 'bold',
   },
 });

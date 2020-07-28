@@ -29,7 +29,7 @@ const withDrawReducer = (state = initialState, action) => {
         ...state,
         errorMessages: [
           ...state.errorMessages,
-          `Pay attention! The minimum amount for withdrawal is ${action.payload.min} ${action.payload.code}`,
+          `Pay attention! The minimum amount for withdrawal is ${action.payload.min} ${action.payload.code.toUpperCase()}`,
         ],
       };
     case "ADD_ERROR_MAX_DAY":
@@ -45,7 +45,7 @@ const withDrawReducer = (state = initialState, action) => {
         ...state,
         errorMessages: [
           ...state.errorMessages,
-          `Pay attention! The maximum amount for withdrawal is ${action.payload.max} ${action.payload.code}`,
+          `Pay attention! The maximum amount for withdrawal is ${action.payload.max} ${action.payload.code.toUpperCase()}`,
         ],
       };
     default:
