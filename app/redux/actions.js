@@ -21,15 +21,20 @@ export const fetchWallets = () => async (dispatch) => {
 };
 /////////////////////////////////////////
 
-export const sendCurrency = (walletId, assetId, amount, address) => async (
-  dispatch
-) => {
+export const sendCurrency = (
+  walletId,
+  assetId,
+  amount,
+  address,
+  page
+) => async (dispatch) => {
   const bd = {
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: address,
+    address: "0x68F69D2E85Df0fA1cb80664585A435C7B2E1683d",
   };
+  dispatch({ type: "CURRENT_PAGE_ONE_HISTORY" });
 
   const token = await AsyncStorage.getItem("token");
 
@@ -47,9 +52,13 @@ export const sendCurrency = (walletId, assetId, amount, address) => async (
         dispatch({ type: "ADD_ERROR_DRAW", payload: response.errors });
       } else {
         const { fee, status, created_at, asset_code } = response;
-
+        dispatch({ type: "CLEAR_HISTORY" });
         dispatch({ type: "SEND_CURRENCY" });
-        dispatch(fetchHistory());
+        if (page === 1) {
+          dispatch(fetchHistory(1));
+        }
+
+        /* dispatch(fetchHistory(1)); */
         dispatch(fetchWallets());
       }
     });
@@ -73,46 +82,58 @@ export const generateAddress = (name) => async (dispatch) => {
 };
 
 export const fetchHistory = (page) => async (dispatch) => {
+  dispatch({ type: "LOADING_HISTORY" });
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=19`,
+    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=15`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
       },
     }
   );
-
+  dispatch({ type: "LOADING_SUCCESS" });
+  console.log("history response", response.data.transactions.lastPage);
   dispatch({
     type: "FETCH_ALL_HISTORY",
-    payload: response.data,
+    payload: {
+      data: response.data.transactions.data,
+      lastPage: response.data.transactions.last_page,
+    },
   });
 };
 
-export const fetchTransfer = () => async (dispatch) => {
+export const fetchTransfer = (page) => async (dispatch) => {
+  dispatch({ type: "LOADING_TRANSFER" });
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    "http://185.181.8.210:8901/api/user/wallets/transfers",
+    `http://185.181.8.210:8901/api/user/wallets/transfers?current_page=${page}&per_page=15`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
       },
     }
   );
-
+  dispatch({ type: "LOADING_TRANSFER_SUCCESS" });
+  console.log("response transfer", response);
   dispatch({
     type: "FETCH_ALL_TRANSFER",
-    payload: response.data,
+    payload: {
+      data: response.data.transfers.data,
+      lastPage: response.data.transfers.last_page,
+    },
   });
 };
 
-export const sendSEND = (assetId, amount, name) => async (dispatch) => {
+export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
+  console.log("page on action", page);
+  dispatch({ type: "CURRENT_PAGE_ONE" });
   const bd = {
     asset_id: assetId,
     amount: amount,
-    username: name,
+    username: "cordelia.vonrueden",
   };
 
   const token = await AsyncStorage.getItem("token");
@@ -127,12 +148,14 @@ export const sendSEND = (assetId, amount, name) => async (dispatch) => {
   })
     .then((response) => response.json())
     .then((response) => {
-      console.warn("response 132", response);
       if (response.errors) {
         dispatch({ type: "ADD_ERROR_SEND", payload: response.errors });
       } else {
+        dispatch({ type: "CLEAR_TRANSACTIONS" });
         dispatch({ type: "SEND_SEND" });
-        dispatch(fetchTransfer());
+        if (page === 1) {
+          dispatch(fetchTransfer(1));
+        }
         dispatch(fetchWallets());
       }
     });

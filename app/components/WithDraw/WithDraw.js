@@ -25,7 +25,9 @@ import axios from "axios";
 const WithDraw = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.walletsPage.currencyData);
-
+  
+  const page = useSelector((state) => state.historyPage.page);
+  
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
   const [currentValue, setCurrentValue] = useState("");
@@ -67,7 +69,7 @@ const WithDraw = ({ navigation, route }) => {
         type: "ADD_ERROR_MIN_AMOUNT",
         payload: { code: data.name, min: data.withdraw_min },
       });
-    } else dispatch(sendCurrency(data.walletId, data.assetId, amount, address));
+    } else dispatch(sendCurrency(data.walletId, data.assetId, amount, address, page));
   };
 
   const errors = useSelector((state) => state.withDrawPage.errorMessages);
@@ -108,8 +110,7 @@ const WithDraw = ({ navigation, route }) => {
     };
     fetchCurrentValue();
   }, [errors]);
-  console.log("info", info);
-  console.log("data", data);
+
   return (
     <ScrollView>
       <KeyboardAvoidingView behavior={"height"} keyboardVerticalOffset="-160">
@@ -166,7 +167,7 @@ const WithDraw = ({ navigation, route }) => {
                     </Text>
                     <Text style={styles.after_input}>
                       Available withdrawal per day:{" "}
-                      {info.withdraw_available_day}{" "}
+                      {info.withdraw_available_day.toFixed(8)}{" "}
                       {/* {data.withdraw_available_day} */}{" "}
                       {data.name.toUpperCase()}
                     </Text>

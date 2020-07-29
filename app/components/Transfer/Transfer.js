@@ -1,54 +1,66 @@
-import React, {useEffect} from 'react';
-import Header from '../common/Header/Header';
+import React, { useEffect, useState } from "react";
+import Header from "../common/Header/Header";
 import {
   ImageBackground,
   ScrollView,
   View,
   StyleSheet,
   Text,
-} from 'react-native';
-import Footer from '../common/Footer/Footer';
-import Accordian from '../common/Accordion/Accordion';
-import {useDispatch, useSelector} from 'react-redux';
-import {fetchTransfer} from '../../redux/actions';
-import Preloader, { Spiner } from '../common/Preloader/preloader';
-import {windowHeight} from '../../utilts/windowHeight';
+} from "react-native";
+import Footer from "../common/Footer/Footer";
+import Accordian from "../common/Accordion/Accordion";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTransfer } from "../../redux/actions";
+import { Preloader, Spiner } from "../common/Preloader/preloader";
+import CustomButton from "../common/Button/CustomButton";
 
-const Transfer = ({navigation}) => {
+const Transfer = ({ navigation }) => {
+  console.log('render transfer')
+  const page = useSelector((state) => state.transferPage.page);
+  const lastPage = useSelector((state) => state.transferPage.lastPage);
+  const loading = useSelector((state) => state.transferPage.loading);
+  const [disableButton, setDisableButton] = useState(false)
+  
+
   function checkCoin(q) {
     switch (q) {
       case 3:
-        return 'usdt';
+        return "usdt";
       case 4:
-        return 'usdc';
+        return "usdc";
       case 5:
-        return 'dai';
+        return "dai";
       case 6:
-        return 'pax';
+        return "pax";
       default:
         q;
     }
   }
- const checkForUpdate = useSelector(state => state.transferPage.update)
- console.log('check for update', checkForUpdate)
+  
   const dispatch = useDispatch();
   useEffect(() => {
-    console.warn('effect transfer')
-    dispatch(fetchTransfer());
-  }, [dispatch]);
+    
+    dispatch(fetchTransfer(page));
+  }, [page]);
 
-  const transfer = useSelector(state => state.transferPage.data.transfers);
-  console.log(transfer);
-  const amount = 23.1234567890
+  const onList = () => {
+    
+    if (page < lastPage) {
+      dispatch({ type: "NEXT_PAGE" });
+    }
+  };
+
+  const transfer = useSelector((state) => state.transferPage.data);
+
   const renderAccordians = () => {
     const items = [];
-    console.warn(items);
+
     let i = 1;
-    console.warn(i);
-    for (let item of transfer.data) {
+
+    for (let item of transfer) {
       items.push(
         <Accordian
-        key={item.created_at}
+          key={item.created_at}
           title={item.created_at}
           list={
             <View key={item.created_at} style={styles.child}>
@@ -72,7 +84,7 @@ const Transfer = ({navigation}) => {
               </View>
             </View>
           }
-        />,
+        />
       );
       i++;
     }
@@ -81,16 +93,30 @@ const Transfer = ({navigation}) => {
 
   return (
     <ScrollView>
-      {transfer ? (
+      {transfer && transfer.length > 0 ? (
         <View>
           <ImageBackground
             resizeMode="cover"
-            source={require('../../assets/images/transactions/back.png')}
-            style={styles.container}>
-            <Header onPress={() => navigation.openDrawer()}>TRANSFER</Header>
+            source={require("../../assets/images/transactions/back.png")}
+            style={styles.container}
+          >
+            <Header
+              onPress={() => {
+                navigation.openDrawer();
+              }}
+            >
+              TRANSFER
+            </Header>
             {transfer ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians()}
+                
+                <View style={{ marginTop: 55 }}>
+                  <CustomButton onPress={() => onList()}>
+                    loading more
+                  </CustomButton>
+                </View>
+                {loading ? <Preloader /> : null}
               </View>
             ) : null}
           </ImageBackground>
@@ -105,48 +131,48 @@ const Transfer = ({navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
-    width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
     /* height: '100%', */
     /* height: windowHeight, */
   },
   child: {
-    width: '100%',
-    backgroundColor: '#fff',
+    width: "100%",
+    backgroundColor: "#fff",
     padding: 16,
   },
   child__item: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
     borderBottomWidth: 1,
-    borderColor: '#e1e1e1',
-    width: '100%',
+    borderColor: "#e1e1e1",
+    width: "100%",
   },
   child__item__text: {
     paddingLeft: 8,
     height: 45,
-    width: '40%',
-    backgroundColor: '#f4f4f4',
-    textAlignVertical: 'center',
+    width: "40%",
+    backgroundColor: "#f4f4f4",
+    textAlignVertical: "center",
   },
   child__item__value: {
     paddingLeft: 8,
     height: 45,
-    width: '60%',
-    backgroundColor: '#fff',
-    textAlignVertical: 'center',
+    width: "60%",
+    backgroundColor: "#fff",
+    textAlignVertical: "center",
   },
   accordionContainer: {
     paddingTop: 50,
     paddingBottom: 100,
     marginTop: 75,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    backgroundColor: '#e0e0e0',
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
   },

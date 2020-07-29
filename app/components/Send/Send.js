@@ -23,8 +23,10 @@ import BoxItem from "../common/BoxItem/BoxItem";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const Send = ({ navigation }) => {
+  console.log('render Send')
   const [userKyc, setUserKyc] = useState("");
   const [userSendBan, setUserSendBan] = useState(null);
+  const page = useSelector(state => state.transferPage.page)
 
   const onPress = () => {
     if (userKyc.includes("not_verified")) {
@@ -37,7 +39,7 @@ const Send = ({ navigation }) => {
       dispatch({ type: "ADD_ERROR_LENGTH_SEND" });
     } else if (amount > value) {
       dispatch({ type: "ADD_ERROR_AMOUNT_SEND" });
-    } else dispatch(sendSEND(chooseId, amount, username, currencyCode));
+    } else dispatch(sendSEND(chooseId, amount, username, page));
   };
 
   useEffect(() => {

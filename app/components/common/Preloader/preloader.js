@@ -9,11 +9,10 @@ import {
 import { windowHeight } from "../../../utilts/windowHeight";
 
 export const Preloader = () => {
-  const center = windowHeight / 2 - 25;
   return (
     <View style={styles.container}>
-      <View style={{ marginTop: center }}>
-        <ActivityIndicator size="large" color="#e0e0e0" />
+      <View style={{ marginTop: 15 }}>
+      <Image source={require("../../../assets/spinerHistory.gif")} />
       </View>
     </View>
   );

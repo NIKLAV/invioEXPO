@@ -24,11 +24,10 @@ import {
   Provider as AuthProvider,
   Context as AuthContext,
 } from "./app/context/AuthContext";
-import { setNavigator } from "./app/components/Login/navigationRef";
+
 import Transfer from "./app/components/Transfer/Transfer";
 import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
-import { fetchWallets } from "./app/redux/actions";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();

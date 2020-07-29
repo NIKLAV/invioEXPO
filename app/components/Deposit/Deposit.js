@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     /* justifyContent: "center", */
   },
   logo: {
-    marginTop: 100,
+    marginTop: 50,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -131,10 +131,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   inputs: {
+    
     flex: 1,
     /* height: '80%', */
     paddingBottom: 80,
-    marginTop: 60,
+    marginTop: 90,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 10,
     backgroundColor: "white",
+    textAlign: 'center',
   },
   inputs__container: {
     marginTop: 32,
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button__container: {
-    marginTop: 35,
+    marginTop: 90,
     marginBottom: 70,
   },
 });

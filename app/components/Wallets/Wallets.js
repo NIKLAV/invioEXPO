@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
   },
   box: {
     marginTop: 20,
-    height: 200,
+    height: 175,
     width: 300,
     justifyContent: "center",
     alignItems: "center",

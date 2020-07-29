@@ -12,10 +12,11 @@ import { Context as AuthContext } from "../../context/AuthContext";
 import useForm from "../../hooks/useForm";
 import AsyncStorage from "@react-native-community/async-storage";
 import { fetchHistory, fetchWallets } from "../../redux/actions";
+import { useDispatch } from "react-redux";
 
 const Navbar = (props) => {
   const [userName, setUsername] = useState("");
-
+  const dispatch = useDispatch()
   useEffect(() => {
     const getName = async () => {
       const name = await AsyncStorage.getItem("name");
@@ -24,11 +25,6 @@ const Navbar = (props) => {
     getName();
   }, []);
 
-  /* useEffect(() => {
-    const updateData = props.navigation.addListener('drawerClose', (e) => {
-      
-    });
-  }) */
 
   const { setCredentialsToNull } = useForm();
   const { signout, state } = useContext(AuthContext);
@@ -104,6 +100,8 @@ const Navbar = (props) => {
           label={"Logout"}
           onPress={async () => {
             setCredentialsToNull();
+            dispatch({type: "LOGOUT_TRANSFER"});
+            dispatch({type: "LOGOUT_HISTORY"})
             await signout();
             props.navigation.navigate("Login");
           }}
