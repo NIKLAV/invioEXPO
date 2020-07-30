@@ -13,14 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchTransfer } from "../../redux/actions";
 import { Preloader, Spiner } from "../common/Preloader/preloader";
 import CustomButton from "../common/Button/CustomButton";
+import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 
 const Transfer = ({ navigation }) => {
-  console.log('render transfer')
+  console.log("render transfer");
   const page = useSelector((state) => state.transferPage.page);
   const lastPage = useSelector((state) => state.transferPage.lastPage);
   const loading = useSelector((state) => state.transferPage.loading);
-  const [disableButton, setDisableButton] = useState(false)
-  
+  const [disableButton, setDisableButton] = useState(false);
 
   function checkCoin(q) {
     switch (q) {
@@ -36,15 +36,13 @@ const Transfer = ({ navigation }) => {
         q;
     }
   }
-  
+
   const dispatch = useDispatch();
   useEffect(() => {
-    
     dispatch(fetchTransfer(page));
   }, [page]);
 
   const onList = () => {
-    
     if (page < lastPage) {
       dispatch({ type: "NEXT_PAGE" });
     }
@@ -65,21 +63,29 @@ const Transfer = ({ navigation }) => {
           list={
             <View key={item.created_at} style={styles.child}>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Date/Time</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Date/Time</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.created_at}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Coin</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Coin</Text>
+                </View>
                 <Text style={styles.child__item__value}>
                   {checkCoin(item.asset_id)}
                 </Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Amount</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Amount</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.amount}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Send</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Send</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.to_user}</Text>
               </View>
             </View>
@@ -93,7 +99,13 @@ const Transfer = ({ navigation }) => {
 
   return (
     <ScrollView>
-      {transfer && transfer.length > 0 ? (
+      {!loading && transfer.length === 0 ? (
+        <NothingToShow
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        />
+      ) : !loading && transfer && transfer.length > 0 ? (
         <View>
           <ImageBackground
             resizeMode="cover"
@@ -110,7 +122,7 @@ const Transfer = ({ navigation }) => {
             {transfer ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians()}
-                
+
                 <View style={{ marginTop: 55 }}>
                   <CustomButton onPress={() => onList()}>
                     loading more
@@ -131,12 +143,9 @@ const Transfer = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    /* height: '100%', */
-    /* height: windowHeight, */
   },
   child: {
     width: "100%",
@@ -144,6 +153,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   child__item: {
+    height: 45,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
@@ -152,15 +162,20 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   child__item__text: {
+    /*  display: 'flex',
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignContent: 'center', */
     paddingLeft: 8,
-    height: 45,
-    width: "40%",
-    backgroundColor: "#f4f4f4",
-    textAlignVertical: "center",
+    /* height: 45, */
+    /* width: "40%", */
+    /* backgroundColor: "#f4f4f4", */
+    /* textAlignVertical: "center", */
   },
   child__item__value: {
+    /* height: 45, */
     paddingLeft: 8,
-    height: 45,
     width: "60%",
     backgroundColor: "#fff",
     textAlignVertical: "center",
@@ -176,6 +191,26 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
   },
+  load_more: {
+    height: 100,
+    width: 100,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  test: {
+    display: "flex",
+    justifyContent: "center",
+    /*  alignItems: 'center', */
+    flexDirection: "column",
+    width: "40%",
+    height: 45,
+    backgroundColor: "#f4f4f4",
+    textAlignVertical: "center",
+    borderBottomWidth: 1,
+    borderColor: "#e1e1e1",
+  },
 });
+
 
 export default Transfer;

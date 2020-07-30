@@ -8,7 +8,6 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  TouchableWithoutFeedback,
   FlatList,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
@@ -23,10 +22,22 @@ import BoxItem from "../common/BoxItem/BoxItem";
 import AsyncStorage from "@react-native-community/async-storage";
 
 const Send = ({ navigation }) => {
-  console.log('render Send')
+  console.log("render Send");
   const [userKyc, setUserKyc] = useState("");
   const [userSendBan, setUserSendBan] = useState(null);
-  const page = useSelector(state => state.transferPage.page)
+  const page = useSelector((state) => state.transferPage.page);
+
+  /* function validateLength(e) {
+    const errors = {};
+    if (e.indexOf(".") != "-1") {
+      e = e.substring(0, e.indexOf(".") + 9); // цифра 4, устанавливает количество цифр после запятой,
+      //т.е. если 4, то максимум 3 цифры после запятой
+    }
+     return errors 
+  } */
+
+  const [errorsLength, setErrorsLength] = useState({});
+  console.log("errorsLength", errorsLength);
 
   const onPress = () => {
     if (userKyc.includes("not_verified")) {
@@ -39,7 +50,8 @@ const Send = ({ navigation }) => {
       dispatch({ type: "ADD_ERROR_LENGTH_SEND" });
     } else if (amount > value) {
       dispatch({ type: "ADD_ERROR_AMOUNT_SEND" });
-    } else dispatch(sendSEND(chooseId, amount, username, page));
+    } else
+      dispatch(sendSEND(chooseId, amount.replace(",", "."), username, page));
   };
 
   useEffect(() => {
@@ -100,7 +112,7 @@ const Send = ({ navigation }) => {
                 <BoxItem
                   touched={touched}
                   setTouched={setTouched}
-                  balance={item.balance.toFixed(2)}
+                  balance={item.balance.toFixed(8)}
                   code={item.currency.code}
                   onPress={() => {
                     setChooseId(item.currency_id);
@@ -125,7 +137,7 @@ const Send = ({ navigation }) => {
               )}
             />
             <View style={styles.box__footer}>
-              <Text style={styles.box__footerText}>Total Balance = </Text>
+              <Text style={styles.box__footerText}>Total Balance: </Text>
               {response && (
                 <Text style={styles.box__footerText}>{response.total_usd}</Text>
               )}
@@ -154,7 +166,9 @@ const Send = ({ navigation }) => {
                 <TextInput
                   value={amount}
                   style={styles.input}
-                  onChangeText={(amount) => setAmount(amount)}
+                  onChangeText={(amount) => {
+                    setAmount(amount);
+                  }}
                 />
               </View>
             </View>

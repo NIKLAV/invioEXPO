@@ -17,9 +17,10 @@ import { fetchHistory } from "../../redux/actions";
 import { Preloader, Spiner } from "../common/Preloader/preloader";
 import { windowHeight } from "../../utilts/windowHeight";
 import CustomButton from "../common/Button/CustomButton";
+import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 
 const History = ({ navigation }) => {
-  console.log('render History')
+  console.log("render History");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.historyPage.page);
   const lastPage = useSelector((state) => state.historyPage.lastPage);
@@ -49,33 +50,43 @@ const History = ({ navigation }) => {
           list={
             <View key={item.created_at} style={styles.child}>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Date/Time</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Date/Time</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.created_at}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Coin</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Coin</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.asset_code}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Amount</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Amount</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.amount}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Fee</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Fee</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.fee}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>WalletAddress</Text>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>WalletAddress</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.address}</Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Type</Text>
+                <View style={styles.test}><Text style={styles.child__item__text}>Type</Text></View>
                 <Text style={styles.child__item__value}>
                   {item.transaction_type}
                 </Text>
               </View>
               <View style={styles.child__item}>
-                <Text style={styles.child__item__text}>Status</Text>
+                <View style={styles.test}><Text style={styles.child__item__text}>Status</Text></View>
                 <Text style={styles.child__item__value}>{item.status}</Text>
               </View>
             </View>
@@ -89,7 +100,13 @@ const History = ({ navigation }) => {
 
   return (
     <ScrollView>
-      {history && history.length > 0 ? (
+      {!loading && history.length === 0 ? (
+        <NothingToShow
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+        />
+      ) : !loading && history && history.length > 0 ? (
         <View>
           <ImageBackground
             resizeMode="cover"
@@ -100,7 +117,7 @@ const History = ({ navigation }) => {
             {history ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians()}
-                <View style={{marginTop: 55}}>
+                <View style={{ marginTop: 55 }}>
                   <CustomButton onPress={() => onList()}>
                     loading more
                   </CustomButton>
@@ -114,7 +131,6 @@ const History = ({ navigation }) => {
       ) : (
         <Spiner />
       )}
-      
     </ScrollView>
   );
 };
@@ -140,18 +156,16 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   child__item__text: {
-    display: 'flex',
+    /*  display: 'flex',
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'center',
-    alignContent: 'center',
+    alignContent: 'center', */
     paddingLeft: 8,
-    height: 45,
-    width: "40%",
-    backgroundColor: "#f4f4f4",
-    textAlignVertical: "center",
-    borderBottomWidth: 1,
-    borderColor: "#e1e1e1",
+    /* height: 45, */
+    /* width: "40%", */
+    /* backgroundColor: "#f4f4f4", */
+    /* textAlignVertical: "center", */
   },
   child__item__value: {
     /* height: 45, */
@@ -177,6 +191,18 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+  },
+  test: {
+    display: "flex",
+    justifyContent: "center",
+    /*  alignItems: 'center', */
+    flexDirection: "column",
+    width: "40%",
+    height: 45,
+    backgroundColor: "#f4f4f4",
+    textAlignVertical: "center",
+    borderBottomWidth: 1,
+    borderColor: "#e1e1e1",
   },
 });
 
