@@ -32,7 +32,7 @@ export const sendCurrency = (
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: "0x68F69D2E85Df0fA1cb80664585A435C7B2E1683d",
+    address: address,
   };
   dispatch({ type: "CURRENT_PAGE_ONE_HISTORY" });
 
@@ -133,7 +133,7 @@ export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
   const bd = {
     asset_id: assetId,
     amount: amount,
-    username: "cordelia.vonrueden",
+    username: name,
   };
 
   const token = await AsyncStorage.getItem("token");

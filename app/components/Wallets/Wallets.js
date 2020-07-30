@@ -43,7 +43,7 @@ const Wallets = ({ navigation }) => {
       withdraw_available_day: item.withdraw_available_day,
     });
   }; */
-
+  
   const [userKyc, setUserKyc] = useState("");
   const [userBanDraw, setUserBanDraw] = useState(null);
   const [userBanDeposit, setUserBanDeposit] = useState(null);
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
   buttonSmall__container: {
     paddingBottom: 20,
     width: 280,
-    marginTop: 7,
+    marginTop: 20,
     marginBottom: 30,
     flexDirection: "row",
     justifyContent: "center",

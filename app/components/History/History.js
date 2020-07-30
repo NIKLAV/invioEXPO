@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   child__item: {
+    height: 45,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
@@ -139,13 +140,21 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   child__item__text: {
+    display: 'flex',
+    alignItems: 'center',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
     paddingLeft: 8,
     height: 45,
     width: "40%",
     backgroundColor: "#f4f4f4",
     textAlignVertical: "center",
+    borderBottomWidth: 1,
+    borderColor: "#e1e1e1",
   },
   child__item__value: {
+    /* height: 45, */
     paddingLeft: 8,
     width: "60%",
     backgroundColor: "#fff",

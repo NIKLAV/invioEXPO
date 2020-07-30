@@ -25,9 +25,9 @@ import axios from "axios";
 const WithDraw = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.walletsPage.currencyData);
-  
+
   const page = useSelector((state) => state.historyPage.page);
-  
+
   const [amount, setAmount] = useState("");
   const [address, setAddress] = useState("");
   const [currentValue, setCurrentValue] = useState("");
@@ -47,7 +47,7 @@ const WithDraw = ({ navigation, route }) => {
       withdraw_fee: data.withdraw_fee,
       withdraw_available_day: data.withdraw_available_day,
     });
-    setCurrentValue(data.value)
+    setCurrentValue(data.value);
   }, [data]);
 
   const onPress = () => {
@@ -69,7 +69,16 @@ const WithDraw = ({ navigation, route }) => {
         type: "ADD_ERROR_MIN_AMOUNT",
         payload: { code: data.name, min: data.withdraw_min },
       });
-    } else dispatch(sendCurrency(data.walletId, data.assetId, amount, address, page));
+    } else
+      dispatch(
+        sendCurrency(
+          data.walletId,
+          data.assetId,
+          amount.replace(",", "."),
+          address,
+          page
+        )
+      );
   };
 
   const errors = useSelector((state) => state.withDrawPage.errorMessages);
@@ -154,11 +163,13 @@ const WithDraw = ({ navigation, route }) => {
                 {!loading && Object.keys(info).length > 0 ? (
                   <>
                     <Text style={styles.after_input}>
-                      Maximum {data.name.toUpperCase()} Withdrawal: {info.withdraw_max}
+                      Maximum {data.name.toUpperCase()} Withdrawal:{" "}
+                      {info.withdraw_max}
                       {/* {data.withdraw_max} */} {data.name.toUpperCase()}
                     </Text>
                     <Text style={styles.after_input}>
-                      Minimum {data.name.toUpperCase()} Withdrawal: {info.withdraw_min}
+                      Minimum {data.name.toUpperCase()} Withdrawal:{" "}
+                      {info.withdraw_min}
                       {/* {data.withdraw_min} */} {data.name.toUpperCase()}
                     </Text>
                     <Text style={styles.after_input}>
@@ -167,7 +178,7 @@ const WithDraw = ({ navigation, route }) => {
                     </Text>
                     <Text style={styles.after_input}>
                       Available withdrawal per day:{" "}
-                      {info.withdraw_available_day.toFixed(8)}{" "}
+                      {info.withdraw_available_day}{" "}
                       {/* {data.withdraw_available_day} */}{" "}
                       {data.name.toUpperCase()}
                     </Text>
