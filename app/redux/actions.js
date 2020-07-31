@@ -28,11 +28,12 @@ export const sendCurrency = (
   address,
   page
 ) => async (dispatch) => {
+  console.log("amoun in reducer", amount);
   const bd = {
     wallet_id: walletId,
     asset_id: assetId,
     amount: amount,
-    address: address,
+    address: "0x68F69D2E85Df0fA1cb80664585A435C7B2E1683d",
   };
   dispatch({ type: "CURRENT_PAGE_ONE_HISTORY" });
 
@@ -82,6 +83,7 @@ export const generateAddress = (name) => async (dispatch) => {
 };
 
 export const fetchHistory = (page) => async (dispatch) => {
+  
   dispatch({ type: "LOADING_HISTORY" });
   const token = await AsyncStorage.getItem("token");
 
@@ -93,6 +95,7 @@ export const fetchHistory = (page) => async (dispatch) => {
       },
     }
   );
+  console.log('response history', response)
   dispatch({ type: "LOADING_SUCCESS" });
   console.log("history response", response.data.transactions.lastPage);
   dispatch({

@@ -117,17 +117,19 @@ const Transfer = ({ navigation }) => {
                 navigation.openDrawer();
               }}
             >
-              TRANSFER
+              TRANSFER HISTORY
             </Header>
             {transfer ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians()}
+                {page < lastPage && (
+                  <View style={{ marginTop: 55 }}>
+                    <CustomButton onPress={() => onList()}>
+                      loading more
+                    </CustomButton>
+                  </View>
+                )}
 
-                <View style={{ marginTop: 55 }}>
-                  <CustomButton onPress={() => onList()}>
-                    loading more
-                  </CustomButton>
-                </View>
                 {loading ? <Preloader /> : null}
               </View>
             ) : null}
@@ -181,9 +183,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-    paddingTop: 50,
+    
+    paddingTop: 100,
     paddingBottom: 100,
-    marginTop: 75,
+    marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -211,6 +214,5 @@ const styles = StyleSheet.create({
     borderColor: "#e1e1e1",
   },
 });
-
 
 export default Transfer;

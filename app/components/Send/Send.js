@@ -48,7 +48,7 @@ const Send = ({ navigation }) => {
       dispatch({ type: "ERROR_WALLETS_BAN" });
     } else if (amount.length === 0 || username.length === 0 || !chooseId) {
       dispatch({ type: "ADD_ERROR_LENGTH_SEND" });
-    } else if (amount > value) {
+    } else if (amount.replace(",", ".") > value) {
       dispatch({ type: "ADD_ERROR_AMOUNT_SEND" });
     } else
       dispatch(sendSEND(chooseId, amount.replace(",", "."), username, page));

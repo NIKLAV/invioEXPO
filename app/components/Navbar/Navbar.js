@@ -70,7 +70,7 @@ const Navbar = (props) => {
           onPress={
             () =>
               Linking.openURL(
-                "https://reactnative.dev/docs/linking#get-the-deep-link"
+                "http://185.181.8.210:8902/marketplace"
               ) /* props.navigation.navigate('Transactions') */
           }
           labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
@@ -79,7 +79,7 @@ const Navbar = (props) => {
 
         <DrawerItem
           icon={() => <Image source={require("../../assets/history.png")} />}
-          label={"History"}
+          label={"Transaction history"}
           onPress={() => props.navigation.navigate("History")}
           labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
@@ -87,7 +87,7 @@ const Navbar = (props) => {
 
         <DrawerItem
           icon={() => <Image source={require("../../assets/transfer1.png")} />}
-          label={"Transfer"}
+          label={"Transfer history"}
           onPress={() => props.navigation.navigate("Transfer")}
           labelStyle={[styles.labelStyle]}
           style={[styles.borderTop]}

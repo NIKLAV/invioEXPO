@@ -53,18 +53,18 @@ const WithDraw = ({ navigation, route }) => {
   const onPress = () => {
     if (amount.length === 0 || address.length === 0) {
       dispatch({ type: "ADD_ERROR_LENGTH" });
-    } else if (amount > data.value) {
+    } else if (amount.replace(",", ".") > data.value) {
       dispatch({ type: "ADD_ERROR_AMOUNT" });
-    } else if (amount > info.withdraw_available_day) {
+    } else if (amount.replace(",", ".") > info.withdraw_available_day) {
       dispatch({
         type: "ADD_ERROR_MAX_DAY",
       });
-    } else if (amount > info.withdraw_max) {
+    } else if (amount.replace(",", ".") > info.withdraw_max) {
       dispatch({
         type: "ADD_ERROR_AMOUNT_MAX",
         payload: { code: data.name, max: info.withdraw_max },
       });
-    } else if (amount < info.withdraw_min) {
+    } else if (amount.replace(",", ".") < info.withdraw_min) {
       dispatch({
         type: "ADD_ERROR_MIN_AMOUNT",
         payload: { code: data.name, min: data.withdraw_min },

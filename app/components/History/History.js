@@ -25,12 +25,13 @@ const History = ({ navigation }) => {
   const page = useSelector((state) => state.historyPage.page);
   const lastPage = useSelector((state) => state.historyPage.lastPage);
   const loading = useSelector((state) => state.historyPage.loading);
+  /* const [history, setHistory] = useState([]); */
+  const history = useSelector((state) => state.historyPage.data);
 
   useEffect(() => {
     dispatch(fetchHistory(page));
   }, [page]);
 
-  const history = useSelector((state) => state.historyPage.data);
   console.log("history", history);
   const onList = () => {
     console.log("pageonList", page, "lastPageonList", lastPage);
@@ -39,7 +40,7 @@ const History = ({ navigation }) => {
     }
   };
 
-  const renderAccordians = () => {
+  const renderAccordians = (history) => {
     const items = [];
     let i = 1;
     for (let item of history) {
@@ -59,34 +60,49 @@ const History = ({ navigation }) => {
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Coin</Text>
                 </View>
-                <Text style={styles.child__item__value}>{item.asset_code}</Text>
+                <Text
+                  style={[
+                    styles.child__item__value,
+                    { textTransform: "uppercase" },
+                  ]}
+                >
+                  {item.asset_code}
+                </Text>
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Amount</Text>
                 </View>
-                <Text style={styles.child__item__value}>{item.amount}</Text>
+                <Text style={styles.child__item__value}>
+                  {item.amount}
+                </Text>
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Fee</Text>
                 </View>
-                <Text style={styles.child__item__value}>{item.fee}</Text>
+                <Text style={styles.child__item__value}>
+                  {item.fee /* .toFixed(8) */}
+                </Text>
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>WalletAddress</Text>
+                  <Text style={styles.child__item__text}>Wallet address</Text>
                 </View>
                 <Text style={styles.child__item__value}>{item.address}</Text>
               </View>
               <View style={styles.child__item}>
-                <View style={styles.test}><Text style={styles.child__item__text}>Type</Text></View>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Type</Text>
+                </View>
                 <Text style={styles.child__item__value}>
                   {item.transaction_type}
                 </Text>
               </View>
               <View style={styles.child__item}>
-                <View style={styles.test}><Text style={styles.child__item__text}>Status</Text></View>
+                <View style={styles.test}>
+                  <Text style={styles.child__item__text}>Status</Text>
+                </View>
                 <Text style={styles.child__item__value}>{item.status}</Text>
               </View>
             </View>
@@ -113,15 +129,19 @@ const History = ({ navigation }) => {
             source={require("../../assets/images/transactions/back.png")}
             style={styles.container}
           >
-            <Header onPress={() => navigation.openDrawer()}>HISTORY</Header>
-            {history ? (
+            <Header onPress={() => navigation.openDrawer()}>
+              TRANSACTION HISTORY
+            </Header>
+            {!loading && history.length > 0 ? (
               <View style={styles.accordionContainer}>
-                {renderAccordians()}
-                <View style={{ marginTop: 55 }}>
-                  <CustomButton onPress={() => onList()}>
-                    loading more
-                  </CustomButton>
-                </View>
+                {renderAccordians(history)}
+                {page < lastPage && (
+                  <View style={{ marginTop: 55 }}>
+                    <CustomButton onPress={() => onList()}>
+                      loading more
+                    </CustomButton>
+                  </View>
+                )}
                 {loading ? <Preloader /> : null}
               </View>
             ) : null}
@@ -137,8 +157,9 @@ const History = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     width: "100%",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   child: {
@@ -175,9 +196,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-    paddingTop: 50,
+    /* flex: 1, */
+    paddingTop: 100,
     paddingBottom: 100,
-    marginTop: 75,
+    marginTop: 100,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",

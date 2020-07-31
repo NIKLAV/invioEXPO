@@ -6,7 +6,7 @@ import {
   ImageBackground,
   TextInput,
   ScrollView,
-  KeyboardAvoidingView,
+  KeyboardAvoidingView, 
   Platform,
   Modal,
 } from "react-native";
