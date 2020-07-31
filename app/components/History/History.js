@@ -27,7 +27,7 @@ const History = ({ navigation }) => {
   const loading = useSelector((state) => state.historyPage.loading);
   /* const [history, setHistory] = useState([]); */
   const history = useSelector((state) => state.historyPage.data);
-
+ 
   useEffect(() => {
     dispatch(fetchHistory(page));
   }, [page]);
@@ -74,7 +74,7 @@ const History = ({ navigation }) => {
                   <Text style={styles.child__item__text}>Amount</Text>
                 </View>
                 <Text style={styles.child__item__value}>
-                  {item.amount}
+                  {Number(item.amount).toFixed(8)}
                 </Text>
               </View>
               <View style={styles.child__item}>
@@ -82,7 +82,7 @@ const History = ({ navigation }) => {
                   <Text style={styles.child__item__text}>Fee</Text>
                 </View>
                 <Text style={styles.child__item__value}>
-                  {item.fee /* .toFixed(8) */}
+                  {Number(item.fee).toFixed(8)}
                 </Text>
               </View>
               <View style={styles.child__item}>
