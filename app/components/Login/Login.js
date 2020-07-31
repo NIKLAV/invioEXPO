@@ -139,8 +139,9 @@ const Login = ({ navigation }) => {
               Login
             </CustomButton>
           </View>
+          <Footer />
         </ImageBackground>
-        <Footer />
+        
       </KeyboardAvoidingView>
     </ScrollView>
   );

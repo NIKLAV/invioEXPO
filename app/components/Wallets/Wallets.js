@@ -43,7 +43,7 @@ const Wallets = ({ navigation }) => {
       withdraw_available_day: item.withdraw_available_day,
     });
   }; */
-  
+
   const [userKyc, setUserKyc] = useState("");
   const [userBanDraw, setUserBanDraw] = useState(null);
   const [userBanDeposit, setUserBanDeposit] = useState(null);
@@ -85,50 +85,39 @@ const Wallets = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <ImageBackground
-        resizeMode="cover"
-        source={require("../../assets/images/wallets/back.png")}
-        style={styles.container}
-      >
-        <Header onPress={() => navigation.openDrawer()}>INVIO WALLET</Header>
-        <View style={styles.logo}>
-          <Text style={styles.logo__text}>Wallets</Text>
-        </View>
-        {errors ? (
-          <CustomModal
-            errors={errors}
-            clearErrorMessage={() => dispatch({ type: "CLEAR_ERROR_WALLETS" })}
-          />
-        ) : null}
-        {response && (
-          <View style={styles.box}>
-            <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              data={currentPosts}
-              renderItem={({ item }) => (
-                <BoxItem
-                  touched={touched}
-                  setTouched={setTouched}
-                  key={item.id}
-                  code={item.currency.code}
-                  balance={item.balance.toFixed(8)}
-                  onPress={() => {
-                    /* setOnPress(item); */
-                    setNameCurrency({
-                      name: item.currency.code,
-                      value: item.balance,
-                      assetId: item.currency_id,
-                      walletId: item.id,
-                      deposit_fee: item.currency.deposit_fee,
-                      withdraw_max: item.currency.withdraw_max,
-                      withdraw_min: item.currency.withdraw_min,
-                      withdraw_fee: item.currency.withdraw_fee,
-                      withdraw_available_day: item.withdraw_available_day,
-                    });
-
-                    dispatch({
-                      type: "SEND_PARAMS_ON_DEPOSIT_OR_WITHDRAW",
-                      payload: {
+      <View style={{ height: windowHeight }}>
+        <ImageBackground
+          resizeMode="cover"
+          source={require("../../assets/images/wallets/back.png")}
+          style={styles.container}
+        >
+          <Header onPress={() => navigation.openDrawer()}>INVIO WALLET</Header>
+          <View style={styles.logo}>
+            <Text style={styles.logo__text}>Wallets</Text>
+          </View>
+          {errors ? (
+            <CustomModal
+              errors={errors}
+              clearErrorMessage={() =>
+                dispatch({ type: "CLEAR_ERROR_WALLETS" })
+              }
+            />
+          ) : null}
+          {response && (
+            <View style={styles.box}>
+              <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={currentPosts}
+                renderItem={({ item }) => (
+                  <BoxItem
+                    touched={touched}
+                    setTouched={setTouched}
+                    key={item.id}
+                    code={item.currency.code}
+                    balance={item.balance.toFixed(8)}
+                    onPress={() => {
+                      /* setOnPress(item); */
+                      setNameCurrency({
                         name: item.currency.code,
                         value: item.balance,
                         assetId: item.currency_id,
@@ -138,132 +127,160 @@ const Wallets = ({ navigation }) => {
                         withdraw_min: item.currency.withdraw_min,
                         withdraw_fee: item.currency.withdraw_fee,
                         withdraw_available_day: item.withdraw_available_day,
-                      },
-                    });
-                  }}
-                />
-              )}
-            />
-            <View style={styles.box__footer}>
-              <Text style={styles.box__footerText}>Total balance: </Text>
-              {response && (
-                <Text style={styles.box__footerText}>
-                  {response.total_usd} USD
-                </Text>
-              )}
-            </View>
-          </View>
-        )}
+                      });
 
-        <View style={styles.switchContainer}>
-          <TouchableWithoutFeedback
-            disabled={currentPage === 1}
-            onPress={() => paginate(--currentPage)}
-          >
-            <View
-              style={[
-                styles.switchLeft,
-                currentPage === 1 ? styles.disabledSwitcher : null,
-              ]}
-            >
-              <Image
-                style={styles.arrowRight}
-                source={require("../../assets/images/wallets/arrowLeft.png")}
+                      dispatch({
+                        type: "SEND_PARAMS_ON_DEPOSIT_OR_WITHDRAW",
+                        payload: {
+                          name: item.currency.code,
+                          value: item.balance,
+                          assetId: item.currency_id,
+                          walletId: item.id,
+                          deposit_fee: item.currency.deposit_fee,
+                          withdraw_max: item.currency.withdraw_max,
+                          withdraw_min: item.currency.withdraw_min,
+                          withdraw_fee: item.currency.withdraw_fee,
+                          withdraw_available_day: item.withdraw_available_day,
+                        },
+                      });
+                    }}
+                  />
+                )}
               />
+              <View style={styles.box__footer}>
+                <Text style={styles.box__footerText}>Total balance: </Text>
+                {response && (
+                  <Text style={styles.box__footerText}>
+                    {response.total_usd} USD
+                  </Text>
+                )}
+              </View>
             </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            disabled={currentPage === lastPage}
-            onPress={() => paginate(++currentPage)}
-          >
-            <View
-              style={[
-                styles.switchRight,
-                currentPage === lastPage ? styles.disabledSwitcher : null,
-              ]}
-            >
-              <Image
-                style={styles.arrowRight}
-                source={require("../../assets/images/wallets/arrowRight.png")}
-              />
+          )}
+          {totalPosts > 5 ? (
+            <View style={styles.switchContainer}>
+              <TouchableWithoutFeedback
+                disabled={currentPage === 1}
+                onPress={() => paginate(--currentPage)}
+              >
+                <View
+                  style={[
+                    styles.switchLeft,
+                    currentPage === 1 ? styles.disabledSwitcher : null,
+                  ]}
+                >
+                  <Image
+                    style={styles.arrowRight}
+                    source={require("../../assets/images/wallets/arrowLeft.png")}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                disabled={currentPage === lastPage}
+                onPress={() => paginate(++currentPage)}
+              >
+                <View
+                  style={[
+                    styles.switchRight,
+                    currentPage === lastPage ? styles.disabledSwitcher : null,
+                  ]}
+                >
+                  <Image
+                    style={styles.arrowRight}
+                    source={require("../../assets/images/wallets/arrowRight.png")}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
             </View>
-          </TouchableWithoutFeedback>
-        </View>
-        <View style={styles.buttons}>
-          <View style={styles.button__container}>
-            <CustomButtonLight
-              onPress={() => {
-                if (userKyc.includes("not_verified")) {
-                  dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
-                } else if (+userBanDeposit) {
-                  dispatch({ type: "ERROR_WALLETS_BAN" });
-                } else if (userKyc.includes("pending")) {
-                  dispatch({ type: "ERROR_WALLETS_PENDING" });
-                } else if (!nameCurrency.name) {
-                  dispatch({ type: "ERROR_WALLETS" });
-                } else {
-                  navigation.navigate("Deposit", {
-                    screen: "Wallets",
-                    /*  params: nameCurrency.name, */
-                  });
+          ) : null}
+
+          <View style={styles.buttons}>
+            <View style={styles.button__container}>
+              <CustomButtonLight
+                onPress={() => {
+                  if (userKyc.includes("not_verified")) {
+                    dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+                  } else if (+userBanDeposit) {
+                    dispatch({ type: "ERROR_WALLETS_BAN" });
+                  } else if (userKyc.includes("pending")) {
+                    dispatch({ type: "ERROR_WALLETS_PENDING" });
+                  } else if (!nameCurrency.name) {
+                    dispatch({ type: "ERROR_WALLETS" });
+                  } else {
+                    navigation.navigate("Deposit", {
+                      screen: "Wallets",
+                      /*  params: nameCurrency.name, */
+                    });
+                  }
+                }}
+              >
+                Deposit
+              </CustomButtonLight>
+            </View>
+            <View style={styles.button__container}>
+              <CustomButton
+                onPress={() => {
+                  if (userKyc.includes("not_verified")) {
+                    dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+                  } else if (userKyc.includes("pending")) {
+                    dispatch({ type: "ERROR_WALLETS_PENDING" });
+                  } else if (+userBanDraw) {
+                    dispatch({ type: "ERROR_WALLETS_BAN" });
+                  } else if (!nameCurrency.name) {
+                    dispatch({ type: "ERROR_WALLETS" });
+                  } else {
+                    navigation.navigate("WithDraw", {
+                      screen: "Wallets",
+                      /* params: nameCurrency, */
+                    });
+                  }
+                }}
+              >
+                Withdraw
+              </CustomButton>
+            </View>
+            <View style={styles.buttonSmall__container}>
+              <CustomButtonLightSmall
+                onPress={
+                  () =>
+                    Linking.openURL(
+                      "http://185.181.8.210:8902/marketplace/buy"
+                    ) /* props.navigation.navigate('Transactions') */
                 }
-              }}
-            >
-              Deposit
-            </CustomButtonLight>
-          </View>
-          <View style={styles.button__container}>
-            <CustomButton
-              onPress={() => {
-                if (userKyc.includes("not_verified")) {
-                  dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
-                } else if (userKyc.includes("pending")) {
-                  dispatch({ type: "ERROR_WALLETS_PENDING" });
-                } else if (+userBanDraw) {
-                  dispatch({ type: "ERROR_WALLETS_BAN" });
-                } else if (!nameCurrency.name) {
-                  dispatch({ type: "ERROR_WALLETS" });
-                } else {
-                  navigation.navigate("WithDraw", {
-                    screen: "Wallets",
-                    /* params: nameCurrency, */
-                  });
+              >
+                Buy
+              </CustomButtonLightSmall>
+              <CustomButtonLightSmall
+                onPress={
+                  () =>
+                    Linking.openURL(
+                      "http://185.181.8.210:8902/marketplace/sell"
+                    ) /* props.navigation.navigate('Transactions') */
                 }
-              }}
-            >
-              Withdraw
-            </CustomButton>
+              >
+                Sell
+              </CustomButtonLightSmall>
+              {/* <CustomButtonLightSmall>Sell/Buy</CustomButtonLightSmall> */}
+            </View>
           </View>
-          <View style={styles.buttonSmall__container}>
-            <CustomButtonLightSmall
-              onPress={
-                () =>
-                  Linking.openURL(
-                    "http://185.181.8.210:8902/marketplace"
-                  ) /* props.navigation.navigate('Transactions') */
-              }
-            >
-              Buy/Sell
-            </CustomButtonLightSmall>
-            {/* <CustomButtonLightSmall>Sell/Buy</CustomButtonLightSmall> */}
-          </View>
-        </View>
-      </ImageBackground>
-      <Footer />
+          <Footer />
+        </ImageBackground>
+      </View>
     </ScrollView>
   );
 };
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     position: "relative",
     width: "100%",
     /* height: windowHeight, */
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   logo: {
-    marginTop: 53,
+    marginTop: 25,
   },
   logo__text: {
     textAlign: "center",
@@ -313,8 +330,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   switchContainer: {
-    marginVertical: 35,
-    flex: 1,
+    marginTop: 15,
+    /* flex: 1 */
     flexDirection: "row",
   },
   switchLeft: {
@@ -335,27 +352,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#b8b8b8",
   },
   buttons: {
+    flex: 1,
     width: "100%",
     paddingTop: 23,
-    marginTop: 8,
+    marginTop: 15,
     paddingBottom: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    /* flexDirection: "column",
-    justifyContent: "space-between", */
   },
   button__container: {
-    marginVertical: 25,
+    marginVertical: 10,
   },
   buttonSmall__container: {
-    paddingBottom: 20,
+    paddingBottom: 10,
     width: 280,
-    marginTop: 20,
-    marginBottom: 30,
+    marginTop: 10,
+    marginBottom: 10,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
   },
   arrowRight: {
