@@ -157,7 +157,7 @@ const Wallets = ({ navigation }) => {
               </View>
             </View>
           )}
-          {totalPosts > 4 ? (
+          {totalPosts > 5 ? (
             <View style={styles.switchContainer}>
               <TouchableWithoutFeedback
                 disabled={currentPage === 1}
