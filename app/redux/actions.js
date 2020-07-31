@@ -14,6 +14,7 @@ export const fetchWallets = () => async (dispatch) => {
       captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
     }
   );
+  console.log('response fetchWallets', response.data)
   dispatch({
     type: "LOAD_WALLETS",
     payload: response.data,

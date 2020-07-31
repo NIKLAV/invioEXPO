@@ -14,8 +14,9 @@ import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
 import Header from "../common/Header/Header";
 import { useDispatch, useSelector } from "react-redux";
-import { generateAddress } from "../../redux/actions";
+import { generateAddress, fetchWallets } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
+import Balance from "../common/Balance/Balance";
 
 const Deposit = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -23,9 +24,13 @@ const Deposit = ({ navigation, route }) => {
     (state) => state.depositPage.data.address
   );
   const name = useSelector((state) => state.walletsPage.currencyData.name);
+  const value = useSelector((state) => state.walletsPage.currencyData.value);
   const deposit_fee = useSelector(
     (state) => state.walletsPage.currencyData.deposit_fee
   );
+  useEffect(() => {
+    fetchWallets();
+  }, []);
 
   /* const data = route.params.params; */
 
@@ -52,10 +57,10 @@ const Deposit = ({ navigation, route }) => {
                 dispatch({ type: "CLEAR_ADDRESS" });
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>DEPOSIT</Text>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>DEPOSIT</Text>
             </Header>
             <View style={styles.logo}>
-              <Text style={styles.logo__text}>Deposit</Text>
+              <Balance name={name} value={value} />
             </View>
 
             <View style={styles.inputs}>
@@ -106,40 +111,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logo__text: {
-    fontSize: 25,
-    color: "white",
-  },
-  balance: {
-    position: "relative",
-    marginTop: 20,
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    color: "#fff",
-  },
-  balance__num: {
-    color: "#fff",
-    fontSize: 42,
-    fontWeight: "bold",
-    paddingHorizontal: 12,
-  },
-  balance__usd: {
-    /*   position: 'absolute',
-    right: 0, */
-    color: "#fff",
-    fontSize: 22,
-    fontWeight: "bold",
-  },
   inputs: {
     flex: 1,
-    paddingBottom: 80,
+    /* paddingBottom: 80, */
     marginTop: 90,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   input: {
     width: 280,
@@ -151,12 +131,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     textAlign: "center",
   },
-/*   inputs__container: {
+  /*   inputs__container: {
     marginTop: 32,
   }, */
   input__container: {
     /* alignItems: 'center',
-    justifyContent: 'center', */
+    justifyContent: 'center',  */
     marginVertical: 10,
   },
   label: {

@@ -28,6 +28,7 @@ import {
 import Transfer from "./app/components/Transfer/Transfer";
 import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
+import StartPage from "./app/components/StartPage/StartPage";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -60,6 +61,7 @@ const App = () => {
           </>
         ) : (
           <>
+            <Drawer.Screen name="StartPage" component={StartPage} />
             <Drawer.Screen name="Wallets" component={Wallets} />
             <Drawer.Screen name="Send" component={Send} />
             <Drawer.Screen name="WithDraw" component={WithDraw} />

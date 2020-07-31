@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  TouchableOpacity
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import CustomButton from "../common/Button/CustomButton";
@@ -47,6 +48,12 @@ const Login = ({ navigation }) => {
 
   if (state.token) {
     navigation.navigate("Wallets");
+  }
+
+  const [isHidden, setIsHidden] = useState(true)
+
+  const checkForHidden = () => {
+    setIsHidden(!isHidden)
   }
 
   return (
@@ -101,18 +108,23 @@ const Login = ({ navigation }) => {
                 {errors && (
                   <Text style={styles.input__error}> {errors.password}</Text>
                 )}
-                <TextInput
-                  placeholderTextColor="#38383b"
-                  placeholder="Password"
-                  style={styles.input__body}
-                  textContentType="password"
-                  secureTextEntry
-                  value={password}
-                  onChangeText={(password) => {
-                    setPassword(password);
-                    setErrors(validateLogin(login, password, totp));
-                  }}
-                />
+                <View style={{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
+                  <TextInput
+                    placeholderTextColor="#38383b"
+                    placeholder="Password"
+                    style={[styles.input__body, { width: 250 }]}
+                    textContentType="password"
+                    secureTextEntry={isHidden}
+                    value={password}
+                    onChangeText={(password) => {
+                      setPassword(password);
+                      setErrors(validateLogin(login, password, totp));
+                    }}
+                  />
+                  <TouchableOpacity onPress={checkForHidden}>
+                    <Image source={require('../../assets/history.png')}/>
+                  </TouchableOpacity>
+                </View>
               </View>
               <View style={styles.input}>
                 {errors && (
