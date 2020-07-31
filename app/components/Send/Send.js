@@ -95,90 +95,96 @@ const Send = ({ navigation }) => {
         keyboardVerticalOffset="-260"
       >
         {/* чтобы клавиатура не закрывала инпут отрицательное значение */}
-        <ImageBackground
-          source={require("../../assets/bg.png")}
-          style={styles.container}
-          resizeMode="cover"
-        >
-          <Header onPress={() => navigation.openDrawer()}>SEND</Header>
-          <View style={{ alignItems: "center", marginTop: 40 }}>
-            <Text style={styles.logo__text}>Send</Text>
-          </View>
-          <View style={styles.box}>
-            <FlatList
-              keyExtractor={(item, index) => index.toString()}
-              data={response.wallets}
-              renderItem={({ item }) => (
-                <BoxItem
-                  touched={touched}
-                  setTouched={setTouched}
-                  balance={item.balance.toFixed(8)}
-                  code={item.currency.code}
-                  onPress={() => {
-                    setChooseId(item.currency_id);
-                    setValue(item.balance);
-                  }}
-                />
-                /*   <View key={item.id} style={[styles.box__item]}>
-                  <Text
+        <View style={{ height: windowHeight }}>
+          <ImageBackground
+            source={require("../../assets/bg.png")}
+            style={styles.container}
+            resizeMode="cover"
+          >
+            <Header onPress={() => navigation.openDrawer()}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>SEND</Text>
+            </Header>
+            {/* <View style={{ alignItems: "center", marginTop: 15 }}>
+              <Text style={styles.logo__text}>Send</Text>
+            </View> */}
+            <View style={styles.box}>
+              <FlatList
+                keyExtractor={(item, index) => index.toString()}
+                data={response.wallets}
+                renderItem={({ item }) => (
+                  <BoxItem
+                    touched={touched}
+                    setTouched={setTouched}
+                    balance={item.balance.toFixed(8)}
+                    code={item.currency.code}
                     onPress={() => {
                       setChooseId(item.currency_id);
                       setValue(item.balance);
                     }}
-                    style={styles.box__itemText}
-                  >
-                    {item.currency.code}
+                  />
+                  /*   <View key={item.id} style={[styles.box__item]}>
+                    <Text
+                      onPress={() => {
+                        setChooseId(item.currency_id);
+                        setValue(item.balance);
+                      }}
+                      style={styles.box__itemText}
+                    >
+                      {item.currency.code}
+                    </Text>
+  
+                    <Text style={styles.box__itemText}>
+                      {item.balance.toFixed(2)}
+                    </Text>
+                  </View> */
+                )}
+              />
+              <View style={styles.box__footer}>
+                <Text style={styles.box__footerText}>Total Balance: </Text>
+                {response && (
+                  <Text style={styles.box__footerText}>
+                    {response.total_usd}
                   </Text>
-
-                  <Text style={styles.box__itemText}>
-                    {item.balance.toFixed(2)}
-                  </Text>
-                </View> */
-              )}
-            />
-            <View style={styles.box__footer}>
-              <Text style={styles.box__footerText}>Total Balance: </Text>
-              {response && (
-                <Text style={styles.box__footerText}>{response.total_usd}</Text>
-              )}
-            </View>
-          </View>
-
-          {errors ? (
-            <CustomModal
-              errors={errors}
-              clearErrorMessage={() => dispatch({ type: "CLEAR_ERROR_SEND" })}
-            />
-          ) : null}
-
-          <View style={styles.inputs}>
-            <View style={styles.inputs__container}>
-              <View style={styles.input__container}>
-                <Text style={styles.label}>User</Text>
-                <TextInput
-                  onChangeText={(username) => setUserName(username)}
-                  value={username}
-                  style={styles.input}
-                />
-              </View>
-              <View style={styles.input__container}>
-                <Text style={styles.label}>Amount</Text>
-                <TextInput
-                  value={amount}
-                  style={styles.input}
-                  onChangeText={(amount) => {
-                    setAmount(amount);
-                  }}
-                />
+                )}
               </View>
             </View>
 
-            <View style={styles.button__container}>
-              <CustomButton onPress={onPress}>Send</CustomButton>
+            {errors ? (
+              <CustomModal
+                errors={errors}
+                clearErrorMessage={() => dispatch({ type: "CLEAR_ERROR_SEND" })}
+              />
+            ) : null}
+
+            <View style={styles.inputs}>
+              <View style={styles.inputs__container}>
+                <View style={styles.input__container}>
+                  <Text style={styles.label}>User</Text>
+                  <TextInput
+                    onChangeText={(username) => setUserName(username)}
+                    value={username}
+                    style={styles.input}
+                  />
+                </View>
+                <View style={styles.input__container}>
+                  <Text style={styles.label}>Amount</Text>
+                  <TextInput
+                    value={amount}
+                    style={styles.input}
+                    onChangeText={(amount) => {
+                      setAmount(amount);
+                    }}
+                  />
+                </View>
+              </View>
+
+              <View style={styles.button__container}>
+                <CustomButton onPress={onPress}>Send</CustomButton>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
-        <Footer />
+            <Footer />
+          </ImageBackground>
+        </View>
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -188,13 +194,13 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     justifyContent: "center",
-
-    /*  flexDirection: "column", */
+    flex: 1,
+    flexDirection: "column",
     width: "100%",
-    /* height: windowHeight, */
+    justifyContent: "space-between",
   },
   logo: {
-    marginTop: 100,
+    marginTop: 50,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -252,13 +258,14 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   inputs: {
-    /* height: windowHeight, */
-    paddingBottom: 20,
-    marginTop: 60,
+    flex: 1,
+    /* paddingBottom: 10, */
+    marginTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
+    justifyContent: 'center',
   },
   input: {
     width: 280,
@@ -270,10 +277,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   inputs__container: {
-    marginTop: 32,
+    /* marginTop: 16, */
   },
   input__container: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
   label: {
     marginBottom: 5,
@@ -283,8 +290,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button__container: {
-    marginTop: 35,
-    marginBottom: 100,
+    marginTop: 15,
   },
 });
 

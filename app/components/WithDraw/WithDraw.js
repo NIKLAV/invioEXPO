@@ -124,75 +124,79 @@ const WithDraw = ({ navigation, route }) => {
     <ScrollView>
       <KeyboardAvoidingView behavior={"height"} keyboardVerticalOffset="-160">
         {/* чтобы клавиатура не закрывала инпут отрицательное значение */}
-        <ImageBackground
-          source={require("../../assets/bg.png")}
-          style={styles.container}
-          resizeMode="cover"
-        >
-          <Header onPress={() => navigation.openDrawer()}>WITHDRAW</Header>
-          <View style={{ alignItems: "center", marginTop: 40 }}>
-            <Text style={styles.logo__text}>Availible balance:</Text>
-          </View>
-
-          <Balance name={data.name} value={currentValue} />
-
-          <View style={styles.inputs}>
-            {errors ? (
-              <CustomModal
-                errors={errors}
-                clearErrorMessage={clearErrorMessage}
-              />
-            ) : null}
-            <View style={styles.inputs__container}>
-              <View style={styles.input__container}>
-                <Text style={styles.label}>Address</Text>
-                <TextInput
-                  onChangeText={(address) => setAddress(address)}
-                  value={address}
-                  style={styles.input}
-                />
-              </View>
-
-              <View style={styles.input__container}>
-                <Text style={styles.label}>Amount</Text>
-                <TextInput
-                  onChangeText={(amount) => setAmount(amount)}
-                  value={amount}
-                  style={styles.input}
-                />
-                {!loading && Object.keys(info).length > 0 ? (
-                  <>
-                    <Text style={styles.after_input}>
-                      Maximum {data.name.toUpperCase()} Withdrawal:{" "}
-                      {info.withdraw_max}
-                      {/* {data.withdraw_max} */} {data.name.toUpperCase()}
-                    </Text>
-                    <Text style={styles.after_input}>
-                      Minimum {data.name.toUpperCase()} Withdrawal:{" "}
-                      {info.withdraw_min}
-                      {/* {data.withdraw_min} */} {data.name.toUpperCase()}
-                    </Text>
-                    <Text style={styles.after_input}>
-                      Withdrawal fee: {info.withdraw_fee}{" "}
-                      {/*  {data.withdraw_fee} */} %
-                    </Text>
-                    <Text style={styles.after_input}>
-                      Available withdrawal per day:{" "}
-                      {info.withdraw_available_day}{" "}
-                      {/* {data.withdraw_available_day} */}{" "}
-                      {data.name.toUpperCase()}
-                    </Text>
-                  </>
-                ) : null}
-              </View>
+        <View style={{height: windowHeight}}>
+          <ImageBackground
+            source={require("../../assets/bg.png")}
+            style={styles.container}
+            resizeMode="cover"
+          >
+            <Header onPress={() => navigation.openDrawer()}>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>WITHDRAW</Text>
+            </Header>
+            <View style={{ alignItems: "center", marginTop: 40 }}>
+              <Text style={styles.logo__text}>Availible balance:</Text>
             </View>
 
-            <View style={styles.button__container}>
-              <CustomButton onPress={onPress}>Withdraw</CustomButton>
+            <Balance name={data.name} value={currentValue} />
+
+            <View style={styles.inputs}>
+              {errors ? (
+                <CustomModal
+                  errors={errors}
+                  clearErrorMessage={clearErrorMessage}
+                />
+              ) : null}
+              <View style={styles.inputs__container}>
+                <View style={styles.input__container}>
+                  <Text style={styles.label}>Address</Text>
+                  <TextInput
+                    onChangeText={(address) => setAddress(address)}
+                    value={address}
+                    style={styles.input}
+                  />
+                </View>
+
+                <View style={styles.input__container}>
+                  <Text style={styles.label}>Amount</Text>
+                  <TextInput
+                    onChangeText={(amount) => setAmount(amount)}
+                    value={amount}
+                    style={styles.input}
+                  />
+                  {!loading && Object.keys(info).length > 0 ? (
+                    <>
+                      <Text style={styles.after_input}>
+                        Maximum {data.name.toUpperCase()} Withdrawal:{" "}
+                        {info.withdraw_max}
+                        {/* {data.withdraw_max} */} {data.name.toUpperCase()}
+                      </Text>
+                      <Text style={styles.after_input}>
+                        Minimum {data.name.toUpperCase()} Withdrawal:{" "}
+                        {info.withdraw_min}
+                        {/* {data.withdraw_min} */} {data.name.toUpperCase()}
+                      </Text>
+                      <Text style={styles.after_input}>
+                        Withdrawal fee: {info.withdraw_fee}{" "}
+                        {/*  {data.withdraw_fee} */} %
+                      </Text>
+                      <Text style={styles.after_input}>
+                        Available withdrawal per day:{" "}
+                        {info.withdraw_available_day}{" "}
+                        {/* {data.withdraw_available_day} */}{" "}
+                        {data.name.toUpperCase()}
+                      </Text>
+                    </>
+                  ) : null}
+                </View>
+              </View>
+
+              <View style={styles.button__container}>
+                <CustomButton onPress={onPress}>Withdraw</CustomButton>
+              </View>
             </View>
-          </View>
-        </ImageBackground>
-        <Footer />
+            <Footer />
+          </ImageBackground>
+        </View>
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -202,7 +206,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     width: "100%",
-    height: windowHeight,
+    flex: 1,
   },
   logo: {
     marginTop: 100,
@@ -238,11 +242,12 @@ const styles = StyleSheet.create({
   },
   inputs: {
     flex: 1,
-    marginTop: 60,
+    marginTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
+    justifyContent: 'center',
   },
   input: {
     width: 280,
@@ -254,7 +259,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   inputs__container: {
-    marginTop: 32,
+    /* marginTop: 32, */
   },
   input__container: {
     marginVertical: 10,
@@ -272,8 +277,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   button__container: {
-    marginTop: 35,
-    marginBottom: 100,
+    marginTop: 15,
   },
 });
 

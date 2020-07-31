@@ -157,7 +157,7 @@ const Wallets = ({ navigation }) => {
               </View>
             </View>
           )}
-          {totalPosts > 5 ? (
+          {totalPosts > 4 ? (
             <View style={styles.switchContainer}>
               <TouchableWithoutFeedback
                 disabled={currentPage === 1}
@@ -272,7 +272,6 @@ const Wallets = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative",
     width: "100%",
     /* height: windowHeight, */
     display: "flex",
@@ -361,6 +360,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
+    justifyContent: 'center',
   },
   button__container: {
     marginVertical: 10,

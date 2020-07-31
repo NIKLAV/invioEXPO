@@ -56,92 +56,95 @@ const Login = ({ navigation }) => {
         keyboardVerticalOffset="-320"
       >
         {/* чтобы клавиатура не закрывала инпут отрицательное значение */}
-        <ImageBackground
-          source={require("../../assets/images/login/back.png")}
-          style={styles.container}
-          resizeMode="cover"
-        >
-          <View style={styles.logo}>
-            <Image
-              source={require("../../assets/images/login/logo_header.png")}
-            />
-          </View>
-          <View style={{ alignItems: "center", marginTop: 40 }}>
-            <Text style={styles.logo__text}>Send money anywhere, for free</Text>
-          </View>
-          {/*  {state.errorMessage ? <Text>{state.errorMessage}</Text> : null} */}
-
-          {state.errorMessage ? (
-            <CustomModal
-              clearErrorMessage={clearErrorMessage}
-              errors={state.errorMessage}
-            />
-          ) : null}
-
-          <View style={styles.inputs}>
-            <View style={styles.input}>
-              {errors && (
-                <Text style={styles.input__error}>{errors.login}</Text>
-              )}
-              <TextInput
-                placeholderTextColor="#38383b"
-                placeholder="Login"
-                style={styles.input__body}
-                value={login}
-                onChangeText={(login) => {
-                  setLogin(login);
-                  setErrors(validateLogin(login, password, totp));
-                }}
+        <View style={{ height: windowHeight }}>
+          <ImageBackground
+            source={require("../../assets/images/login/back.png")}
+            style={styles.container}
+            resizeMode="cover"
+          >
+            <View style={styles.logo}>
+              <Image
+                source={require("../../assets/images/login/logo_header.png")}
               />
             </View>
-            <View style={styles.input}>
-              {errors && (
-                <Text style={styles.input__error}> {errors.password}</Text>
-              )}
-              <TextInput
-                placeholderTextColor="#38383b"
-                placeholder="Password"
-                style={styles.input__body}
-                textContentType="password"
-                secureTextEntry
-                value={password}
-                onChangeText={(password) => {
-                  setPassword(password);
-                  setErrors(validateLogin(login, password, totp));
-                }}
-              />
+            <View style={{ alignItems: "center", marginTop: 10 }}>
+              <Text style={styles.logo__text}>
+                Send money anywhere, for free
+              </Text>
             </View>
-            <View style={styles.input}>
-              {errors && (
-                <Text style={styles.input__error}> {errors.totp}</Text>
-              )}
-              <TextInput
-                placeholderTextColor="#38383b"
-                placeholder="TOTP"
-                style={styles.input__body}
-                value={totp}
-                onChangeText={(totp) => {
-                  setTotp(totp);
-                  setErrors(validateLogin(login, password, totp));
-                }}
-              />
-            </View>
-          </View>
-          <View style={styles.button__container}>
-            <CustomButton
-              disabled={disableButton}
-              onPress={() => {
-                setErrors(validateLogin(login, password, totp));
+            {/*  {state.errorMessage ? <Text>{state.errorMessage}</Text> : null} */}
 
-                signin({ login, password, totp });
-              }}
-            >
-              Login
-            </CustomButton>
-          </View>
-          <Footer />
-        </ImageBackground>
-        
+            {state.errorMessage ? (
+              <CustomModal
+                clearErrorMessage={clearErrorMessage}
+                errors={state.errorMessage}
+              />
+            ) : null}
+
+            <View style={styles.inputs}>
+              <View style={styles.input}>
+                {errors && (
+                  <Text style={styles.input__error}>{errors.login}</Text>
+                )}
+                <TextInput
+                  placeholderTextColor="#38383b"
+                  placeholder="Login"
+                  style={styles.input__body}
+                  value={login}
+                  onChangeText={(login) => {
+                    setLogin(login);
+                    setErrors(validateLogin(login, password, totp));
+                  }}
+                />
+              </View>
+              <View style={styles.input}>
+                {errors && (
+                  <Text style={styles.input__error}> {errors.password}</Text>
+                )}
+                <TextInput
+                  placeholderTextColor="#38383b"
+                  placeholder="Password"
+                  style={styles.input__body}
+                  textContentType="password"
+                  secureTextEntry
+                  value={password}
+                  onChangeText={(password) => {
+                    setPassword(password);
+                    setErrors(validateLogin(login, password, totp));
+                  }}
+                />
+              </View>
+              <View style={styles.input}>
+                {errors && (
+                  <Text style={styles.input__error}> {errors.totp}</Text>
+                )}
+                <TextInput
+                  placeholderTextColor="#38383b"
+                  placeholder="TOTP"
+                  style={styles.input__body}
+                  value={totp}
+                  onChangeText={(totp) => {
+                    setTotp(totp);
+                    setErrors(validateLogin(login, password, totp));
+                  }}
+                />
+              </View>
+            </View>
+            <View style={styles.button__container}>
+              <CustomButton
+                disabled={disableButton}
+                onPress={() => {
+                  setErrors(validateLogin(login, password, totp));
+
+                  signin({ login, password, totp });
+                }}
+              >
+                Login
+              </CustomButton>
+            </View>
+            <Footer />
+          </ImageBackground>
+        </View>
       </KeyboardAvoidingView>
     </ScrollView>
   );
@@ -149,25 +152,28 @@ const Login = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: windowHeight,
-    flexDirection: "column",
+    flex: 1,
+    /* minHeight: windowHeight, */
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
     width: "100%",
   },
   logo: {
-    marginTop: 100,
+    marginTop: 50,
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    /* justifyContent: "center", */
+    /* alignItems: "center", */
   },
   logo__text: {
     fontSize: 15,
     color: "white",
   },
   inputs: {
-    alignItems: "center",
+    /* alignItems: "center", */
   },
   input: {
-    marginTop: 40,
+    marginTop: 30,
   },
   input__error: {
     color: "red",
@@ -180,8 +186,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   button__container: {
-    marginTop: 35,
-    marginBottom: 100,
+    /* marginTop: 35, */
+    /* marginBottom: 100, */
   },
 });
 
