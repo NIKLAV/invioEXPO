@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Modal,
+  RefreshControl,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -17,6 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { generateAddress, fetchWallets } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
 import Balance from "../common/Balance/Balance";
+import AsyncStorage from "@react-native-community/async-storage";
+import axios from "axios";
 
 const Deposit = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -24,13 +27,45 @@ const Deposit = ({ navigation, route }) => {
     (state) => state.depositPage.data.address
   );
   const name = useSelector((state) => state.walletsPage.currencyData.name);
-  const value = useSelector((state) => state.walletsPage.currencyData.value);
-  const deposit_fee = useSelector(
+  /* const value = useSelector((state) => state.walletsPage.currencyData.value); */
+  /* const deposit_fee = useSelector(
     (state) => state.walletsPage.currencyData.deposit_fee
-  );
+  ); */
+
+  /* const loading = useSelector((state) => state.walletsPage.loading); */
+  const [refresh, setRefresh] = useState(false)
+  const [loading, setLoading] = useState(false);
+  console.log("loading", loading);
+  const [deposit_fee, setDeposit_Fee] = useState(null);
+  const [value, setValue] = useState(null)
+  console.log("deposit fee", deposit_fee);
+  /* const onRefresh = useCallback(() => {
+    setRefreshing(true);
+  }, []); */
+
   useEffect(() => {
-    fetchWallets();
-  }, []);
+    const getCurrentCurrency = async (name) => {
+      setLoading(true);
+      const token = await AsyncStorage.getItem("token");
+      const response = await axios
+        .get(`http://185.181.8.210:8901/api/user/wallets/${name}`, {
+          headers: {
+            authorization: token ? `Bearer ${token}` : "",
+          },
+          platform: "android",
+          device_type: "mobile",
+          captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
+        })
+        .catch((err) => console.log("error in wallets", err));
+      setDeposit_Fee(response.data.wallet.asset.deposit_fee);
+      setValue(response.data.wallet.balance);
+      setLoading(false);
+      console.log("response in deposit", response);
+      setRefresh(false)
+    };
+
+    getCurrentCurrency(name);
+  }, [refresh, name]);
 
   /* const data = route.params.params; */
 
@@ -38,8 +73,21 @@ const Deposit = ({ navigation, route }) => {
     dispatch(generateAddress(name));
   };
 
+  const onRefresh = () => {
+    setRefresh(true)
+  }
+
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          progressBackgroundColor="#38383b"
+          tintColor="#38383b"
+          refreshing={refresh}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset="-160"
@@ -85,8 +133,8 @@ const Deposit = ({ navigation, route }) => {
                 </CustomButton>
               </View>
               {/*  <CustomButtonLightSmall onPress={Clipboard.setString('sss')}>
-                Copy address
-              </CustomButtonLightSmall> */}
+                  Copy address
+                </CustomButtonLightSmall> */}
             </View>
             <Footer />
           </ImageBackground>

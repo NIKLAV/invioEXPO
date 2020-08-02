@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Linking,
+  Image,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -91,19 +92,27 @@ const StartPage = ({ navigation }) => {
 
               <View style={styles.inputs}>
                 <View style={styles.button__container}>
+                  {/* <Image
+                    source={require("../../assets/images/navbar/wallets.png")}
+                  /> */}
                   <CustomButton onPress={onPressDepositWithDraw}>
                     Deposit/Withdraw
                   </CustomButton>
                 </View>
                 <View style={styles.button__container}>
-                  <CustomButtonLight onPress={onPressSend}>Send</CustomButtonLight>
+                  <CustomButtonLight onPress={onPressSend}>
+                    Send
+                  </CustomButtonLight>
                 </View>
                 <View style={styles.button__container}>
-                  <CustomButton onPress={onPressMarcetplace}>Marketplace</CustomButton>
+                  <CustomButton onPress={onPressMarcetplace}>
+                    Marketplace
+                  </CustomButton>
                 </View>
               </View>
               <Footer />
             </ImageBackground>
+            
           </View>
         )}
       </KeyboardAvoidingView>
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
     width: "100%",
     flex: 1,
   },
-  
+
   logo__text: {
     fontSize: 15,
     color: "white",
@@ -134,6 +143,9 @@ const styles = StyleSheet.create({
   },
   button__container: {
     marginVertical: 20,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

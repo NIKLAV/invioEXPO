@@ -2,6 +2,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const fetchWallets = () => async (dispatch) => {
+  dispatch({type: 'LOADING_WALLETS'})
   const token = await AsyncStorage.getItem("token");
   const response = await axios.get(
     "http://185.181.8.210:8901/api/user/wallets",
@@ -13,7 +14,7 @@ export const fetchWallets = () => async (dispatch) => {
       device_type: "mobile",
       captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
     }
-  );
+  ).catch(err => console.log('error in wallets', err));
   console.log('response fetchWallets', response.data)
   dispatch({
     type: "LOAD_WALLETS",
