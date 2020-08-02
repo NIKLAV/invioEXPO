@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
   TouchableWithoutFeedback,
   Image,
   Linking,
+  RefreshControl,
 } from "react-native";
 import Header from "../common/Header/Header";
 import CustomButton from "../common/Button/CustomButton";
@@ -21,34 +22,28 @@ import CustomModal from "../common/Modal/Modal";
 import { windowHeight } from "../../utilts/windowHeight";
 import BoxItem from "../common/BoxItem/BoxItem";
 import AsyncStorage from "@react-native-community/async-storage";
+import axios from "axios";
 
 const Wallets = ({ navigation }) => {
   const dispatch = useDispatch();
   const response = useSelector((state) => state.walletsPage.data);
   const errors = useSelector((state) => state.walletsPage.errorMessagesWallet);
+  /* const loading = useSelector((state) => state.walletsPage.loading) */
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = () => {
+    setRefresh(true);
+  };
+
   useEffect(() => {
     dispatch(fetchWallets());
-  }, []);
-
-  /*   const setOnPress = (item) => {
-    setNameCurrency({
-      name: item.currency.code,
-      value: item.balance,
-      assetId: item.currency_id,
-      walletId: item.id,
-      deposit_fee: item.currency.deposit_fee,
-      withdraw_max: item.currency.withdraw_max,
-      withdraw_min: item.currency.withdraw_min,
-      withdraw_fee: item.currency.withdraw_fee,
-      withdraw_available_day: item.withdraw_available_day,
-    });
-  }; */
+    setRefresh(false);
+  }, [refresh]);
 
   const [userKyc, setUserKyc] = useState("");
   const [userBanDraw, setUserBanDraw] = useState(null);
   const [userBanDeposit, setUserBanDeposit] = useState(null);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const getValues = async () => {
       const banDraw = await AsyncStorage.getItem("banDraw");
       const banDeposit = await AsyncStorage.getItem("banDeposit");
@@ -59,7 +54,33 @@ const Wallets = ({ navigation }) => {
       setUserBanDeposit(banDeposit);
     };
     getValues();
+  }, []); */
+
+  const getBansAndStatus = useCallback(async () => {
+    /*  setLoading(true); */
+
+    const token = await AsyncStorage.getItem("token");
+    const response = await axios
+      .get(`http://185.181.8.210:8901/api/user/data`, {
+        headers: {
+          authorization: token ? `Bearer ${token}` : "",
+        },
+        platform: "android",
+        device_type: "mobile",
+        captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
+      })
+      .catch((err) => console.log("error in wallets", err));
+    setUserKyc(response.data.user.kyc_status);
+    setUserBanDraw(response.data.user.ban_withdraw);
+    setUserBanDeposit(response.data.user.ban_deposit);
+    /* setLoading(false); */
+    console.log("response in wallets effect", response);
+    setRefresh(false);
   }, []);
+
+  useEffect(() => {
+    getBansAndStatus();
+  }, [refresh]);
 
   const [totalPosts, setTotalPosts] = useState(0);
   let [currentPage, setCurrentPage] = useState(1);
@@ -84,7 +105,16 @@ const Wallets = ({ navigation }) => {
   const [touched, setTouched] = useState("");
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          progressBackgroundColor="#38383b"
+          tintColor="#38383b"
+          refreshing={refresh}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <View style={{ height: windowHeight }}>
         <ImageBackground
           resizeMode="cover"
@@ -116,7 +146,6 @@ const Wallets = ({ navigation }) => {
                     code={item.currency.code}
                     balance={item.balance.toFixed(8)}
                     onPress={() => {
-                      /* setOnPress(item); */
                       setNameCurrency({
                         name: item.currency.code,
                         value: item.balance,
@@ -197,21 +226,23 @@ const Wallets = ({ navigation }) => {
           <View style={styles.buttons}>
             <View style={styles.button__container}>
               <CustomButtonLight
-                onPress={() => {
-                  if (userKyc.includes("not_verified")) {
-                    dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
-                  } else if (+userBanDeposit) {
-                    dispatch({ type: "ERROR_WALLETS_BAN" });
-                  } else if (userKyc.includes("pending")) {
-                    dispatch({ type: "ERROR_WALLETS_PENDING" });
-                  } else if (!nameCurrency.name) {
-                    dispatch({ type: "ERROR_WALLETS" });
-                  } else {
-                    navigation.navigate("Deposit", {
-                      screen: "Wallets",
-                      /*  params: nameCurrency.name, */
-                    });
-                  }
+                onPress={async () => {
+                  await getBansAndStatus().then(() => {
+                    if (userKyc.includes("not_verified")) {
+                      dispatch({ type: "ERROR_WALLETS_NOTVEFIFIED" });
+                    } else if (+userBanDeposit) {
+                      dispatch({ type: "ERROR_WALLETS_BAN" });
+                    } else if (userKyc.includes("pending")) {
+                      dispatch({ type: "ERROR_WALLETS_PENDING" });
+                    } else if (!nameCurrency.name) {
+                      dispatch({ type: "ERROR_WALLETS" });
+                    } else {
+                      navigation.navigate("Deposit", {
+                        screen: "Wallets",
+                        /*  params: nameCurrency.name, */
+                      });
+                    }
+                  });
                 }}
               >
                 Deposit
@@ -360,7 +391,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   button__container: {
     marginVertical: 10,

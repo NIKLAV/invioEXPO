@@ -8,6 +8,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
+  RefreshControl,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -25,7 +26,7 @@ import axios from "axios";
 const WithDraw = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.walletsPage.currencyData);
-
+  const [refresh, setRefresh] = useState(false);
   const page = useSelector((state) => state.historyPage.page);
 
   const [amount, setAmount] = useState("");
@@ -33,14 +34,19 @@ const WithDraw = ({ navigation, route }) => {
   const [currentValue, setCurrentValue] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const onRefresh = () => {
+    setRefresh(true);
+  };
+
   const [info, setInfo] = useState({
-    withdraw_max: data.withdraw_max,
+    /* withdraw_max: data.withdraw_max,
     withdraw_min: data.withdraw_min,
     withdraw_fee: data.withdraw_fee,
-    withdraw_available_day: data.withdraw_available_day,
+    withdraw_available_day: data.withdraw_available_day, */
   });
+  console.log("info", info);
 
-  useEffect(() => {
+  /* useEffect(() => {
     setInfo({
       withdraw_max: data.withdraw_max,
       withdraw_min: data.withdraw_min,
@@ -48,12 +54,13 @@ const WithDraw = ({ navigation, route }) => {
       withdraw_available_day: data.withdraw_available_day,
     });
     setCurrentValue(data.value);
-  }, [data]);
+    
+  }, [data, refresh]); */
 
   const onPress = () => {
     if (amount.length === 0 || address.length === 0) {
       dispatch({ type: "ADD_ERROR_LENGTH" });
-    } else if (amount.replace(",", ".") > data.value) {
+    } else if (amount.replace(",", ".") > currentValue) {
       dispatch({ type: "ADD_ERROR_AMOUNT" });
     } else if (amount.replace(",", ".") > info.withdraw_available_day) {
       dispatch({
@@ -67,7 +74,7 @@ const WithDraw = ({ navigation, route }) => {
     } else if (amount.replace(",", ".") < info.withdraw_min) {
       dispatch({
         type: "ADD_ERROR_MIN_AMOUNT",
-        payload: { code: data.name, min: data.withdraw_min },
+        payload: { code: data.name, min: info.withdraw_min },
       });
     } else
       dispatch(
@@ -96,6 +103,8 @@ const WithDraw = ({ navigation, route }) => {
   /* const data = route.params.params; */
 
   useEffect(() => {
+    console.log("inEffect", data.name);
+
     const fetchCurrentValue = async () => {
       setLoading(true);
       const token = await AsyncStorage.getItem("token");
@@ -106,6 +115,7 @@ const WithDraw = ({ navigation, route }) => {
           },
         })
         .then((response) => {
+          console.log("response in withdraw", response);
           setLoading(false);
           setCurrentValue(response.data.wallet.balance);
           setInfo({
@@ -118,13 +128,24 @@ const WithDraw = ({ navigation, route }) => {
         });
     };
     fetchCurrentValue();
-  }, [errors]);
+    setRefresh(false)
+    
+  }, [errors, refresh, data]);
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          progressBackgroundColor="#38383b"
+          tintColor="#38383b"
+          refreshing={refresh}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <KeyboardAvoidingView behavior={"height"} keyboardVerticalOffset="-160">
         {/* чтобы клавиатура не закрывала инпут отрицательное значение */}
-        <View style={{height: windowHeight}}>
+        <View style={{ height: windowHeight }}>
           <ImageBackground
             source={require("../../assets/bg.png")}
             style={styles.container}
@@ -247,7 +268,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   input: {
     width: 280,

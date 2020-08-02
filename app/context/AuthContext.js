@@ -34,7 +34,7 @@ const signin = (dispatch) => async ({ login, password, totp }) => {
 
     await AsyncStorage.setItem("token", response.data.bearer_token);
     await AsyncStorage.setItem("name", response.data.user.username);
-    await AsyncStorage.setItem("kyc", response.data.user.kyc_status);
+    /* await AsyncStorage.setItem("kyc", response.data.user.kyc_status);
     await AsyncStorage.setItem(
       "banDraw",
       String(response.data.user.ban_withdraw)
@@ -46,7 +46,7 @@ const signin = (dispatch) => async ({ login, password, totp }) => {
     await AsyncStorage.setItem(
       "banTransfer",
       String(response.data.user.ban_transfer)
-    );
+    ); */
 
     dispatch({ type: "SIGNIN", payload: response.data });
   } catch (err) {
@@ -61,10 +61,10 @@ const clearErrorMessage = (dispatch) => () => {
 
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem("token");
-  await AsyncStorage.removeItem("kyc");
+  /* await AsyncStorage.removeItem("kyc");
   await AsyncStorage.removeItem("banDraw");
   await AsyncStorage.removeItem("banDeposit");
-  await AsyncStorage.removeItem("banTransfer");
+  await AsyncStorage.removeItem("banTransfer"); */
 
   dispatch({ type: "SIGNOUT" });
 };
