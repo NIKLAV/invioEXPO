@@ -95,7 +95,7 @@ const Login = ({ navigation }) => {
                 )}
                 <TextInput
                   placeholderTextColor="#38383b"
-                  placeholder="Login"
+                  placeholder="  Login"
                   style={styles.input__body}
                   value={login}
                   onChangeText={(login) => {
@@ -111,7 +111,7 @@ const Login = ({ navigation }) => {
                 <View style={{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
                   <TextInput
                     placeholderTextColor="#38383b"
-                    placeholder="Password"
+                    placeholder="  Password"
                     style={[styles.input__body, { width: 250 }]}
                     textContentType="password"
                     secureTextEntry={isHidden}
@@ -132,7 +132,7 @@ const Login = ({ navigation }) => {
                 )}
                 <TextInput
                   placeholderTextColor="#38383b"
-                  placeholder="TOTP"
+                  placeholder="  TOTP"
                   style={styles.input__body}
                   value={totp}
                   onChangeText={(totp) => {

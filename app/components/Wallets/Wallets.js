@@ -58,7 +58,7 @@ const Wallets = ({ navigation }) => {
 
   const getBansAndStatus = useCallback(async () => {
     /*  setLoading(true); */
-
+    
     const token = await AsyncStorage.getItem("token");
     const response = await axios
       .get(`http://185.181.8.210:8901/api/user/data`, {

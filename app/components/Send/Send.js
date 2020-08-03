@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   FlatList,
+  RefreshControl,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -16,28 +17,19 @@ import Header from "../common/Header/Header";
 import CurrencyBox from "../common/CurrencyBox/CurrencyBox";
 import { useDispatch, useSelector } from "react-redux";
 import CustomModal from "../common/Modal/Modal";
-import { sendSEND } from "../../redux/actions";
+import { sendSEND, fetchWallets } from "../../redux/actions";
 import { windowHeight } from "../../utilts/windowHeight";
 import BoxItem from "../common/BoxItem/BoxItem";
 import AsyncStorage from "@react-native-community/async-storage";
+import axios from "axios";
 
 const Send = ({ navigation }) => {
-  console.log("render Send");
   const [userKyc, setUserKyc] = useState("");
   const [userSendBan, setUserSendBan] = useState(null);
   const page = useSelector((state) => state.transferPage.page);
 
-  /* function validateLength(e) {
-    const errors = {};
-    if (e.indexOf(".") != "-1") {
-      e = e.substring(0, e.indexOf(".") + 9); // цифра 4, устанавливает количество цифр после запятой,
-      //т.е. если 4, то максимум 3 цифры после запятой
-    }
-     return errors 
-  } */
-
   const [errorsLength, setErrorsLength] = useState({});
-  console.log("errorsLength", errorsLength);
+  console.log("userKyc", userKyc, "userSendBan", userSendBan);
 
   const onPress = () => {
     if (userKyc.includes("not_verified")) {
@@ -54,7 +46,40 @@ const Send = ({ navigation }) => {
       dispatch(sendSEND(chooseId, amount.replace(",", "."), username, page));
   };
 
+  const [refresh, setRefresh] = useState(false);
+  const onRefresh = () => {
+    setRefresh(true);
+  };
+
   useEffect(() => {
+    dispatch(fetchWallets());
+    setRefresh(false);
+  }, [refresh]);
+
+  const getBansAndStatus = useCallback(async () => {
+    const token = await AsyncStorage.getItem("token");
+    const response = await axios
+      .get(`http://185.181.8.210:8901/api/user/data`, {
+        headers: {
+          authorization: token ? `Bearer ${token}` : "",
+        },
+        platform: "android",
+        device_type: "mobile",
+        captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
+      })
+      .catch((err) => console.log("error in wallets", err));
+    setUserKyc(response.data.user.kyc_status);
+    setUserSendBan(response.data.user.ban_transfer);
+
+    console.log("response in send", response);
+    setRefresh(false);
+  }, []);
+
+  useEffect(() => {
+    getBansAndStatus();
+  }, [refresh]);
+
+  /* useEffect(() => {
     const getValues = async () => {
       const kyc = await AsyncStorage.getItem("kyc");
       const sendBan = await AsyncStorage.getItem("banTransfer");
@@ -62,7 +87,7 @@ const Send = ({ navigation }) => {
       setUserSendBan(sendBan);
     };
     getValues();
-  }, []);
+  }, []); */
 
   const [username, setUserName] = useState("");
   const [amount, setAmount] = useState("");
@@ -70,6 +95,9 @@ const Send = ({ navigation }) => {
   const [value, setValue] = useState();
   const [currencyCode, setCurrencyCode] = useState("");
   /* const [assetId, setIssetid] = useState('') */
+  const [stateAmount, setStateAmount] = useState(false)
+  const [stateUser, setStateUser] = useState(false)
+  console.log('state', stateAmount)
 
   const dispatch = useDispatch();
   const response = useSelector((state) => state.walletsPage.data);
@@ -89,7 +117,16 @@ const Send = ({ navigation }) => {
   const [touched, setTouched] = useState("");
 
   return (
-    <ScrollView>
+    <ScrollView
+      refreshControl={
+        <RefreshControl
+          progressBackgroundColor="#38383b"
+          tintColor="#38383b"
+          refreshing={refresh}
+          onRefresh={onRefresh}
+        />
+      }
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset="-260"
@@ -102,7 +139,7 @@ const Send = ({ navigation }) => {
             resizeMode="cover"
           >
             <Header onPress={() => navigation.openDrawer()}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>SEND</Text>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SEND</Text>
             </Header>
             {/* <View style={{ alignItems: "center", marginTop: 15 }}>
               <Text style={styles.logo__text}>Send</Text>
@@ -122,21 +159,6 @@ const Send = ({ navigation }) => {
                       setValue(item.balance);
                     }}
                   />
-                  /*   <View key={item.id} style={[styles.box__item]}>
-                    <Text
-                      onPress={() => {
-                        setChooseId(item.currency_id);
-                        setValue(item.balance);
-                      }}
-                      style={styles.box__itemText}
-                    >
-                      {item.currency.code}
-                    </Text>
-  
-                    <Text style={styles.box__itemText}>
-                      {item.balance.toFixed(2)}
-                    </Text>
-                  </View> */
                 )}
               />
               <View style={styles.box__footer}>
@@ -161,6 +183,9 @@ const Send = ({ navigation }) => {
                 <View style={styles.input__container}>
                   <Text style={styles.label}>User</Text>
                   <TextInput
+                   onFocus={() => setStateUser(!stateUser)}
+                   onBlur={() => setStateUser(!stateUser)}
+                   placeholder={stateUser ? null : '  @user'}
                     onChangeText={(username) => setUserName(username)}
                     value={username}
                     style={styles.input}
@@ -169,6 +194,10 @@ const Send = ({ navigation }) => {
                 <View style={styles.input__container}>
                   <Text style={styles.label}>Amount</Text>
                   <TextInput
+                    
+                    onFocus={() => setStateAmount(!stateAmount)}
+                    onBlur={() => setStateAmount(!stateAmount)}
+                    placeholder={stateAmount ? null : '  $0.00'}
                     value={amount}
                     style={styles.input}
                     onChangeText={(amount) => {
@@ -265,7 +294,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   input: {
     width: 280,
