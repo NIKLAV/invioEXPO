@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import CustomButton from "../common/Button/CustomButton";
@@ -44,17 +44,18 @@ const Login = ({ navigation }) => {
     setTotp,
   } = useForm(null, validateLogin);
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   if (state.token) {
     navigation.navigate("Wallets");
   }
 
-  const [isHidden, setIsHidden] = useState(true)
+  const [isHidden, setIsHidden] = useState(true);
 
   const checkForHidden = () => {
-    setIsHidden(!isHidden)
-  }
+    setIsHidden(!isHidden);
+  };
+  const [stateUser, setStateUser] = useState(false);
+  const [stateEmail, setStateEmail] = useState(false);
+  const [stateTOTP, setStateTOTP] = useState(false);
 
   return (
     <ScrollView>
@@ -95,7 +96,9 @@ const Login = ({ navigation }) => {
                 )}
                 <TextInput
                   placeholderTextColor="#38383b"
-                  placeholder="  Login"
+                  onFocus={() => setStateUser(!stateUser)}
+                  onBlur={() => setStateUser(!stateUser)}
+                  placeholder={stateUser ? null : "  Login"}
                   style={styles.input__body}
                   value={login}
                   onChangeText={(login) => {
@@ -108,10 +111,18 @@ const Login = ({ navigation }) => {
                 {errors && (
                   <Text style={styles.input__error}> {errors.password}</Text>
                 )}
-                <View style={{justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center'}}>
+                <View
+                  style={{
+                    justifyContent: "space-between",
+                    flexDirection: "row",
+                    alignItems: "center",
+                  }}
+                >
                   <TextInput
                     placeholderTextColor="#38383b"
-                    placeholder="  Password"
+                    onFocus={() => setStateEmail(!stateEmail)}
+                    onBlur={() => setStateEmail(!stateEmail)}
+                    placeholder={stateEmail ? null : "  Password"}
                     style={[styles.input__body, { width: 250 }]}
                     textContentType="password"
                     secureTextEntry={isHidden}
@@ -122,7 +133,7 @@ const Login = ({ navigation }) => {
                     }}
                   />
                   <TouchableOpacity onPress={checkForHidden}>
-                    <Image source={require('../../assets/history.png')}/>
+                    <Image source={!isHidden ? require("../../assets/eye-off.png") : require("../../assets/eye.png") } />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -132,7 +143,9 @@ const Login = ({ navigation }) => {
                 )}
                 <TextInput
                   placeholderTextColor="#38383b"
-                  placeholder="  TOTP"
+                  onFocus={() => setStateTOTP(!stateTOTP)}
+                  onBlur={() => setStateTOTP(!stateTOTP)}
+                  placeholder={stateTOTP ? null : "  TOTP"}
                   style={styles.input__body}
                   value={totp}
                   onChangeText={(totp) => {
