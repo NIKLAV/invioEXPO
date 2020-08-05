@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const Header = ({children, onPress}) => {
+const Header = ({children, onPress, navigation}) => {
   return (
     <View style={styles.header}>
       <TouchableOpacity style={styles.test} onPress={onPress}>

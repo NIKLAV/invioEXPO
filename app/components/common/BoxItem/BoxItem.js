@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const BoxItem = ({ onPress, balance, code, touched, setTouched }) => {
+  
   return (
     <TouchableOpacity
       onPress={() => {

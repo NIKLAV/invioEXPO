@@ -61,6 +61,7 @@ const clearErrorMessage = (dispatch) => () => {
 
 const signout = (dispatch) => async () => {
   await AsyncStorage.removeItem("token");
+  await AsyncStorage.removeItem("name");
   /* await AsyncStorage.removeItem("kyc");
   await AsyncStorage.removeItem("banDraw");
   await AsyncStorage.removeItem("banDeposit");

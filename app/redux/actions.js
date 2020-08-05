@@ -2,20 +2,19 @@ import axios from "axios";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const fetchWallets = () => async (dispatch) => {
-  dispatch({type: 'LOADING_WALLETS'})
+  dispatch({ type: "LOADING_WALLETS" });
   const token = await AsyncStorage.getItem("token");
-  const response = await axios.get(
-    "http://185.181.8.210:8901/api/user/wallets",
-    {
+  const response = await axios
+    .get("http://185.181.8.210:8901/api/user/wallets", {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
       },
       platform: "android",
       device_type: "mobile",
       captcha: "kQuA2nRYJ4R7jQVDpCVmk696SYnkV3y7",
-    }
-  ).catch(err => console.log('error in wallets', err));
-  console.log('response fetchWallets', response.data)
+    })
+    .catch((err) => console.log("error in wallets", err));
+  console.log("response fetchWallets", response.data);
   dispatch({
     type: "LOAD_WALLETS",
     payload: response.data,
@@ -85,19 +84,24 @@ export const generateAddress = (name) => async (dispatch) => {
 };
 
 export const fetchHistory = (page) => async (dispatch) => {
-  
+  let i = 1;
+  if (page === i) {
+    dispatch({ type: "CLEAR_HISTORY" });
+  } else i++
+  /* dispatch({ type: "CLEAR_HISTORY" }); */
+
   dispatch({ type: "LOADING_HISTORY" });
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=15`,
+    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=8`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
       },
     }
   );
-  console.log('response history', response)
+  console.log("response history", response);
   dispatch({ type: "LOADING_SUCCESS" });
   console.log("history response", response.data.transactions.lastPage);
   dispatch({
@@ -110,6 +114,8 @@ export const fetchHistory = (page) => async (dispatch) => {
 };
 
 export const fetchTransfer = (page) => async (dispatch) => {
+  /* dispatch({ type: "CLEAR_TRANSACTIONS" }); */
+
   dispatch({ type: "LOADING_TRANSFER" });
   const token = await AsyncStorage.getItem("token");
 

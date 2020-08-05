@@ -5,11 +5,11 @@
  * @format
  * @flow strict-local
  */
-
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Login from "./app/components/Login/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import WithDraw from "./app/components/WithDraw/WithDraw";
 import Wallets from "./app/components/Wallets/Wallets";
 import Send from "./app/components/Send/Send";
@@ -17,7 +17,6 @@ import Navbar from "./app/components/Navbar/Navbar";
 import DepositWithDraw from "./app/components/DepositWithDraw/DepositWithDraw";
 import SendTable from "./app/components/SendTable/SendTable";
 import Deposit from "./app/components/Deposit/Deposit";
-import History from "./app/components/History/History";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import {
@@ -25,17 +24,20 @@ import {
   Context as AuthContext,
 } from "./app/context/AuthContext";
 
-import Transfer from "./app/components/Transfer/Transfer";
 import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
 import StartPage from "./app/components/StartPage/StartPage";
+import TransferHistory from "./app/components/History/TransferHistory";
+import DepositWithdrawHistory from "./app/components/History/DepositWithdrawHistory";
+import TradesHistory from "./app/components/History/TradesHistory";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-
+const Tab = createMaterialTopTabNavigator();
 const { navigation } = NavigationContainer;
 
 const App = () => {
+  const [touched, setTouched] = useState(1); 
   const { state } = useContext(AuthContext);
   return (
     <NavigationContainer>
@@ -68,8 +70,23 @@ const App = () => {
             <Drawer.Screen name="DepositWithDraw" component={DepositWithDraw} />
             <Drawer.Screen name="SendTable" component={SendTable} />
             <Drawer.Screen name="Deposit" component={Deposit} />
-            <Drawer.Screen name="History" component={History} />
-            <Drawer.Screen name="Transfer" component={Transfer} />
+            <Drawer.Screen
+              name="DepositWithdrawHistory"
+              component={(props) => (
+                <DepositWithdrawHistory
+                  touched={touched}
+                  setTouched={setTouched}
+                  {...props}
+                />
+              )}
+            />
+            <Drawer.Screen
+              name="TransferHistory"
+              component={(props) => (
+                <TransferHistory setTouched={setTouched} touched={touched} {...props} />
+              )}
+            />
+            <Drawer.Screen name="TradesHistory" component={TradesHistory} />
           </>
         )}
       </Drawer.Navigator>

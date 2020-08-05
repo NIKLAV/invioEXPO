@@ -18,16 +18,17 @@ import { Preloader, Spiner } from "../common/Preloader/preloader";
 import { windowHeight } from "../../utilts/windowHeight";
 import CustomButton from "../common/Button/CustomButton";
 import { NothingToShow } from "../common/NothingToShow/NothingToShow";
+import TabBar from "../common/TabBar/TabBar";
 
-const History = ({ navigation }) => {
-  console.log("render History");
+const TradesHistory = ({ navigation }) => {
+  console.log("render Trade");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.historyPage.page);
   const lastPage = useSelector((state) => state.historyPage.lastPage);
   const loading = useSelector((state) => state.historyPage.loading);
   /* const [history, setHistory] = useState([]); */
   const history = useSelector((state) => state.historyPage.data);
- 
+
   useEffect(() => {
     dispatch(fetchHistory(page));
   }, [page]);
@@ -48,15 +49,18 @@ const History = ({ navigation }) => {
         <Accordian
           key={item.created_at + Math.random()}
           title={item.created_at}
+          amount={item.amount}
+          type={item.transaction_type}
+          coin={item.asset_code}
           list={
             <View key={item.created_at} style={styles.child}>
-              <View style={styles.child__item}>
+              {/* <View style={styles.child__item}>
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Date/Time</Text>
                 </View>
                 <Text style={styles.child__item__value}>{item.created_at}</Text>
-              </View>
-              <View style={styles.child__item}>
+              </View> */}
+              {/*   <View style={styles.child__item}>
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Coin</Text>
                 </View>
@@ -68,7 +72,7 @@ const History = ({ navigation }) => {
                 >
                   {item.asset_code}
                 </Text>
-              </View>
+              </View> */}
               <View style={styles.child__item}>
                 <View style={styles.test}>
                   <Text style={styles.child__item__text}>Amount</Text>
@@ -114,6 +118,8 @@ const History = ({ navigation }) => {
     return items;
   };
 
+  const [touched, setTouched] = useState(null);
+
   return (
     <ScrollView>
       {!loading && history.length === 0 ? (
@@ -130,8 +136,9 @@ const History = ({ navigation }) => {
             style={styles.container}
           >
             <Header onPress={() => navigation.openDrawer()}>
-              TRANSACTION HISTORY
+              TRADES HISTORY
             </Header>
+            <TabBar navigation={navigation} />
             {!loading && history.length > 0 ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians(history)}
@@ -228,4 +235,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default History;
+export default TradesHistory;

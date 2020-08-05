@@ -19,7 +19,7 @@ const transferReducer = (state = initialState, action) => {
     case "NEXT_PAGE":
       return { ...state, page: state.page + 1 };
     case "CURRENT_PAGE_ONE":
-      return { ...state, page: 1 };
+      return { ...state, page: 1, data: [] };
       case "LOADING_TRANSFER":
         return { ...state, loading: true };
       case "LOADING_TRANSFER_SUCCESS":

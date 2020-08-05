@@ -23,7 +23,7 @@ const historyReducer = (state = initialState, action) => {
     case "NEXT_PAGE_HISTORY":
       return { ...state, page: state.page + 1 };
     case "CURRENT_PAGE_ONE_HISTORY":
-      return { ...state, page: 1 };
+      return { ...state, page: 1, data: [] };
     case "LOGOUT_HISTORY":
       return {...state, page: 1, data: []}  
     default:

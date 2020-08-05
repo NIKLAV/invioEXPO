@@ -79,19 +79,19 @@ const Navbar = (props) => {
 
         <DrawerItem
           icon={() => <Image source={require("../../assets/history.png")} />}
-          label={"Transaction history"}
-          onPress={() => props.navigation.navigate("History")}
+          label={"History"}
+          onPress={() => props.navigation.navigate("DepositWithdrawHistory")}
           labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
           style={styles.borderTop}
         />
 
-        <DrawerItem
+        {/* <DrawerItem
           icon={() => <Image source={require("../../assets/transfer1.png")} />}
           label={"Transfer history"}
           onPress={() => props.navigation.navigate("Transfer")}
           labelStyle={[styles.labelStyle]}
           style={[styles.borderTop]}
-        />
+        /> */}
 
         <DrawerItem
           icon={() => (
