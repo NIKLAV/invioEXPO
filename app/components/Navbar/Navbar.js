@@ -102,6 +102,7 @@ const Navbar = (props) => {
             setCredentialsToNull();
             dispatch({type: "LOGOUT_TRANSFER"});
             dispatch({type: "LOGOUT_HISTORY"})
+            dispatch({type: "LOGOUT_TRADES"});
             await signout();
             props.navigation.navigate("Login");
           }}

@@ -58,7 +58,7 @@ const Wallets = ({ navigation }) => {
 
   const getBansAndStatus = useCallback(async () => {
     /*  setLoading(true); */
-    
+
     const token = await AsyncStorage.getItem("token");
     const response = await axios
       .get(`http://185.181.8.210:8901/api/user/data`, {
@@ -102,7 +102,10 @@ const Wallets = ({ navigation }) => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const [touched, setTouched] = useState("");
+  const [touchedC, setTouchedC] = useState("");
+
+  const url = nameCurrency.name ? nameCurrency.name.toUpperCase() : '';
+  
 
   return (
     <ScrollView
@@ -140,8 +143,8 @@ const Wallets = ({ navigation }) => {
                 data={currentPosts}
                 renderItem={({ item }) => (
                   <BoxItem
-                    touched={touched}
-                    setTouched={setTouched}
+                    touchedC={touchedC}
+                    setTouchedC={setTouchedC}
                     key={item.id}
                     code={item.currency.code}
                     balance={item.balance.toFixed(8)}
@@ -275,7 +278,7 @@ const Wallets = ({ navigation }) => {
                 onPress={
                   () =>
                     Linking.openURL(
-                      "http://185.181.8.210:8902/marketplace/buy"
+                      `http://185.181.8.210:8902/marketplace/buy/${url}`
                     ) /* props.navigation.navigate('Transactions') */
                 }
               >
@@ -285,7 +288,7 @@ const Wallets = ({ navigation }) => {
                 onPress={
                   () =>
                     Linking.openURL(
-                      "http://185.181.8.210:8902/marketplace/sell"
+                      `http://185.181.8.210:8902/marketplace/sell/${url}`
                     ) /* props.navigation.navigate('Transactions') */
                 }
               >
@@ -294,7 +297,7 @@ const Wallets = ({ navigation }) => {
               {/* <CustomButtonLightSmall>Sell/Buy</CustomButtonLightSmall> */}
             </View>
           </View>
-          <Footer />
+          {/* <Footer /> */}
         </ImageBackground>
       </View>
     </ScrollView>
@@ -394,12 +397,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   button__container: {
-    marginVertical: 10,
+    marginVertical: 20,
   },
   buttonSmall__container: {
     paddingBottom: 10,
     width: 280,
-    marginTop: 10,
+    marginTop: 20,
     marginBottom: 10,
     flexDirection: "row",
     justifyContent: "space-between",

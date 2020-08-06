@@ -20,7 +20,7 @@ import CustomButton from "../common/Button/CustomButton";
 import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 import TabBar from "../common/TabBar/TabBar";
 
-const DepositWithdrawHistory = ({ navigation, touched, setTouched }) => {
+const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
   console.log("render History");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.historyPage.page);
@@ -138,7 +138,7 @@ const DepositWithdrawHistory = ({ navigation, touched, setTouched }) => {
             <Header onPress={() => navigation.openDrawer()}>
               DEPOSIT/WITHDRAW HISTORY
             </Header>
-            <TabBar touched={touched} setTouched={setTouched} navigation={navigation} />
+            <TabBar navigation={navigation} />
             {!loading && history.length > 0 ? (
               <View style={styles.accordionContainer}>
                 {renderAccordians(history)}
@@ -152,7 +152,7 @@ const DepositWithdrawHistory = ({ navigation, touched, setTouched }) => {
                 {loading ? <Preloader /> : null}
               </View>
             ) : null}
-            <Footer />
+            {/* <Footer /> */}
           </ImageBackground>
           
         </View>
@@ -206,9 +206,9 @@ const styles = StyleSheet.create({
   },
   accordionContainer: {
     flex: 1, 
-    paddingTop: 100,
-    paddingBottom: 100,
-    marginTop: 100,
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginTop: 50,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",

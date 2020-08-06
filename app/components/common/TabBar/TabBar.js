@@ -7,65 +7,67 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
+import { useNavigationState } from "@react-navigation/native";
 
-const TabBar = ({ navigation, touched, setTouched }) => {
- /*  const [touched, setTouched] = useState(0);  */
+const TabBar = ({ navigation }) => {
+  
+  const index = useNavigationState((state) => state.index);
 
 
   const onPress1 = () => {
-    setTouched(1);
     navigation.navigate("DepositWithdrawHistory");
   };
 
   const onPress2 = () => {
-    setTouched(2);
     navigation.navigate("TransferHistory");
   };
 
-  console.log("touched", touched);
+  const onPress3 = () => {
+    navigation.navigate("TradesHistory");
+  };
+
   return (
     <View style={styles.header}>
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <TouchableOpacity
-          onPress={
-            /*( ) => { 
-            setTouched(1);
-            navigation.navigate("DepositWithdrawHistory");
-          } */ () =>
-              onPress1()
-          }
-          style={[styles.buttonLeft, touched === 1 ? styles.back : null]}
+          onPress={() => onPress1()}
+          style={[styles.buttonLeft, index === 7 ? styles.back : null]}
         >
           <Image
             style={styles.imageLeft}
-            source={require("../../../assets/earthG.png")}
+            source={
+              index === 7
+                ? require("../../../assets/earthG.png")
+                : require("../../../assets/earthW.png")
+            }
           />
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={
-            /* () => {
-            setTouched(2);
-            navigation.navigate("TransferHistory");
-          } */ () =>
-              onPress2()
-          }
-          style={[styles.buttonCenter, touched === 2 ? styles.back : null]}
+          onPress={() => onPress2()}
+          style={[styles.buttonCenter, index === 8 ? styles.back : null]}
         >
           <Image
             style={styles.imageCenter}
-            source={ touched === 2 ? require("../../../assets/humansG.png") : require("../../../assets/humansW.png")}
+            source={
+              index === 8
+                ? require("../../../assets/humansG.png")
+                : require("../../../assets/humansW.png")
+            }
           />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setTouched(3);
-            navigation.navigate("TradesHistory");
+            onPress3();
           }}
-          style={[styles.buttonRight, touched === 3 ? styles.back : null]}
+          style={[styles.buttonRight, index === 9 ? styles.back : null]}
         >
           <Image
             style={styles.imageRight}
-            source={require("../../../assets/HumanW.png")}
+            source={
+              index === 9
+                ? require("../../../assets/humanG.png")
+                : require("../../../assets/humanW.png")
+            }
           />
         </TouchableOpacity>
       </View>

@@ -136,7 +136,7 @@ const Deposit = ({ navigation, route }) => {
                   Copy address
                 </CustomButtonLightSmall> */}
             </View>
-            <Footer />
+            {/* <Footer /> */}
           </ImageBackground>
         </View>
       </KeyboardAvoidingView>

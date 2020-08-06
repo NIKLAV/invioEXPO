@@ -95,9 +95,9 @@ const Send = ({ navigation }) => {
   const [value, setValue] = useState();
   const [currencyCode, setCurrencyCode] = useState("");
   /* const [assetId, setIssetid] = useState('') */
-  const [stateAmount, setStateAmount] = useState(false)
-  const [stateUser, setStateUser] = useState(false)
-  console.log('state', stateAmount)
+  const [stateAmount, setStateAmount] = useState(false);
+  const [stateUser, setStateUser] = useState(false);
+  console.log("state", stateAmount);
 
   const dispatch = useDispatch();
   const response = useSelector((state) => state.walletsPage.data);
@@ -114,7 +114,7 @@ const Send = ({ navigation }) => {
     }
   }, [errors]);
 
-  const [touched, setTouched] = useState("");
+  const [touchedC, setTouchedC] = useState("");
 
   return (
     <ScrollView
@@ -150,8 +150,8 @@ const Send = ({ navigation }) => {
                 data={response.wallets}
                 renderItem={({ item }) => (
                   <BoxItem
-                    touched={touched}
-                    setTouched={setTouched}
+                    touchedC={touchedC}
+                    setTouchedC={setTouchedC}
                     balance={item.balance.toFixed(8)}
                     code={item.currency.code}
                     onPress={() => {
@@ -183,9 +183,9 @@ const Send = ({ navigation }) => {
                 <View style={styles.input__container}>
                   <Text style={styles.label}>User</Text>
                   <TextInput
-                   onFocus={() => setStateUser(!stateUser)}
-                   onBlur={() => setStateUser(!stateUser)}
-                   placeholder={stateUser ? null : '  @user'}
+                    onFocus={() => setStateUser(!stateUser)}
+                    onBlur={() => setStateUser(!stateUser)}
+                    placeholder={stateUser ? null : "  @user"}
                     onChangeText={(username) => setUserName(username)}
                     value={username}
                     style={styles.input}
@@ -194,10 +194,9 @@ const Send = ({ navigation }) => {
                 <View style={styles.input__container}>
                   <Text style={styles.label}>Amount</Text>
                   <TextInput
-                    
                     onFocus={() => setStateAmount(!stateAmount)}
                     onBlur={() => setStateAmount(!stateAmount)}
-                    placeholder={stateAmount ? null : '  $0.00'}
+                    placeholder={stateAmount ? null : "  $0.00"}
                     value={amount}
                     style={styles.input}
                     onChangeText={(amount) => {
@@ -205,13 +204,13 @@ const Send = ({ navigation }) => {
                     }}
                   />
                 </View>
-              </View>
 
-              <View style={styles.button__container}>
-                <CustomButton onPress={onPress}>Send</CustomButton>
+                <View style={styles.button__container}>
+                  <CustomButton onPress={onPress}>Send</CustomButton>
+                </View>
               </View>
             </View>
-            <Footer />
+            {/* <Footer /> */}
           </ImageBackground>
         </View>
       </KeyboardAvoidingView>
@@ -306,6 +305,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   inputs__container: {
+    justifyContent: 'center',
+    alignItems: 'center',
     /* marginTop: 16, */
   },
   input__container: {
@@ -319,7 +320,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button__container: {
-    marginTop: 15,
+    marginTop: 25,
   },
 });
 

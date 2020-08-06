@@ -80,15 +80,15 @@ const StartPage = ({ navigation }) => {
               resizeMode="cover"
             >
               <Header onPress={() => navigation.openDrawer()}>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+               {/*  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
                   WELCOME TO INVIO
-                </Text>
+                </Text> */}
               </Header>
               <View style={{ alignItems: "center", marginTop: 40 }}>
-                <Text style={styles.logo__text}>Availible balance:</Text>
+                <Text style={styles.logo__text}>Available balance</Text>
               </View>
 
-              <Balance name="USD" value={total_usd} />
+              <Balance name="" value={total_usd} />
 
               <View style={styles.inputs}>
                 <View style={styles.button__container}>
@@ -110,7 +110,7 @@ const StartPage = ({ navigation }) => {
                   </CustomButton>
                 </View>
               </View>
-              <Footer />
+              {/* <Footer /> */}
             </ImageBackground>
             
           </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
 
   logo__text: {
-    fontSize: 15,
+    fontSize: 20,
     color: "white",
     fontWeight: "bold",
   },

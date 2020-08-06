@@ -215,7 +215,7 @@ const WithDraw = ({ navigation, route }) => {
                 <CustomButton onPress={onPress}>Withdraw</CustomButton>
               </View>
             </View>
-            <Footer />
+            {/* <Footer /> */}
           </ImageBackground>
         </View>
       </KeyboardAvoidingView>

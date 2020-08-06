@@ -11,6 +11,7 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 import CustomButton from "../common/Button/CustomButton";
@@ -19,11 +20,10 @@ import CustomModal from "../common/Modal/Modal";
 import { useDispatch, useSelector } from "react-redux";
 import validateLogin from "../../utilts/validateLogin";
 import useForm from "../../hooks/useForm";
-import axios from "axios";
-import useFetch from "../../hooks/useFetch";
 import useAsyncStorage from "../../hooks/useAsyncStorage";
 import { Context as AuthContext } from "../../context/AuthContext";
 import { windowHeight } from "../../utilts/windowHeight";
+import CustomButtonOpacity from "../common/Button/CustomButtonOpacity";
 
 const Login = ({ navigation }) => {
   const { state, signin, clearErrorMessage } = useContext(AuthContext);
@@ -75,7 +75,7 @@ const Login = ({ navigation }) => {
                 source={require("../../assets/images/login/logo_header.png")}
               />
             </View>
-            <View style={{ alignItems: "center", marginTop: 10 }}>
+            <View style={{ alignItems: "center", marginTop: 40 }}>
               <Text style={styles.logo__text}>
                 Send money anywhere, for free
               </Text>
@@ -109,10 +109,11 @@ const Login = ({ navigation }) => {
               </View>
               <View style={styles.input}>
                 {errors && (
-                  <Text style={styles.input__error}> {errors.password}</Text>
+                  <Text style={[styles.input__error, {marginLeft: 30}]}>{errors.password}</Text>
                 )}
                 <View
                   style={{
+                    marginLeft: 30,
                     justifyContent: "space-between",
                     flexDirection: "row",
                     alignItems: "center",
@@ -123,7 +124,7 @@ const Login = ({ navigation }) => {
                     onFocus={() => setStateEmail(!stateEmail)}
                     onBlur={() => setStateEmail(!stateEmail)}
                     placeholder={stateEmail ? null : "  Password"}
-                    style={[styles.input__body, { width: 250 }]}
+                    style={[styles.input__body]}
                     textContentType="password"
                     secureTextEntry={isHidden}
                     value={password}
@@ -132,7 +133,7 @@ const Login = ({ navigation }) => {
                       setErrors(validateLogin(login, password, totp));
                     }}
                   />
-                  <TouchableOpacity onPress={checkForHidden}>
+                  <TouchableOpacity style={{marginLeft: 5}} onPress={checkForHidden}>
                     <Image source={!isHidden ? require("../../assets/eye-off.png") : require("../../assets/eye.png") } />
                   </TouchableOpacity>
                 </View>
@@ -145,7 +146,7 @@ const Login = ({ navigation }) => {
                   placeholderTextColor="#38383b"
                   onFocus={() => setStateTOTP(!stateTOTP)}
                   onBlur={() => setStateTOTP(!stateTOTP)}
-                  placeholder={stateTOTP ? null : "  TOTP"}
+                  placeholder={stateTOTP ? null : "  2FA (if enabled)"}
                   style={styles.input__body}
                   value={totp}
                   onChangeText={(totp) => {
@@ -166,8 +167,15 @@ const Login = ({ navigation }) => {
               >
                 Login
               </CustomButton>
+              <Text style={{color: '#88888b', marginTop: 15, marginBottom: 15}}>OR</Text>
+              <CustomButtonOpacity onPress={
+                  () =>
+                    Linking.openURL(
+                      "http://185.181.8.210:8902/auth/signup"
+                    ) /* props.navigation.navigate('Transactions') */
+                }>Sign up</CustomButtonOpacity>
             </View>
-            <Footer />
+            {/* <Footer /> */}
           </ImageBackground>
         </View>
       </KeyboardAvoidingView>
@@ -180,7 +188,7 @@ const styles = StyleSheet.create({
     flex: 1,
     /* minHeight: windowHeight, */
     display: "flex",
-    justifyContent: "space-between",
+    /* justifyContent: "space-between", */
     alignItems: "center",
     width: "100%",
   },
@@ -195,7 +203,8 @@ const styles = StyleSheet.create({
     color: "white",
   },
   inputs: {
-    /* alignItems: "center", */
+    alignItems: "center",
+    
   },
   input: {
     marginTop: 30,
@@ -211,7 +220,9 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   button__container: {
-    /* marginTop: 35, */
+     marginTop: 50,
+     justifyContent: 'center',
+     alignItems: 'center', 
     /* marginBottom: 100, */
   },
 });

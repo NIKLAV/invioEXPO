@@ -6,154 +6,129 @@ import {
   View,
   StyleSheet,
   Text,
-  FlatList,
-  SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import Footer from "../common/Footer/Footer";
-import Accordian from "../common/Accordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHistory } from "../../redux/actions";
+import { fetchTrades } from "../../redux/actions";
 import { Preloader, Spiner } from "../common/Preloader/preloader";
-import { windowHeight } from "../../utilts/windowHeight";
 import CustomButton from "../common/Button/CustomButton";
 import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 import TabBar from "../common/TabBar/TabBar";
+import AsyncStorage from "@react-native-community/async-storage";
+import { windowHeight } from "../../utilts/windowHeight";
+import { useNavigationState } from "@react-navigation/native";
 
 const TradesHistory = ({ navigation }) => {
-  console.log("render Trade");
-  const dispatch = useDispatch();
-  const page = useSelector((state) => state.historyPage.page);
-  const lastPage = useSelector((state) => state.historyPage.lastPage);
-  const loading = useSelector((state) => state.historyPage.loading);
-  /* const [history, setHistory] = useState([]); */
-  const history = useSelector((state) => state.historyPage.data);
+  const page = useSelector((state) => state.tradePage.page);
+  const lastPageBuy = useSelector((state) => state.tradePage.lastPageBuy);
+  const lastPageSell = useSelector((state) => state.tradePage.lastPageSell);
+  const loading = useSelector((state) => state.tradePage.loading);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchHistory(page));
+    dispatch(fetchTrades(page));
   }, [page]);
 
-  console.log("history", history);
   const onList = () => {
-    console.log("pageonList", page, "lastPageonList", lastPage);
     if (page < lastPage) {
-      dispatch({ type: "NEXT_PAGE_HISTORY" });
+      dispatch({ type: "NEXT_PAGE_TRADE" });
     }
   };
 
-  const renderAccordians = (history) => {
-    const items = [];
-    let i = 1;
-    for (let item of history) {
-      items.push(
-        <Accordian
-          key={item.created_at + Math.random()}
-          title={item.created_at}
-          amount={item.amount}
-          type={item.transaction_type}
-          coin={item.asset_code}
-          list={
-            <View key={item.created_at} style={styles.child}>
-              {/* <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Date/Time</Text>
-                </View>
-                <Text style={styles.child__item__value}>{item.created_at}</Text>
-              </View> */}
-              {/*   <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Coin</Text>
-                </View>
-                <Text
-                  style={[
-                    styles.child__item__value,
-                    { textTransform: "uppercase" },
-                  ]}
-                >
-                  {item.asset_code}
-                </Text>
-              </View> */}
-              <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Amount</Text>
-                </View>
-                <Text style={styles.child__item__value}>
-                  {Number(item.amount).toFixed(8)}
-                </Text>
-              </View>
-              <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Fee</Text>
-                </View>
-                <Text style={styles.child__item__value}>
-                  {Number(item.fee).toFixed(8)}
-                </Text>
-              </View>
-              <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Wallet address</Text>
-                </View>
-                <Text style={styles.child__item__value}>{item.address}</Text>
-              </View>
-              <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Type</Text>
-                </View>
-                <Text style={styles.child__item__value}>
-                  {item.transaction_type}
-                </Text>
-              </View>
-              <View style={styles.child__item}>
-                <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Status</Text>
-                </View>
-                <Text style={styles.child__item__value}>{item.status}</Text>
-              </View>
-            </View>
-          }
-        />
-      );
-      i++;
-    }
-    return items;
-  };
+  const tradesBuy = useSelector((state) => state.tradePage.buy);
+  const tradesSell = useSelector((state) => state.tradePage.sell);
+  console.log("tradesBuy", tradesBuy);
+  console.log("tradesSell", tradesSell);
 
-  const [touched, setTouched] = useState(null);
-
+  const [userName, setUsername] = useState("");
+  useEffect(() => {
+    const getName = async () => {
+      const name = await AsyncStorage.getItem("name");
+      setUsername(name);
+    };
+    getName();
+  }, []);
+  const trades = ["s", "s"];
   return (
     <ScrollView>
-      {!loading && history.length === 0 ? (
+      {!loading && trades.length === 0 ? (
         <NothingToShow
           onPress={() => {
             navigation.openDrawer();
           }}
         />
-      ) : !loading && history && history.length > 0 ? (
+      ) : !loading && trades && trades.length > 0 ? (
         <View>
           <ImageBackground
             resizeMode="cover"
             source={require("../../assets/images/transactions/back.png")}
             style={styles.container}
           >
-            <Header onPress={() => navigation.openDrawer()}>
+            <Header
+              onPress={() => {
+                navigation.openDrawer();
+              }}
+            >
               TRADES HISTORY
             </Header>
             <TabBar navigation={navigation} />
-            {!loading && history.length > 0 ? (
+            {trades ? (
               <View style={styles.accordionContainer}>
-                {renderAccordians(history)}
-                {page < lastPage && (
+                {tradesBuy.map((item) => (
+                  <View
+                    key={item.created_at}
+                    style={[
+                      styles.item__container,
+                      item.id % 2 === 0 ? styles.color : null,
+                      item === tradesBuy[0] ? styles.border : null,
+                      item !== tradesBuy[0] ? styles.line : null,
+                    ]}
+                  >
+                    {item.buyer_username === userName ? (
+                      <View style={styles.item__text}>
+                        <Text>
+                          <Text>Trade with</Text>{" "}
+                          <Text style={styles.name}>{item.buyer_username}</Text>
+                        </Text>
+                        <Text style={styles.take}>
+                          + {Number(item.amount).toFixed(8)}{" "}
+                          {item.asset_code.toUpperCase()}
+                        </Text>
+                      </View>
+                    ) : (
+                      <View style={styles.item__text}>
+                        <View>
+                          <Text>
+                            <Text style={{ color: "#fff" }}>Trade with</Text>{" "}
+                            <Text style={styles.name}>
+                              {item.buyer_username}
+                            </Text>
+                          </Text>
+                        </View>
+                        <View>
+                          <Text style={styles.send}>
+                            - {Number(item.amount).toFixed(8)}{" "}
+                            {item.asset_code.toUpperCase()}
+                          </Text>
+                        </View>
+                      </View>
+                    )}
+                    <Text style={styles.item__data}>{item.created_at}</Text>
+                  </View>
+                ))}
+                {page < lastPageBuy && (
                   <View style={{ marginTop: 55 }}>
                     <CustomButton onPress={() => onList()}>
                       loading more
                     </CustomButton>
                   </View>
                 )}
+
                 {loading ? <Preloader /> : null}
               </View>
             ) : null}
+            {/* <Footer /> */}
           </ImageBackground>
-          <Footer />
         </View>
       ) : (
         <Spiner />
@@ -164,9 +139,9 @@ const TradesHistory = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+   /*  height: windowHeight, */
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   child: {
@@ -203,10 +178,10 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-    /* flex: 1, */
-    paddingTop: 100,
-    paddingBottom: 100,
-    marginTop: 100,
+    flex: 1,
+    paddingTop: 20,
+    paddingBottom: 20,
+    marginTop: 50,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
@@ -232,6 +207,44 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
     borderBottomWidth: 1,
     borderColor: "#e1e1e1",
+  },
+  item__container: {
+    width: "88%",
+    height: 65,
+    backgroundColor: "#515151",
+    justifyContent: "center",
+  },
+  item__text: {
+    paddingHorizontal: 20,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  item__data: {
+    paddingLeft: 20,
+    color: "#fff",
+  },
+  take: {
+    color: "#36b526",
+  },
+  send: {
+    color: "#dd4444",
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#fff",
+  },
+  color: {
+    backgroundColor: "#efefef",
+  },
+  border: {
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  line: {
+    borderTopWidth: 1,
+    borderTopColor: "#fff",
   },
 });
 

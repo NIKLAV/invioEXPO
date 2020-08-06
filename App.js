@@ -37,7 +37,7 @@ const Tab = createMaterialTopTabNavigator();
 const { navigation } = NavigationContainer;
 
 const App = () => {
-  const [touched, setTouched] = useState(1); 
+  /* const [touched, setTouched] = useState(1); */ 
   const { state } = useContext(AuthContext);
   return (
     <NavigationContainer>
@@ -72,19 +72,11 @@ const App = () => {
             <Drawer.Screen name="Deposit" component={Deposit} />
             <Drawer.Screen
               name="DepositWithdrawHistory"
-              component={(props) => (
-                <DepositWithdrawHistory
-                  touched={touched}
-                  setTouched={setTouched}
-                  {...props}
-                />
-              )}
+              component={DepositWithdrawHistory}
             />
             <Drawer.Screen
               name="TransferHistory"
-              component={(props) => (
-                <TransferHistory setTouched={setTouched} touched={touched} {...props} />
-              )}
+              component={TransferHistory}
             />
             <Drawer.Screen name="TradesHistory" component={TradesHistory} />
           </>

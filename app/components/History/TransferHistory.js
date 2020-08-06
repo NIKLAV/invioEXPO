@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Text,
+  SafeAreaView,
 } from "react-native";
 import Footer from "../common/Footer/Footer";
 import Accordian from "../common/Accordion/Accordion";
@@ -16,9 +17,12 @@ import CustomButton from "../common/Button/CustomButton";
 import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 import TabBar from "../common/TabBar/TabBar";
 import AsyncStorage from "@react-native-community/async-storage";
+import { FlatList } from "react-native-gesture-handler";
+import { windowHeight } from "../../utilts/windowHeight";
+import { useNavigationState } from "@react-navigation/native";
 
-const TransferHistory = ({ navigation, touched, setTouched }) => {
-  console.log('render transferHistor')
+const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
+
   const page = useSelector((state) => state.transferPage.page);
   const lastPage = useSelector((state) => state.transferPage.lastPage);
   const loading = useSelector((state) => state.transferPage.loading);
@@ -129,12 +133,13 @@ const TransferHistory = ({ navigation, touched, setTouched }) => {
             >
               TRANSFER HISTORY
             </Header>
-            <TabBar touched={touched} setTouched={setTouched}  navigation={navigation} />
+            <TabBar navigation={navigation} />
             {transfer ? (
               <View style={styles.accordionContainer}>
+                
                 {transfer.map((item) => (
                   <View
-                  key={item.created_at}
+                    key={item.created_at}
                     style={[
                       styles.item__container,
                       item.id % 2 === 0 ? styles.color : null,
@@ -168,7 +173,7 @@ const TransferHistory = ({ navigation, touched, setTouched }) => {
                   </View>
                 ))}
                 {page < lastPage && (
-                  <View style={{ marginTop: 55 }}>
+                  <View style={{ marginTop: 55, marginBottom: 55, }}>
                     <CustomButton onPress={() => onList()}>
                       loading more
                     </CustomButton>
@@ -178,8 +183,8 @@ const TransferHistory = ({ navigation, touched, setTouched }) => {
                 {loading ? <Preloader /> : null}
               </View>
             ) : null}
+            {/* <Footer /> */}
           </ImageBackground>
-          <Footer />
         </View>
       ) : (
         <Spiner />
@@ -190,9 +195,12 @@ const TransferHistory = ({ navigation, touched, setTouched }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    display: "flex",
     justifyContent: "center",
-    alignItems: "center",
+    flex: 1,
+    flexDirection: "column",
+    width: "100%",
+    justifyContent: "space-between",
   },
   child: {
     width: "100%",
@@ -228,14 +236,14 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
+    flex: 2,
     /*   paddingTop: 50,
     paddingBottom: 50, */
     marginTop: 50,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    /* backgroundColor: "#e0e0e0", */
-
+    backgroundColor: "#e0e0e0", 
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
   },
