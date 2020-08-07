@@ -1,4 +1,5 @@
 const initialState = {
+  all: [],
   buy: [],
   sell: [],
   page: 1,
@@ -8,15 +9,16 @@ const initialState = {
 };
 
 const tradesReducer = (state = initialState, action) => {
-  console.log("state", state);
+  console.log("action", action);
   switch (action.type) {
     case "FETCH_BUY_TRADES":
       return {
         ...state,
-        lastPageBuy: action.payload.lastPageBuy,
-        buy: [...state.buy, ...action.payload.buy],
+        all: [...state.all, ...action.payload.all],
         lastPageSell: action.payload.lastPageSell,
-        sell: [...state.sell, ...action.payload.sell],
+        lastPageBuy: action.payload.lastPageBuy,
+        /* sell: [...state.sell, ...action.payload.sell], 
+        buy: [...state.buy, ...action.payload.buy], */
       };
     case "CLEAR_TRADES":
       return { ...state, data: [] };

@@ -24,6 +24,7 @@ import axios from "axios";
 import CustomButtonLight from "../common/Button/CustomButtonLight";
 
 const StartPage = ({ navigation }) => {
+  console.log(windowHeight)
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(false);
   const [response, setResponse] = useState({});
@@ -80,11 +81,11 @@ const StartPage = ({ navigation }) => {
               resizeMode="cover"
             >
               <Header onPress={() => navigation.openDrawer()}>
-               {/*  <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  WELCOME TO INVIO
-                </Text> */}
+               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  INVIO
+                </Text>
               </Header>
-              <View style={{ alignItems: "center", marginTop: 40 }}>
+              <View style={{ alignItems: "center", marginTop: 70 }}>
                 <Text style={styles.logo__text}>Available balance</Text>
               </View>
 
@@ -110,7 +111,7 @@ const StartPage = ({ navigation }) => {
                   </CustomButton>
                 </View>
               </View>
-              {/* <Footer /> */}
+              <Footer /> 
             </ImageBackground>
             
           </View>
@@ -134,12 +135,12 @@ const styles = StyleSheet.create({
   },
   inputs: {
     flex: 1,
-    marginTop: 80,
+    marginTop: 100,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   button__container: {
     marginVertical: 20,

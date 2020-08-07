@@ -104,8 +104,7 @@ const Wallets = ({ navigation }) => {
 
   const [touchedC, setTouchedC] = useState("");
 
-  const url = nameCurrency.name ? nameCurrency.name.toUpperCase() : '';
-  
+  const url = nameCurrency.name ? nameCurrency.name.toUpperCase() : "";
 
   return (
     <ScrollView
@@ -124,10 +123,12 @@ const Wallets = ({ navigation }) => {
           source={require("../../assets/images/wallets/back.png")}
           style={styles.container}
         >
-          <Header onPress={() => navigation.openDrawer()}>INVIO WALLET</Header>
-          <View style={styles.logo}>
+          <Header onPress={() => navigation.openDrawer()}>
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>WALLETS</Text>
+          </Header>
+          {/* <View style={styles.logo}>
             <Text style={styles.logo__text}>Wallets</Text>
-          </View>
+          </View> */}
           {errors ? (
             <CustomModal
               errors={errors}
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   box: {
-    marginTop: 20,
+    marginTop: 60,
     height: 175,
     width: 300,
     justifyContent: "center",
@@ -388,13 +389,13 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     paddingTop: 23,
-    marginTop: 15,
+    marginTop: 70,
     paddingBottom: 10,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#e0e0e0",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
   button__container: {
     marginVertical: 20,

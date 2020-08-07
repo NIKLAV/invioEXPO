@@ -3,17 +3,19 @@ import { View, StyleSheet, Text, ImageBackground } from "react-native";
 import { windowHeight } from "../../../utilts/windowHeight";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import TabBar from "../TabBar/TabBar";
 
-export const NothingToShow = ({ onPress }) => {
+export const NothingToShow = ({ onPress, navigation, title }) => {
   const center = windowHeight / 2 - 42;
   return (
     <View style={styles.container}>
       <ImageBackground
         resizeMode="cover"
         source={require("../../../assets/images/transactions/back.png")}
-        style={{ width: "100%", flex: 0.2,}}
+        style={{ width: "100%", flex: 0.3,}}
       >
-        <Header onPress={onPress}>TRANSFER</Header>
+        <Header onPress={onPress}>{title}</Header>
+        <TabBar navigation={navigation} />
       </ImageBackground>
       <View style={styles.containerText}>
         <Text style={styles.text}>Nothing to show</Text>

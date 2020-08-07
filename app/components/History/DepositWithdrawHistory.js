@@ -33,7 +33,7 @@ const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
     dispatch(fetchHistory(page));
   }, [page]);
 
-  console.log('page in depositwithdraw', page)
+  console.log("page in depositwithdraw", page);
 
   console.log("history", history);
   const onList = () => {
@@ -124,6 +124,8 @@ const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
     <ScrollView>
       {!loading && history.length === 0 ? (
         <NothingToShow
+          navigation={navigation}
+          title="DEPOSIT/WITHDRAW HISTORY"
           onPress={() => {
             navigation.openDrawer();
           }}
@@ -154,7 +156,6 @@ const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
             ) : null}
             {/* <Footer /> */}
           </ImageBackground>
-          
         </View>
       ) : (
         <Spiner />
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-    flex: 1, 
+    flex: 1,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,

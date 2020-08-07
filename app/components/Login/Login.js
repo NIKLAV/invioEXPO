@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     flex: 1,
     /* minHeight: windowHeight, */
     display: "flex",
-    /* justifyContent: "space-between", */
+    justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
   },
@@ -208,6 +208,8 @@ const styles = StyleSheet.create({
   },
   input: {
     marginTop: 30,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
   },
   input__error: {
     color: "red",
@@ -223,7 +225,7 @@ const styles = StyleSheet.create({
      marginTop: 50,
      justifyContent: 'center',
      alignItems: 'center', 
-    /* marginBottom: 100, */
+    marginBottom: 50,
   },
 });
 

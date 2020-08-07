@@ -22,7 +22,6 @@ import { windowHeight } from "../../utilts/windowHeight";
 import { useNavigationState } from "@react-navigation/native";
 
 const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
-
   const page = useSelector((state) => state.transferPage.page);
   const lastPage = useSelector((state) => state.transferPage.lastPage);
   const loading = useSelector((state) => state.transferPage.loading);
@@ -115,6 +114,8 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
     <ScrollView>
       {!loading && transfer.length === 0 ? (
         <NothingToShow
+         title='TRANSFER HISTORY'
+          navigation={navigation}
           onPress={() => {
             navigation.openDrawer();
           }}
@@ -136,7 +137,6 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
             <TabBar navigation={navigation} />
             {transfer ? (
               <View style={styles.accordionContainer}>
-                
                 {transfer.map((item) => (
                   <View
                     key={item.created_at}
@@ -173,7 +173,7 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
                   </View>
                 ))}
                 {page < lastPage && (
-                  <View style={{ marginTop: 55, marginBottom: 55, }}>
+                  <View style={{ marginTop: 55, marginBottom: 55 }}>
                     <CustomButton onPress={() => onList()}>
                       loading more
                     </CustomButton>
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    backgroundColor: "#e0e0e0", 
+    backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
   },

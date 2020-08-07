@@ -22,8 +22,9 @@ const TradesHistory = ({ navigation }) => {
   const page = useSelector((state) => state.tradePage.page);
   const lastPageBuy = useSelector((state) => state.tradePage.lastPageBuy);
   const lastPageSell = useSelector((state) => state.tradePage.lastPageSell);
+  const all = useSelector((state) => state.tradePage.all);
   const loading = useSelector((state) => state.tradePage.loading);
-
+  console.log("all in historytrades", all);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchTrades(page));
@@ -35,10 +36,10 @@ const TradesHistory = ({ navigation }) => {
     }
   };
 
-  const tradesBuy = useSelector((state) => state.tradePage.buy);
+  /* const tradesBuy = useSelector((state) => state.tradePage.buy);
   const tradesSell = useSelector((state) => state.tradePage.sell);
   console.log("tradesBuy", tradesBuy);
-  console.log("tradesSell", tradesSell);
+  console.log("tradesSell", tradesSell); */
 
   const [userName, setUsername] = useState("");
   useEffect(() => {
@@ -48,16 +49,18 @@ const TradesHistory = ({ navigation }) => {
     };
     getName();
   }, []);
-  const trades = ["s", "s"];
+
   return (
     <ScrollView>
-      {!loading && trades.length === 0 ? (
+      {!loading && all.length === 0 ? (
         <NothingToShow
+          title='TRADES HISTORY'
+          navigation={navigation}
           onPress={() => {
             navigation.openDrawer();
           }}
         />
-      ) : !loading && trades && trades.length > 0 ? (
+      ) : !loading && all && all.length > 0 ? (
         <View>
           <ImageBackground
             resizeMode="cover"
@@ -74,46 +77,49 @@ const TradesHistory = ({ navigation }) => {
             <TabBar navigation={navigation} />
             {trades ? (
               <View style={styles.accordionContainer}>
-                {tradesBuy.map((item) => (
+                {all.map((item) => (
                   <View
                     key={item.created_at}
                     style={[
                       styles.item__container,
                       item.id % 2 === 0 ? styles.color : null,
-                      item === tradesBuy[0] ? styles.border : null,
-                      item !== tradesBuy[0] ? styles.line : null,
+                      item === all[0] ? styles.border : null,
+                      item !== all[0] ? styles.line : null,
                     ]}
                   >
-                    {item.buyer_username === userName ? (
-                      <View style={styles.item__text}>
+                    <View style={styles.item__text}>
+                      <Text>
                         <Text>
-                          <Text>Trade with</Text>{" "}
-                          <Text style={styles.name}>{item.buyer_username}</Text>
-                        </Text>
-                        <Text style={styles.take}>
-                          + {Number(item.amount).toFixed(8)}{" "}
+                          Trade with{" "}
+                          {item.buyer_username === userName
+                            ? item.seller_username
+                            : item.buyer_username}
+                        </Text>{" "}
+                        <Text style={styles.name}>{item.buyer_username}</Text>
+                      </Text>
+                      <Text style={styles.item__data}>{item.created_at}</Text>
+
+                      {/*  <Text style={styles.take}>
+                          got + {Number(item.amount).toFixed(8)}{" "}
                           {item.asset_code.toUpperCase()}
-                        </Text>
-                      </View>
-                    ) : (
-                      <View style={styles.item__text}>
-                        <View>
-                          <Text>
-                            <Text style={{ color: "#fff" }}>Trade with</Text>{" "}
-                            <Text style={styles.name}>
-                              {item.buyer_username}
-                            </Text>
-                          </Text>
-                        </View>
-                        <View>
-                          <Text style={styles.send}>
-                            - {Number(item.amount).toFixed(8)}{" "}
-                            {item.asset_code.toUpperCase()}
-                          </Text>
-                        </View>
-                      </View>
-                    )}
-                    <Text style={styles.item__data}>{item.created_at}</Text>
+                        </Text> */}
+                    </View>
+                    <View>
+                      <Text>
+                        paid -
+                        {item.buyer_username !== userName
+                          ? `${item.amount} ${item.asset_code.toUpperCase()}`
+                          : item.price}
+                      </Text>
+                      <Text>
+                        got +
+                        {item.buyer_username === userName
+                          ? item.amount + item.asset_code.toUpperCase()
+                          : item.price}
+                      </Text>
+                    </View>
+
+                    {/* <Text style={styles.item__data}>{item.created_at}</Text> */}
                   </View>
                 ))}
                 {page < lastPageBuy && (
@@ -139,7 +145,7 @@ const TradesHistory = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-   /*  height: windowHeight, */
+    /*  height: windowHeight, */
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -211,8 +217,10 @@ const styles = StyleSheet.create({
   item__container: {
     width: "88%",
     height: 65,
-    backgroundColor: "#515151",
+    backgroundColor: "#fff",
     justifyContent: "center",
+    borderRadius: 15,
+    marginVertical: 10,
   },
   item__text: {
     paddingHorizontal: 20,
@@ -222,7 +230,7 @@ const styles = StyleSheet.create({
   },
   item__data: {
     paddingLeft: 20,
-    color: "#fff",
+    color: "#5e5e5e",
   },
   take: {
     color: "#36b526",

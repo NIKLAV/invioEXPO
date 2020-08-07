@@ -12,10 +12,11 @@ import { useNavigationState } from "@react-navigation/native";
 const TabBar = ({ navigation }) => {
   
   const index = useNavigationState((state) => state.index);
+  console.log(index)
 
-
+  
   const onPress1 = () => {
-    navigation.navigate("DepositWithdrawHistory");
+    navigation.navigate("TradesHistory");
   };
 
   const onPress2 = () => {
@@ -23,7 +24,7 @@ const TabBar = ({ navigation }) => {
   };
 
   const onPress3 = () => {
-    navigation.navigate("TradesHistory");
+    navigation.navigate("DepositWithdrawHistory");
   };
 
   return (

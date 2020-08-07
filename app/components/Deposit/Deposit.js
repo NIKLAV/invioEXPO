@@ -107,6 +107,9 @@ const Deposit = ({ navigation, route }) => {
             >
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>DEPOSIT</Text>
             </Header>
+            <View style={{ alignItems: "center", marginTop: 50 }}>
+              <Text style={styles.logo__text}>Available balance</Text>
+            </View>
             <View style={styles.logo}>
               <Balance name={name} value={value} />
             </View>
@@ -154,7 +157,7 @@ const styles = StyleSheet.create({
     /* justifyContent: "center", */
   },
   logo: {
-    marginTop: 50,
+   /*  marginTop: 50, */
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -196,6 +199,11 @@ const styles = StyleSheet.create({
   },
   button__container: {
     marginTop: 40,
+  },
+  logo__text: {
+    fontSize: 15,
+    color: "white",
+    fontWeight: "bold",
   },
 });
 

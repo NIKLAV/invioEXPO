@@ -155,7 +155,7 @@ const WithDraw = ({ navigation, route }) => {
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>WITHDRAW</Text>
             </Header>
             <View style={{ alignItems: "center", marginTop: 40 }}>
-              <Text style={styles.logo__text}>Availible balance:</Text>
+              <Text style={styles.logo__text}>Available balance</Text>
             </View>
 
             <Balance name={data.name} value={currentValue} />

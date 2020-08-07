@@ -84,17 +84,16 @@ export const generateAddress = (name) => async (dispatch) => {
 };
 
 export const fetchHistory = (page) => async (dispatch) => {
-/*   let i = 1;
+  /*   let i = 1;
   if (page === i) {
     dispatch({ type: "CLEAR_HISTORY" });
   } else i++ */
-  
 
   dispatch({ type: "LOADING_HISTORY" });
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=8`,
+    `http://185.181.8.210:8901/api/user/wallets/history?current_page=${page}&per_page=11`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
@@ -120,7 +119,7 @@ export const fetchTransfer = (page) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/wallets/transfers?current_page=${page}&per_page=3`,
+    `http://185.181.8.210:8901/api/user/wallets/transfers?current_page=${page}&per_page=11`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
@@ -172,7 +171,6 @@ export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
     });
 };
 
-
 export const fetchTrades = (page) => async (dispatch) => {
   /* dispatch({ type: "CLEAR_TRANSACTIONS" }); */
 
@@ -180,24 +178,28 @@ export const fetchTrades = (page) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/trading/closed_trades?current_page=${page}&per_page=10`,
+    `http://185.181.8.210:8901/api/user/trading/closed_trades?current_page=${page}&per_page=11`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",
       },
     }
   );
-  const concatArray = [...response.data.buy.data, ...response.data.sell.data]
-  console.log('concatArrat', concatArray)
+  const concatArray = [...response.data.buy.data, ...response.data.sell.data];
+  console.log("concatArrat", concatArray);
   dispatch({ type: "LOADING_TRADES_SUCCESS" });
-  console.log("response trades", response /* response.data.buy.data, response.data.sell.data */);
+  console.log(
+    "response trades",
+    response /* response.data.buy.data, response.data.sell.data */
+  );
   dispatch({
     type: "FETCH_BUY_TRADES",
     payload: {
-      buy: response.data.buy.data,
-      sell:response.data.sell.data,
+      /*  buy: response.data.buy.data,
+      sell:response.data.sell.data,*/
       lastPageBuy: response.data.buy.last_page,
       lastPageSell: response.data.sell.last_page,
+      all: concatArray,
     },
   });
 };
