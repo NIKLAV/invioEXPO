@@ -171,6 +171,12 @@ export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
     });
 };
 
+function sortFunction(a, b) {
+  let dateA = new Date(a.created_at).getTime();
+  let dateB = new Date(b.created_at).getTime();
+  return dateA < dateB ? 1 : -1;
+}
+
 export const fetchTrades = (page) => async (dispatch) => {
   /* dispatch({ type: "CLEAR_TRANSACTIONS" }); */
 
@@ -186,12 +192,9 @@ export const fetchTrades = (page) => async (dispatch) => {
     }
   );
   const concatArray = [...response.data.buy.data, ...response.data.sell.data];
-  console.log("concatArrat", concatArray);
+
   dispatch({ type: "LOADING_TRADES_SUCCESS" });
-  console.log(
-    "response trades",
-    response /* response.data.buy.data, response.data.sell.data */
-  );
+
   dispatch({
     type: "FETCH_BUY_TRADES",
     payload: {
@@ -199,7 +202,7 @@ export const fetchTrades = (page) => async (dispatch) => {
       sell:response.data.sell.data,*/
       lastPageBuy: response.data.buy.last_page,
       lastPageSell: response.data.sell.last_page,
-      all: concatArray,
+      all: concatArray.sort(sortFunction),
     },
   });
 };

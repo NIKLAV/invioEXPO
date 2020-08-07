@@ -26,9 +26,14 @@ const TradesHistory = ({ navigation }) => {
   const loading = useSelector((state) => state.tradePage.loading);
   console.log("all in historytrades", all);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchTrades(page));
-  }, [page]);
+  useEffect(
+    () => {
+      dispatch(fetchTrades(page));
+    },
+    [
+      /* page */
+    ]
+  );
 
   const onList = () => {
     if (page < lastPage) {
@@ -54,7 +59,7 @@ const TradesHistory = ({ navigation }) => {
     <ScrollView>
       {!loading && all.length === 0 ? (
         <NothingToShow
-          title='TRADES HISTORY'
+          title="TRADES HISTORY"
           navigation={navigation}
           onPress={() => {
             navigation.openDrawer();
@@ -75,51 +80,59 @@ const TradesHistory = ({ navigation }) => {
               TRADES HISTORY
             </Header>
             <TabBar navigation={navigation} />
-            {trades ? (
+            {all ? (
               <View style={styles.accordionContainer}>
                 {all.map((item) => (
-                  <View
-                    key={item.created_at}
-                    style={[
-                      styles.item__container,
-                      item.id % 2 === 0 ? styles.color : null,
-                      item === all[0] ? styles.border : null,
-                      item !== all[0] ? styles.line : null,
-                    ]}
-                  >
+                  <View key={item.created_at} style={styles.item__container}>
                     <View style={styles.item__text}>
-                      <Text>
+                      <View>
                         <Text>
-                          Trade with{" "}
-                          {item.buyer_username === userName
-                            ? item.seller_username
-                            : item.buyer_username}
-                        </Text>{" "}
-                        <Text style={styles.name}>{item.buyer_username}</Text>
-                      </Text>
-                      <Text style={styles.item__data}>{item.created_at}</Text>
-
-                      {/*  <Text style={styles.take}>
-                          got + {Number(item.amount).toFixed(8)}{" "}
-                          {item.asset_code.toUpperCase()}
-                        </Text> */}
+                          <Text style={{ color: "#5e5e5e" }}>
+                            Trade with{" "}
+                            {item.buyer_username === userName ? (
+                              <Text style={styles.name}>
+                                {item.seller_username}
+                              </Text>
+                            ) : (
+                              <Text style={styles.name}>
+                                {item.buyer_username}
+                              </Text>
+                            )}
+                          </Text>{" "}
+                        </Text>
+                      </View>
+                      <View>
+                        <Text style={styles.item__data}>{item.created_at}</Text>
+                      </View>
                     </View>
-                    <View>
+                    <View style={{ paddingLeft: 10 }}>
                       <Text>
                         paid -
-                        {item.buyer_username !== userName
-                          ? `${item.amount} ${item.asset_code.toUpperCase()}`
-                          : item.price}
+                        {item.buyer_username !== userName ? (
+                          <Text style={styles.send}>
+                            {Number(item.amount).toFixed(8) +
+                              item.asset_code.toUpperCase()}
+                          </Text>
+                        ) : (
+                          <Text style={styles.send}>
+                            {Number(item.price).toFixed(8)}
+                          </Text>
+                        )}
                       </Text>
                       <Text>
                         got +
-                        {item.buyer_username === userName
-                          ? item.amount + item.asset_code.toUpperCase()
-                          : item.price}
+                        {item.buyer_username === userName ? (
+                          <Text style={styles.take}>
+                            {Number(item.amount).toFixed(8) +
+                              item.asset_code.toUpperCase()}
+                          </Text>
+                        ) : (
+                          <Text style={styles.take}>
+                            {Number(item.price).toFixed(8)}
+                          </Text>
+                        )}
                       </Text>
                     </View>
-
-                    {/* <Text style={styles.item__data}>{item.created_at}</Text> */}
                   </View>
                 ))}
                 {page < lastPageBuy && (
@@ -150,41 +163,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  child: {
-    width: "100%",
-    backgroundColor: "#fff",
-    padding: 16,
-  },
-  child__item: {
-    height: 45,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    borderBottomWidth: 1,
-    borderColor: "#e1e1e1",
-    width: "100%",
-  },
-  child__item__text: {
-    /*  display: 'flex',
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignContent: 'center', */
-    paddingLeft: 8,
-    /* height: 45, */
-    /* width: "40%", */
-    /* backgroundColor: "#f4f4f4", */
-    /* textAlignVertical: "center", */
-  },
-  child__item__value: {
-    /* height: 45, */
-    paddingLeft: 8,
-    width: "60%",
-    backgroundColor: "#fff",
-    textAlignVertical: "center",
-  },
+
   accordionContainer: {
-    flex: 1,
+    /* flex: 1, */
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,
@@ -202,34 +183,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  test: {
-    display: "flex",
-    justifyContent: "center",
-    /*  alignItems: 'center', */
-    flexDirection: "column",
-    width: "40%",
-    height: 45,
-    backgroundColor: "#f4f4f4",
-    textAlignVertical: "center",
-    borderBottomWidth: 1,
-    borderColor: "#e1e1e1",
-  },
   item__container: {
-    width: "88%",
-    height: 65,
+    width: "90%",
+    height: 75,
     backgroundColor: "#fff",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     borderRadius: 15,
     marginVertical: 10,
   },
   item__text: {
-    paddingHorizontal: 20,
+    /* width: '90%', */
+    paddingLeft: 10,
+    paddingRight: 10,
     justifyContent: "space-between",
     flexDirection: "row",
-    alignItems: "center",
+    /* alignItems: "flex-start", */
   },
   item__data: {
-    paddingLeft: 20,
     color: "#5e5e5e",
   },
   take: {
@@ -241,7 +211,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "bold",
     fontSize: 16,
-    color: "#fff",
+    color: "#212123",
   },
   color: {
     backgroundColor: "#efefef",
