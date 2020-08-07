@@ -139,7 +139,7 @@ const Send = ({ navigation }) => {
             resizeMode="cover"
           >
             <Header onPress={() => navigation.openDrawer()}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>SEND</Text>
+              <Text style={{ fontSize: 28, fontWeight: "bold" }}>SEND</Text>
             </Header>
             {/* <View style={{ alignItems: "center", marginTop: 15 }}>
               <Text style={styles.logo__text}>Send</Text>

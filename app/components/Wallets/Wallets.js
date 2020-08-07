@@ -124,7 +124,7 @@ const Wallets = ({ navigation }) => {
           style={styles.container}
         >
           <Header onPress={() => navigation.openDrawer()}>
-            <Text style={{ fontWeight: "bold", fontSize: 20 }}>WALLETS</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 28 }}>WALLETS</Text>
           </Header>
           {/* <View style={styles.logo}>
             <Text style={styles.logo__text}>Wallets</Text>

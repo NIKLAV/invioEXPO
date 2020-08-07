@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Text,
+  SafeAreaView,
 } from "react-native";
 import Footer from "../common/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
@@ -52,7 +53,7 @@ const TradesHistory = ({ navigation }) => {
   }, []);
 
   return (
-    <ScrollView>
+    <SafeAreaView>
       {!loading && all.length === 0 ? (
         <NothingToShow
           title="TRADES HISTORY"
@@ -78,7 +79,9 @@ const TradesHistory = ({ navigation }) => {
             <TabBar navigation={navigation} />
             {all ? (
               <View style={styles.accordionContainer}>
-                {/*   <FlatList
+                {/* <FlatList
+                  onEndReachedThreshold={0.6}
+                  onEndReached={() => onList()}
                   data={all}
                   renderItem={({ item }) => (
                     <View key={item.created_at} style={styles.item__container}>
@@ -188,7 +191,7 @@ const TradesHistory = ({ navigation }) => {
                       </Text>
                     </View>
                   </View>
-                ))}
+                ))} 
                 {page < lastPageBuy && (
                   <View style={{ marginTop: 55 }}>
                     <CustomButton onPress={() => onList()}>
@@ -206,13 +209,13 @@ const TradesHistory = ({ navigation }) => {
       ) : (
         <Spiner />
       )}
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    /*  height: windowHeight, */
+    height: windowHeight,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
