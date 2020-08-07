@@ -17,6 +17,7 @@ import TabBar from "../common/TabBar/TabBar";
 import AsyncStorage from "@react-native-community/async-storage";
 import { windowHeight } from "../../utilts/windowHeight";
 import { useNavigationState } from "@react-navigation/native";
+import { FlatList } from "react-native-gesture-handler";
 
 const TradesHistory = ({ navigation }) => {
   const page = useSelector((state) => state.tradePage.page);
@@ -26,14 +27,9 @@ const TradesHistory = ({ navigation }) => {
   const loading = useSelector((state) => state.tradePage.loading);
   console.log("all in historytrades", all);
   const dispatch = useDispatch();
-  useEffect(
-    () => {
-      dispatch(fetchTrades(page));
-    },
-    [
-      /* page */
-    ]
-  );
+  useEffect(() => {
+    dispatch(fetchTrades(page));
+  }, [page]);
 
   const onList = () => {
     if (page < lastPage) {
@@ -82,6 +78,64 @@ const TradesHistory = ({ navigation }) => {
             <TabBar navigation={navigation} />
             {all ? (
               <View style={styles.accordionContainer}>
+                {/*   <FlatList
+                  data={all}
+                  renderItem={({ item }) => (
+                    <View key={item.created_at} style={styles.item__container}>
+                      <View style={styles.item__text}>
+                        <View>
+                          <Text>
+                            <Text style={{ color: "#5e5e5e" }}>
+                              Trade with{" "}
+                              {item.buyer_username === userName ? (
+                                <Text style={styles.name}>
+                                  {item.seller_username}
+                                </Text>
+                              ) : (
+                                <Text style={styles.name}>
+                                  {item.buyer_username}
+                                </Text>
+                              )}
+                            </Text>{" "}
+                          </Text>
+                        </View>
+                        <View>
+                          <Text style={styles.item__data}>
+                            {item.created_at}
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={{ paddingLeft: 10 }}>
+                        <Text>
+                          paid -
+                          {item.buyer_username !== userName ? (
+                            <Text style={styles.send}>
+                              {Number(item.amount).toFixed(8) +
+                                item.asset_code.toUpperCase()}
+                            </Text>
+                          ) : (
+                            <Text style={styles.send}>
+                              {Number(item.price).toFixed(8)}
+                            </Text>
+                          )}
+                        </Text>
+                        <Text>
+                          got +
+                          {item.buyer_username === userName ? (
+                            <Text style={styles.take}>
+                              {Number(item.amount).toFixed(8) +
+                                item.asset_code.toUpperCase()}
+                            </Text>
+                          ) : (
+                            <Text style={styles.take}>
+                              {Number(item.price).toFixed(8)}
+                            </Text>
+                          )}
+                        </Text>
+                      </View>
+                    </View>
+                  )}
+                /> */}
                 {all.map((item) => (
                   <View key={item.created_at} style={styles.item__container}>
                     <View style={styles.item__text}>
@@ -165,7 +219,7 @@ const styles = StyleSheet.create({
   },
 
   accordionContainer: {
-    /* flex: 1, */
+    flex: 1,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,
@@ -184,7 +238,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   item__container: {
-    width: "90%",
+    width: "100%",
     height: 75,
     backgroundColor: "#fff",
     justifyContent: "space-evenly",
