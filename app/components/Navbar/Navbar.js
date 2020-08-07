@@ -15,19 +15,21 @@ import { fetchHistory, fetchWallets } from "../../redux/actions";
 import { useDispatch } from "react-redux";
 
 const Navbar = (props) => {
+  const { signout, state } = useContext(AuthContext);
   const [userName, setUsername] = useState("");
   const dispatch = useDispatch()
   useEffect(() => {
     const getName = async () => {
       const name = await AsyncStorage.getItem("name");
+      console.log('name', name)
       setUsername(name);
     };
     getName();
-  }, []);
+  }, [signout]);
 
 
   const { setCredentialsToNull } = useForm();
-  const { signout, state } = useContext(AuthContext);
+  
 
   return (
     <DrawerContentScrollView {...props} style={{ paddingVertical: 35 }}>
