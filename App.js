@@ -14,8 +14,6 @@ import WithDraw from "./app/components/WithDraw/WithDraw";
 import Wallets from "./app/components/Wallets/Wallets";
 import Send from "./app/components/Send/Send";
 import Navbar from "./app/components/Navbar/Navbar";
-import DepositWithDraw from "./app/components/DepositWithDraw/DepositWithDraw";
-import SendTable from "./app/components/SendTable/SendTable";
 import Deposit from "./app/components/Deposit/Deposit";
 import { createStackNavigator } from "@react-navigation/stack";
 
