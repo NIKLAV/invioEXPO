@@ -28,8 +28,8 @@ import { Provider } from "react-redux";
 import { store } from "./app/redux/store";
 import StartPage from "./app/components/StartPage/StartPage";
 import TransferHistory from "./app/components/History/TransferHistory";
-import DepositWithdrawHistory from "./app/components/History/DepositWithdrawHistory";
 import TradesHistory from "./app/components/History/TradesHistory";
+import DepositWithdrawHistory from "./app/components/History/DepositWithdrawHistory";
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -68,16 +68,14 @@ const App = () => {
             <Drawer.Screen name="Wallets" component={Wallets} />
             <Drawer.Screen name="Send" component={Send} />
             <Drawer.Screen name="WithDraw" component={WithDraw} />
-            <Drawer.Screen name="DepositWithDraw" component={DepositWithDraw} />
-            <Drawer.Screen name="SendTable" component={SendTable} />
             <Drawer.Screen name="Deposit" component={Deposit} />
-            <Drawer.Screen name="TradesHistory" component={TradesHistory} />
-
-            <Drawer.Screen name="TransferHistory" component={TransferHistory} />
             <Drawer.Screen
               name="DepositWithdrawHistory"
               component={DepositWithdrawHistory}
             />
+
+            <Drawer.Screen name="TransferHistory" component={TransferHistory} />
+            <Drawer.Screen name="TradesHistory" component={TradesHistory} />
           </>
         )}
       </Drawer.Navigator>

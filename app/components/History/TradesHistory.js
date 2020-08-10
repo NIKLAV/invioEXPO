@@ -53,7 +53,7 @@ const TradesHistory = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <ScrollView>
       {!loading && all.length === 0 ? (
         <NothingToShow
           title="TRADES HISTORY"
@@ -209,25 +209,26 @@ const TradesHistory = ({ navigation }) => {
       ) : (
         <Spiner />
       )}
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    height: windowHeight,
+    minHeight: windowHeight,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
   },
 
   accordionContainer: {
+    /* minHeight: windowHeight, */
     flex: 1,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    /* justifyContent: "center", */
+    /* alignItems: "center", */
     width: "100%",
     backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,

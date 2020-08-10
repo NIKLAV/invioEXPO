@@ -9,6 +9,8 @@ import {
   Platform,
   Linking,
   Image,
+  Dimensions,
+  TouchableOpacity,
 } from "react-native";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -23,8 +25,10 @@ import { windowHeight } from "../../utilts/windowHeight";
 import axios from "axios";
 import CustomButtonLight from "../common/Button/CustomButtonLight";
 
+const windowWidth = Dimensions.get("window").width;
 const StartPage = ({ navigation }) => {
-  console.log(windowHeight)
+  console.log(windowHeight);
+
   const dispatch = useDispatch();
   const [isLoading, setIsloading] = useState(false);
   const [response, setResponse] = useState({});
@@ -81,9 +85,7 @@ const StartPage = ({ navigation }) => {
               resizeMode="cover"
             >
               <Header onPress={() => navigation.openDrawer()}>
-               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  INVIO
-                </Text>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>INVIO</Text>
               </Header>
               <View style={{ alignItems: "center", marginTop: 70 }}>
                 <Text style={styles.logo__text}>Available balance</Text>
@@ -92,10 +94,35 @@ const StartPage = ({ navigation }) => {
               <Balance name="" value={total_usd} />
 
               <View style={styles.inputs}>
-                <View style={styles.button__container}>
-                  {/* <Image
-                    source={require("../../assets/images/navbar/wallets.png")}
-                  /> */}
+                <TouchableOpacity
+                  onPress={onPressDepositWithDraw}
+                  style={styles.button}
+                >
+                  <Image
+                    style={styles.button__image}
+                    source={require("../../assets/images/startPage/wallet.png")}
+                  />
+                  <Text style={styles.button__text}>Wallets</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={onPressSend} style={[styles.button, {backgroundColor: '#868686'}]}>
+                  <Image
+                    style={styles.button__image}
+                    source={require("../../assets/images/startPage/sendW.png")}
+                  />
+                  <Text style={[styles.button__text, {color: '#fff'}]}>Send</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={onPressMarcetplace}
+                  style={styles.button}
+                >
+                  <Image
+                    style={styles.button__image}
+                    source={require("../../assets/images/startPage/marketplace.png")}
+                  />
+                  <Text style={styles.button__text}>Marketplace</Text>
+                </TouchableOpacity>
+              </View>
+              {/* <View style={styles.button__container}>
                   <CustomButton onPress={onPressDepositWithDraw}>
                     Deposit/Withdraw
                   </CustomButton>
@@ -109,11 +136,10 @@ const StartPage = ({ navigation }) => {
                   <CustomButton onPress={onPressMarcetplace}>
                     Marketplace
                   </CustomButton>
-                </View>
-              </View>
-              <Footer /> 
+                </View> */}
+
+              <Footer />
             </ImageBackground>
-            
           </View>
         )}
       </KeyboardAvoidingView>
@@ -145,8 +171,29 @@ const styles = StyleSheet.create({
   button__container: {
     marginVertical: 20,
     flexDirection: "row",
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    /* flex: 1, */
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "25%",
+    width: windowWidth,
+    /* backgroundColor: "red", */
+  },
+
+  newButtonContainer: {
+    flex: 1,
+  },
+  button__image: {
+    position: "absolute",
+    left: 70,
+  },
+  button__text: {
+    fontSize: 22,
+    color: "#212123",
   },
 });
 

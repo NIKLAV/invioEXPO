@@ -197,10 +197,10 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     justifyContent: "center",
-    flex: 1,
+    /* flex: 1, */
+    minHeight: windowHeight,
     flexDirection: "column",
     width: "100%",
-    justifyContent: "space-between",
   },
   child: {
     width: "100%",
@@ -236,12 +236,12 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-    flex: 2,
+    flex: 1,
     /*   paddingTop: 50,
     paddingBottom: 50, */
     marginTop: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    /* justifyContent: "center", */
+    /* alignItems: "center", */
     width: "100%",
     backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,

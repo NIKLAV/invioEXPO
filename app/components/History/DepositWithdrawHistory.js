@@ -20,7 +20,7 @@ import CustomButton from "../common/Button/CustomButton";
 import { NothingToShow } from "../common/NothingToShow/NothingToShow";
 import TabBar from "../common/TabBar/TabBar";
 
-const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
+const DepositWithdrawHistory = ({ navigation }) => {
   console.log("render History");
   const dispatch = useDispatch();
   const page = useSelector((state) => state.historyPage.page);
@@ -166,10 +166,9 @@ const DepositWithdrawHistory = ({ navigation /* touched, setTouched */ }) => {
 
 const styles = StyleSheet.create({
   container: {
-    /* flex: 1, */
-    /* height: windowHeight, */
+    minHeight: windowHeight,
     width: "100%",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
   },
   child: {
@@ -206,12 +205,13 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
+   /*  minHeight: windowHeight, */
     flex: 1,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,
-    justifyContent: "center",
-    alignItems: "center",
+    /* justifyContent: "center", */
+    alignItems: "center", 
     width: "100%",
     backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,

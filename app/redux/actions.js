@@ -184,7 +184,7 @@ export const fetchTrades = (page) => async (dispatch) => {
   const token = await AsyncStorage.getItem("token");
 
   const response = await axios.get(
-    `http://185.181.8.210:8901/api/user/trading/closed_trades?current_page=${page}&per_page=4`,
+    `http://185.181.8.210:8901/api/user/trading/closed_trades?current_page=${page}&per_page=11`,
     {
       headers: {
         authorization: token ? `Bearer ${token}` : "",

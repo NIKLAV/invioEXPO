@@ -7,14 +7,16 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import { useNavigationState } from "@react-navigation/native";
+import { useNavigationState, useRoute } from "@react-navigation/native";
 
 const TabBar = ({ navigation }) => {
-  
-  const index = useNavigationState((state) => state.index);
-  console.log(index)
-
-  
+  const route = useRoute();
+  const state = useNavigationState((state) => state)
+  let index = useNavigationState((state) => state.index);
+  console.log(index);
+  console.log(state);
+  console.log(route)
+ 
   const onPress1 = () => {
     navigation.navigate("TradesHistory");
   };
@@ -45,12 +47,12 @@ const TabBar = ({ navigation }) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => onPress2()}
-          style={[styles.buttonCenter, index === 8 ? styles.back : null]}
+          style={[styles.buttonCenter, index === 6 ? styles.back : null]}
         >
           <Image
             style={styles.imageCenter}
             source={
-              index === 8
+              index === 6
                 ? require("../../../assets/humansG.png")
                 : require("../../../assets/humansW.png")
             }
@@ -60,14 +62,14 @@ const TabBar = ({ navigation }) => {
           onPress={() => {
             onPress3();
           }}
-          style={[styles.buttonRight, index === 9 ? styles.back : null]}
+          style={[styles.buttonRight, index === 5 ? styles.back : null]}
         >
           <Image
             style={styles.imageRight}
             source={
-              index === 9
+              index === 5
                 ? require("../../../assets/humanG.png")
-                : require("../../../assets/HumanW.png")
+                : require("../../../assets/humanW.png")
             }
           />
         </TouchableOpacity>
