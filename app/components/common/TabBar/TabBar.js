@@ -69,7 +69,7 @@ const TabBar = ({ navigation }) => {
             source={
               index === 5
                 ? require("../../../assets/humanG.png")
-                : require("../../../assets/humanW.png")
+                : require("../../../assets/HumanW.png")
             }
           />
         </TouchableOpacity>
