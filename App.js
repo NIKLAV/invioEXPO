@@ -9,7 +9,6 @@ import React, { useContext, useState } from "react";
 import Login from "./app/components/Login/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import WithDraw from "./app/components/WithDraw/WithDraw";
 import Wallets from "./app/components/Wallets/Wallets";
 import Send from "./app/components/Send/Send";
@@ -31,7 +30,6 @@ import DepositWithdrawHistory from "./app/components/History/DepositWithdrawHist
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
-const Tab = createMaterialTopTabNavigator();
 const { navigation } = NavigationContainer;
 
 const App = () => {

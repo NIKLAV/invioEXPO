@@ -137,15 +137,15 @@ export const fetchTransfer = (page) => async (dispatch) => {
   });
 };
 
-export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
-  console.log("page on action", page);
+export const sendSEND = (assetId, amount, name, page, currencyCode) => async (dispatch) => {
+
   dispatch({ type: "CURRENT_PAGE_ONE" });
   const bd = {
     asset_id: assetId,
     amount: amount,
     username: name,
   };
-
+  console.warn('bd', bd)
   const token = await AsyncStorage.getItem("token");
 
   fetch("http://185.181.8.210:8901/api/user/wallets/transfers", {
@@ -162,7 +162,12 @@ export const sendSEND = (assetId, amount, name, page) => async (dispatch) => {
         dispatch({ type: "ADD_ERROR_SEND", payload: response.errors });
       } else {
         dispatch({ type: "CLEAR_TRANSACTIONS" });
-        dispatch({ type: "SEND_SEND" });
+        dispatch({ type: "SEND_SEND", payload: {
+          username: bd.username,
+          currencyCode: currencyCode,
+          amount: bd.amount,
+
+        } });
         if (page === 1) {
           dispatch(fetchTransfer(1));
         }

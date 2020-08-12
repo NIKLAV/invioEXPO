@@ -6,7 +6,7 @@ import CustomButton from "../../common/Button/CustomButton";
 import Footer from "../Footer/Footer";
 
 const CustomModal = ({ clearErrorMessage, errors }) => {
-  console.log(errors);
+  console.warn(errors.toString().split(' ').join('').includes('successfully!'));
   if (errors.amount && errors.amount > 1)
     errors = ["The amount must be a number"];
   if (errors.username) {
@@ -44,7 +44,7 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
         >
           <View style={styles.container}>
             <Text style={{ fontSize: 36, fontWeight: "bold", marginTop: 140 }}>
-              {errors && !errors.includes("Successfully!") ? (
+              {errors && !errors.includes("Successfully!") && !errors.toString().split(' ').join('').includes('successfully!') ? (
                 <Text>Error</Text>
               ) : null}
             </Text>
@@ -65,7 +65,7 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
               )}
             </View>
             <CustomButton onPress={() => clearErrorMessage()}>
-              {errors.includes("Successfully!") ? (
+              {errors.includes("Successfully!") || errors.toString().split(' ').join('').includes('successfully!') ?  (
                 <Text>Ok</Text>
               ) : (
                 <Text>Try again</Text>

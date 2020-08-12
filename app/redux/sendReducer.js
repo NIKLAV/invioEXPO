@@ -8,7 +8,12 @@ const sendReducer = (state = initialState, action) => {
     case 'SEND_SEND':
       return {
         ...state,
-        errorMessagesSend: [...state.errorMessagesSend, 'Successfully!'],
+        errorMessagesSend: [
+          ...state.errorMessagesSend,
+          `You sent ${action.payload.amount} ${
+            action.payload.currencyCode
+          } to @${action.payload.username} successfully!`,
+        ],
       };
     case 'ADD_ERROR_SEND':
       return {...state, errorMessagesSend: action.payload};
