@@ -24,6 +24,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import axios from "axios";
 
 const Send = ({ navigation }) => {
+  
   const [userKyc, setUserKyc] = useState("");
   const [userSendBan, setUserSendBan] = useState(null);
   const page = useSelector((state) => state.transferPage.page);
@@ -43,7 +44,7 @@ const Send = ({ navigation }) => {
     } else if (amount.replace(",", ".") > value) {
       dispatch({ type: "ADD_ERROR_AMOUNT_SEND" });
     } else
-      dispatch(sendSEND(chooseId, amount.replace(",", "."), username, page));
+      dispatch(sendSEND(chooseId, amount.replace(",", "."), username.replace('@', ''), page));
   };
 
   const [refresh, setRefresh] = useState(false);

@@ -85,16 +85,16 @@ const StartPage = ({ navigation }) => {
               resizeMode="cover"
             >
               <Header onPress={() => navigation.openDrawer()}>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>INVIO</Text>
+                {/*  <Text style={{ fontSize: 20, fontWeight: "bold" }}>INVIO</Text> */}
               </Header>
               <View style={{ alignItems: "center", marginTop: 70 }}>
                 <Text style={styles.logo__text}>Available balance</Text>
               </View>
 
-              <Balance name="" value={total_usd} />
+              <Balance name="USD" value={total_usd} />
 
               <View style={styles.inputs}>
-                <TouchableOpacity
+                {/*  <TouchableOpacity
                   onPress={onPressDepositWithDraw}
                   style={styles.button}
                 >
@@ -120,9 +120,8 @@ const StartPage = ({ navigation }) => {
                     source={require("../../assets/images/startPage/marketplace.png")}
                   />
                   <Text style={styles.button__text}>Marketplace</Text>
-                </TouchableOpacity>
-              </View>
-              {/* <View style={styles.button__container}>
+                </TouchableOpacity>*/}
+                <View style={styles.button__container}>
                   <CustomButton onPress={onPressDepositWithDraw}>
                     Deposit/Withdraw
                   </CustomButton>
@@ -136,7 +135,8 @@ const StartPage = ({ navigation }) => {
                   <CustomButton onPress={onPressMarcetplace}>
                     Marketplace
                   </CustomButton>
-                </View> */}
+                </View>
+              </View>
 
               <Footer />
             </ImageBackground>
@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
   },
 
   logo__text: {
-    fontSize: 20,
+    fontSize: 22,
     color: "white",
     fontWeight: "bold",
   },
