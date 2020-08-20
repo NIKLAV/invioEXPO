@@ -1,3 +1,4 @@
+import T from "i18n-react";
 const initialState = {
   errorMessages: "",
   data: [],
@@ -8,7 +9,7 @@ const withDrawReducer = (state = initialState, action) => {
     case "SEND_CURRENCY":
       return {
         ...state,
-        errorMessages: [...state.errorMessages, "Successfully!"],
+        errorMessages: [...state.errorMessages, T.translate("t_0061")],
       };
     case "ADD_ERROR_DRAW":
       return { ...state, errorMessages: action.payload };
@@ -17,19 +18,19 @@ const withDrawReducer = (state = initialState, action) => {
     case "ADD_ERROR_AMOUNT":
       return {
         ...state,
-        errorMessages: [...state.errorMessages, "Not enough money"],
+        errorMessages: [...state.errorMessages, T.translate("t_0060")],
       };
     case "ADD_ERROR_LENGTH":
       return {
         ...state,
-        errorMessages: [...state.errorMessages, "Please fill all fields"],
+        errorMessages: [...state.errorMessages, T.translate("t_0058")],
       };
     case "ADD_ERROR_MIN_AMOUNT":
       return {
         ...state,
         errorMessages: [
           ...state.errorMessages,
-          `Pay attention! The minimum amount for withdrawal is ${action.payload.min} ${action.payload.code.toUpperCase()}`,
+          `${T.translate("t_0062")} ${action.payload.min} ${action.payload.code.toUpperCase()}`,
         ],
       };
     case "ADD_ERROR_MAX_DAY":
@@ -37,7 +38,7 @@ const withDrawReducer = (state = initialState, action) => {
         ...state,
         errorMessages: [
           ...state.errorMessages,
-          `Daily withdrawal limit exceeded`,
+          `${T.translate("t_0063")}`,
         ],
       };
     case "ADD_ERROR_AMOUNT_MAX":
@@ -45,7 +46,7 @@ const withDrawReducer = (state = initialState, action) => {
         ...state,
         errorMessages: [
           ...state.errorMessages,
-          `Pay attention! The maximum amount for withdrawal is ${action.payload.max} ${action.payload.code.toUpperCase()}`,
+          `${T.translate("t_0064")} ${action.payload.max} ${action.payload.code.toUpperCase()}`,
         ],
       };
     default:

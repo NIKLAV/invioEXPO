@@ -8,6 +8,7 @@ import {
   Image,
   Linking,
 } from "react-native";
+import T from "i18n-react";
 import { Context as AuthContext } from "../../context/AuthContext";
 import useForm from "../../hooks/useForm";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -17,19 +18,17 @@ import { useDispatch } from "react-redux";
 const Navbar = (props) => {
   const { signout, state } = useContext(AuthContext);
   const [userName, setUsername] = useState("");
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     const getName = async () => {
       const name = await AsyncStorage.getItem("name");
-      console.log('name', name)
+      console.log("name", name);
       setUsername(name);
     };
     getName();
   }, [signout]);
 
-
   const { setCredentialsToNull } = useForm();
-  
 
   return (
     <DrawerContentScrollView {...props} style={{ paddingVertical: 35 }}>
@@ -38,7 +37,9 @@ const Navbar = (props) => {
           source={require("../../assets/images/navbar/logo.png")}
           style={styles.logo}
         >
-          <Text style={styles.hello}>Hi, {userName || state.username}!</Text>
+          <Text style={styles.hello}>
+            {T.translate("t_0021")} {userName || state.username}!
+          </Text>
         </ImageBackground>
       </View>
       <View>
@@ -46,9 +47,9 @@ const Navbar = (props) => {
           icon={() => (
             <Image source={require("../../assets/images/navbar/wallets.png")} />
           )}
-          label={"Wallets"}
+          label={T.translate("t_0022")}
           onPress={() => props.navigation.navigate("Wallets")}
-          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
+          labelStyle={[styles.labelStyle, { paddingLeft: 5 }]}
           style={styles.borderTop}
         />
 
@@ -56,9 +57,9 @@ const Navbar = (props) => {
           icon={() => (
             <Image source={require("../../assets/images/navbar/send.png")} />
           )}
-          label={"Send"}
+          label={T.translate("t_0013")}
           onPress={() => props.navigation.navigate("Send")}
-          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
+          labelStyle={[styles.labelStyle, { paddingLeft: 5 }]}
           style={styles.borderTop}
         />
 
@@ -68,22 +69,22 @@ const Navbar = (props) => {
               source={require("../../assets/images/navbar/marketplace.png")}
             />
           )}
-          label={"Marketplace"}
+          label={T.translate("t_0014")}
           onPress={
             () =>
               Linking.openURL(
                 "http://185.181.8.210:8902/marketplace"
               ) /* props.navigation.navigate('Transactions') */
           }
-          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
+          labelStyle={[styles.labelStyle, { paddingLeft: 5 }]}
           style={styles.borderTop}
         />
 
         <DrawerItem
           icon={() => <Image source={require("../../assets/history.png")} />}
-          label={"History"}
+          label={T.translate("t_0023")}
           onPress={() => props.navigation.navigate("TradesHistory")}
-          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
+          labelStyle={[styles.labelStyle, { paddingLeft: 5 }]}
           style={styles.borderTop}
         />
 
@@ -99,16 +100,16 @@ const Navbar = (props) => {
           icon={() => (
             <Image source={require("../../assets/images/navbar/logout.png")} />
           )}
-          label={"Logout"}
+          label={T.translate("t_0024")}
           onPress={async () => {
             setCredentialsToNull();
-            dispatch({type: "LOGOUT_TRANSFER"});
-            dispatch({type: "LOGOUT_HISTORY"})
-            dispatch({type: "LOGOUT_TRADES"});
+            dispatch({ type: "LOGOUT_TRANSFER" });
+            dispatch({ type: "LOGOUT_HISTORY" });
+            dispatch({ type: "LOGOUT_TRADES" });
             await signout();
             props.navigation.navigate("Login");
           }}
-          labelStyle={[styles.labelStyle, {paddingLeft: 5}]}
+          labelStyle={[styles.labelStyle, { paddingLeft: 5 }]}
           style={styles.borderTop}
         />
       </View>

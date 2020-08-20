@@ -5,7 +5,7 @@
  * @format
  * @flow strict-local
  */
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Login from "./app/components/Login/Login";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -15,26 +15,27 @@ import Send from "./app/components/Send/Send";
 import Navbar from "./app/components/Navbar/Navbar";
 import Deposit from "./app/components/Deposit/Deposit";
 import { createStackNavigator } from "@react-navigation/stack";
-
 import {
   Provider as AuthProvider,
   Context as AuthContext,
 } from "./app/context/AuthContext";
 
-import { Provider } from "react-redux";
+import { Provider, useSelector, useDispatch } from "react-redux";
 import { store } from "./app/redux/store";
+import T from "i18n-react";
 import StartPage from "./app/components/StartPage/StartPage";
 import TransferHistory from "./app/components/History/TransferHistory";
 import TradesHistory from "./app/components/History/TradesHistory";
 import DepositWithdrawHistory from "./app/components/History/DepositWithdrawHistory";
-
+import eng from "./app/language/eng.json";
+import spa from "./app/language/spa.json";
+import setLanguage from "./app/redux/language/action";
+import { StyleSheet } from "react-native";
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 const { navigation } = NavigationContainer;
 
 const App = () => {
-  /* const [touched, setTouched] = useState(1); */
-
   const { state } = useContext(AuthContext);
   return (
     <NavigationContainer>
@@ -79,7 +80,7 @@ const App = () => {
   );
 };
 
-/* const styles = StyleSheet.create({}); */
+const styles = StyleSheet.create({});
 
 export default () => {
   return (

@@ -10,6 +10,7 @@ import {
   Platform,
   RefreshControl,
 } from "react-native";
+import T from "i18n-react";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
 import Header from "../common/Header/Header";
@@ -90,7 +91,7 @@ const WithDraw = ({ navigation, route }) => {
 
   const errors = useSelector((state) => state.withDrawPage.errorMessages);
   useEffect(() => {
-    if (Array.isArray(errors) && errors.includes("Successfully!")) {
+    if (Array.isArray(errors) && errors.includes(T.translate("t_0061"))) {
       setAddress("");
       setAmount("");
     }
@@ -128,8 +129,7 @@ const WithDraw = ({ navigation, route }) => {
         });
     };
     fetchCurrentValue();
-    setRefresh(false)
-    
+    setRefresh(false);
   }, [errors, refresh, data]);
 
   return (
@@ -152,10 +152,12 @@ const WithDraw = ({ navigation, route }) => {
             resizeMode="cover"
           >
             <Header onPress={() => navigation.openDrawer()}>
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>WITHDRAW</Text>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                {T.translate("t_0032")}
+              </Text>
             </Header>
             <View style={{ alignItems: "center", marginTop: 40 }}>
-              <Text style={styles.logo__text}>Available balance</Text>
+              <Text style={styles.logo__text}>{T.translate("t_0026")}</Text>
             </View>
 
             <Balance name={data.name} value={currentValue} />
@@ -169,7 +171,7 @@ const WithDraw = ({ navigation, route }) => {
               ) : null}
               <View style={styles.inputs__container}>
                 <View style={styles.input__container}>
-                  <Text style={styles.label}>Address</Text>
+                  <Text style={styles.label}>{T.translate("t_0027")}</Text>
                   <TextInput
                     onChangeText={(address) => setAddress(address)}
                     value={address}
@@ -178,7 +180,7 @@ const WithDraw = ({ navigation, route }) => {
                 </View>
 
                 <View style={styles.input__container}>
-                  <Text style={styles.label}>Amount</Text>
+                  <Text style={styles.label}>{T.translate("t_0033")}</Text>
                   <TextInput
                     onChangeText={(amount) => setAmount(amount)}
                     value={amount}
@@ -187,22 +189,21 @@ const WithDraw = ({ navigation, route }) => {
                   {!loading && Object.keys(info).length > 0 ? (
                     <>
                       <Text style={styles.after_input}>
-                        Maximum {data.name.toUpperCase()} Withdrawal:{" "}
-                        {info.withdraw_max}
+                        {T.translate("t_0034")} {data.name.toUpperCase()}{" "}
+                        {T.translate("t_0033")}: {info.withdraw_max}
                         {/* {data.withdraw_max} */} {data.name.toUpperCase()}
                       </Text>
                       <Text style={styles.after_input}>
-                        Minimum {data.name.toUpperCase()} Withdrawal:{" "}
-                        {info.withdraw_min}
+                        {T.translate("t_0036")} {data.name.toUpperCase()}{" "}
+                        {T.translate("t_0033")}: {info.withdraw_min}
                         {/* {data.withdraw_min} */} {data.name.toUpperCase()}
                       </Text>
                       <Text style={styles.after_input}>
-                        Withdrawal fee: {info.withdraw_fee}{" "}
+                        {T.translate("t_0037")}: {info.withdraw_fee}{" "}
                         {/*  {data.withdraw_fee} */} %
                       </Text>
                       <Text style={styles.after_input}>
-                        Available withdrawal per day:{" "}
-                        {info.withdraw_available_day}{" "}
+                        {T.translate("t_0038")}: {info.withdraw_available_day}{" "}
                         {/* {data.withdraw_available_day} */}{" "}
                         {data.name.toUpperCase()}
                       </Text>
@@ -212,7 +213,9 @@ const WithDraw = ({ navigation, route }) => {
               </View>
 
               <View style={styles.button__container}>
-                <CustomButton onPress={onPress}>Withdraw</CustomButton>
+                <CustomButton onPress={onPress}>
+                  {T.translate("t_0018")}
+                </CustomButton>
               </View>
             </View>
             {/* <Footer /> */}

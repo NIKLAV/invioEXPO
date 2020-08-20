@@ -11,6 +11,7 @@ import {
   Modal,
   RefreshControl,
 } from "react-native";
+import T from "i18n-react";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
 import Header from "../common/Header/Header";
@@ -33,11 +34,11 @@ const Deposit = ({ navigation, route }) => {
   ); */
 
   /* const loading = useSelector((state) => state.walletsPage.loading); */
-  const [refresh, setRefresh] = useState(false)
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(false);
   console.log("loading", loading);
   const [deposit_fee, setDeposit_Fee] = useState(null);
-  const [value, setValue] = useState(null)
+  const [value, setValue] = useState(null);
   console.log("deposit fee", deposit_fee);
   /* const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -61,7 +62,7 @@ const Deposit = ({ navigation, route }) => {
       setValue(response.data.wallet.balance);
       setLoading(false);
       console.log("response in deposit", response);
-      setRefresh(false)
+      setRefresh(false);
     };
 
     getCurrentCurrency(name);
@@ -74,8 +75,8 @@ const Deposit = ({ navigation, route }) => {
   };
 
   const onRefresh = () => {
-    setRefresh(true)
-  }
+    setRefresh(true);
+  };
 
   return (
     <ScrollView
@@ -105,10 +106,12 @@ const Deposit = ({ navigation, route }) => {
                 dispatch({ type: "CLEAR_ADDRESS" });
               }}
             >
-              <Text style={{ fontSize: 20, fontWeight: "bold" }}>DEPOSIT</Text>
+              <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                {T.translate("t_0025")}
+              </Text>
             </Header>
             <View style={{ alignItems: "center", marginTop: 50 }}>
-              <Text style={styles.logo__text}>Available balance</Text>
+              <Text style={styles.logo__text}>{T.translate("t_0026")}</Text>
             </View>
             <View style={styles.logo}>
               <Balance name={name} value={value} />
@@ -117,22 +120,24 @@ const Deposit = ({ navigation, route }) => {
             <View style={styles.inputs}>
               <View style={styles.inputs__container}>
                 <View style={styles.input__container}>
-                  <Text style={styles.label}>Address</Text>
+                  <Text style={styles.label}>{T.translate("t_0027")}</Text>
                   <TextInput value={generatedAddress} style={styles.input} />
                 </View>
                 <View style={styles.textContainer}>
-                  <Text style={styles.label}>Deposit fee: {deposit_fee}%</Text>
+                  <Text style={styles.label}>
+                    {T.translate("t_0028")}: {deposit_fee}%
+                  </Text>
                   <Text style={{ width: 260 }}>
-                    This deposit address accept only{" "}
+                    {T.translate("t_0029")}{" "}
                     <Text style={{ textTransform: "uppercase" }}>{name}</Text>.
                   </Text>
-                  <Text>Do not send other coins to it.</Text>
+                  <Text>{T.translate("t_0030")}.</Text>
                 </View>
               </View>
 
               <View style={styles.button__container}>
                 <CustomButton onPress={createNewAddress}>
-                  Generate address
+                  {T.translate("t_0031")}
                 </CustomButton>
               </View>
               {/*  <CustomButtonLightSmall onPress={Clipboard.setString('sss')}>
@@ -157,7 +162,7 @@ const styles = StyleSheet.create({
     /* justifyContent: "center", */
   },
   logo: {
-   /*  marginTop: 50, */
+    /*  marginTop: 50, */
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

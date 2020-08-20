@@ -11,6 +11,7 @@ import {
   FlatList,
   RefreshControl,
 } from 'react-native';
+import T from "i18n-react";
 import CustomButton from '../common/Button/CustomButton';
 import Footer from '../common/Footer/Footer';
 import Header from '../common/Header/Header';
@@ -116,7 +117,7 @@ const Send = ({navigation}) => {
     } else if (errors.amount) {
       errors = errors.amount;
     }
-    if (errors.includes('Successfully!')) {
+    if (errors.includes(T.translate("t_0061"))) {
       setUserName('');
       setAmount('');
     }
@@ -144,7 +145,7 @@ const Send = ({navigation}) => {
             style={styles.container}
             resizeMode="cover">
             <Header onPress={() => navigation.openDrawer()}>
-              <Text style={{fontSize: 28, fontWeight: 'bold'}}>SEND</Text>
+              <Text style={{fontSize: 28, fontWeight: 'bold'}}>{T.translate("t_0039")}</Text>
             </Header>
             {/* <View style={{ alignItems: "center", marginTop: 15 }}>
               <Text style={styles.logo__text}>Send</Text>
@@ -168,7 +169,7 @@ const Send = ({navigation}) => {
                 )}
               />
               <View style={styles.box__footer}>
-                <Text style={styles.box__footerText}>Total Balance: </Text>
+                <Text style={styles.box__footerText}>{T.translate("t_0016")} </Text>
                 {response && (
                   <Text style={styles.box__footerText}>
                     {response.total_usd}
@@ -187,7 +188,7 @@ const Send = ({navigation}) => {
             <View style={styles.inputs}>
               <View style={styles.inputs__container}>
                 <View style={styles.input__container}>
-                  <Text style={styles.label}>User</Text>
+                  <Text style={styles.label}>{T.translate("t_0040")}</Text>
                   <TextInput
                     onFocus={() => setStateUser(!stateUser)}
                     onBlur={() => setStateUser(!stateUser)}
@@ -198,7 +199,7 @@ const Send = ({navigation}) => {
                   />
                 </View>
                 <View style={styles.input__container}>
-                  <Text style={styles.label}>Amount</Text>
+                  <Text style={styles.label}>{T.translate("t_0033")}</Text>
                   <TextInput
                     onFocus={() => setStateAmount(!stateAmount)}
                     onBlur={() => setStateAmount(!stateAmount)}
@@ -210,12 +211,12 @@ const Send = ({navigation}) => {
                     }}
                   />
                   <View style={styles.margin}>
-                  <Text style={styles.label}>Send fee: 0 %</Text>
+                  <Text style={styles.label}>{T.translate("t_0041")}: 0 %</Text>
                 </View>
                 </View>
                 
                 <View style={styles.button__container}>
-                  <CustomButton onPress={onPress}>Send</CustomButton>
+                  <CustomButton onPress={onPress}>{T.translate("t_0013")}</CustomButton>
                 </View>
               </View>
             </View>

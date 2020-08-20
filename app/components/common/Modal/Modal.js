@@ -1,31 +1,31 @@
 import React from "react";
 import { View, Modal, StyleSheet, Text, TouchableOpacity } from "react-native";
+import T from "i18n-react";
 import CustomButtonLightSmall from "../Button/CustomButtonLightSmall";
 import { windowHeight } from "../../../utilts/windowHeight";
 import CustomButton from "../../common/Button/CustomButton";
 import Footer from "../Footer/Footer";
 
 const CustomModal = ({ clearErrorMessage, errors }) => {
-  console.warn(errors.toString().split(' ').join('').includes('successfully!'));
   if (errors.amount && errors.amount > 1)
-    errors = ["The amount must be a number"];
+    errors = [T.translate("t_0075")];
   if (errors.username) {
     errors = errors.username;
   } else if (errors.amount) {
-    errors = ["The amount must be a number"];
+    errors = [T.translate("t_0075")];
   }
   if (errors.includes("wrong_withdrawal_address"))
-    errors = ["Wrong withdrawal address"];
+    errors = [T.translate("t_0059")];
   if (errors.includes("min_quantity_limit_exceeded"))
-    errors = ["The amount must be more than 0"]; 
+    errors = [T.translate("t_0071")];
   if (errors.includes("the_selected_username_is_invalid"))
-    errors = ["This username is not registred"];
+    errors = [T.translate("t_0070")];
   if (errors.includes("the_amount_must_be_greater_than_0"))
-    errors = ["The amount must be more than 0"];
-  if (errors.includes("invalid_credentials")) errors = ["Invalid credentials"];
+    errors = [T.translate("t_0071")];
+  if (errors.includes("invalid_credentials")) errors = [T.translate("t_0072")];
   if (errors.includes("the_totp_field_is_required"))
-    errors = ["Please enter the TOTP code"];
-  if (errors.includes("invalid_totp_code")) errors = ["Invalid TOTP code"];
+    errors = [T.translate("t_0073")];
+  if (errors.includes("invalid_totp_code")) errors = [T.translate("t_0074")];
 
   return (
     <View>
@@ -44,8 +44,14 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
         >
           <View style={styles.container}>
             <Text style={{ fontSize: 36, fontWeight: "bold", marginTop: 140 }}>
-              {errors && !errors.includes("Successfully!") && !errors.toString().split(' ').join('').includes('successfully!') ? (
-                <Text>Error</Text>
+              {errors &&
+              !errors.includes(T.translate("t_0061")) &&
+              !errors
+                .toString()
+                .split(" ")
+                .join("")
+                .includes(T.translate("t_0067")) ? (
+                <Text>{T.translate("t_0057")}</Text>
               ) : null}
             </Text>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
@@ -65,10 +71,15 @@ const CustomModal = ({ clearErrorMessage, errors }) => {
               )}
             </View>
             <CustomButton onPress={() => clearErrorMessage()}>
-              {errors.includes("Successfully!") || errors.toString().split(' ').join('').includes('successfully!') ?  (
-                <Text>Ok</Text>
+              {errors.includes(T.translate("t_0061")) ||
+              errors
+                .toString()
+                .split(" ")
+                .join("")
+                .includes(T.translate("t_0067")) ? (
+                <Text>{T.translate("t_0056")}</Text>
               ) : (
-                <Text>Try again</Text>
+                <Text>{T.translate("t_0055")}</Text>
               )}
             </CustomButton>
 

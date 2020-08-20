@@ -12,6 +12,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
+import T from "i18n-react";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
 import Header from "../common/Header/Header";
@@ -88,7 +89,7 @@ const StartPage = ({ navigation }) => {
                 {/*  <Text style={{ fontSize: 20, fontWeight: "bold" }}>INVIO</Text> */}
               </Header>
               <View style={{ alignItems: "center", marginTop: 70 }}>
-                <Text style={styles.logo__text}>Available balance</Text>
+                <Text style={styles.logo__text}>{T.translate("t_0011")}</Text>
               </View>
 
               <Balance name="USD" value={total_usd} />
@@ -123,17 +124,17 @@ const StartPage = ({ navigation }) => {
                 </TouchableOpacity>*/}
                 <View style={styles.button__container}>
                   <CustomButton onPress={onPressDepositWithDraw}>
-                    Deposit/Withdraw
+                    {T.translate("t_0012")}
                   </CustomButton>
                 </View>
                 <View style={styles.button__container}>
                   <CustomButtonLight onPress={onPressSend}>
-                    Send
+                  {T.translate("t_0013")}
                   </CustomButtonLight>
                 </View>
                 <View style={styles.button__container}>
                   <CustomButton onPress={onPressMarcetplace}>
-                    Marketplace
+                  {T.translate("t_0014")}
                   </CustomButton>
                 </View>
               </View>

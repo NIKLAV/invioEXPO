@@ -7,6 +7,7 @@ import historyReducer from './historyReducer';
 import transferReducer from './transferReducer';
 import sendReducer from './sendReducer';
 import tradesReducer from './tradesReducer';
+import language from './language/reducer';
 
 let reducers = combineReducers({
   sendPage: sendReducer,
@@ -16,6 +17,7 @@ let reducers = combineReducers({
   walletsPage: walletsReducer,
   withDrawPage: withDrawReducer,
   tradePage: tradesReducer,
+  language: language,
 });
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export const store = createStore(

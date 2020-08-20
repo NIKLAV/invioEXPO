@@ -8,6 +8,7 @@ import {
   Text,
   SafeAreaView,
 } from "react-native";
+import T from "i18n-react";
 import Footer from "../common/Footer/Footer";
 import Accordian from "../common/Accordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
@@ -114,7 +115,7 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
     <ScrollView>
       {!loading && transfer.length === 0 ? (
         <NothingToShow
-         title='TRANSFER HISTORY'
+          title="TRANSFER HISTORY"
           navigation={navigation}
           onPress={() => {
             navigation.openDrawer();
@@ -132,7 +133,7 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
                 navigation.openDrawer();
               }}
             >
-              TRANSFER HISTORY
+              {T.translate("t_0047")}
             </Header>
             <TabBar navigation={navigation} />
             {transfer ? (
@@ -149,8 +150,8 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
                     {item.to_user === userName ? (
                       <View style={styles.item__text}>
                         <Text>
-                          <Text style={styles.name}>{item.from_user}</Text> paid
-                          you
+                          <Text style={styles.name}>{item.from_user}</Text>{" "}
+                          {T.translate("t_0048")}
                         </Text>
                         <Text style={styles.take}>
                           + {item.amount} {item.asset_code.toUpperCase()}
@@ -160,7 +161,7 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
                       <View style={styles.item__text}>
                         <View>
                           <Text style={styles.name}>{item.to_user}</Text>
-                          <Text>got your transfer</Text>
+                          <Text>{T.translate("t_0049")}</Text>
                         </View>
                         <View>
                           <Text style={styles.send}>
@@ -175,7 +176,7 @@ const TransferHistory = ({ navigation /* touched, setTouched */ }) => {
                 {page < lastPage && (
                   <View style={{ marginTop: 55, marginBottom: 55 }}>
                     <CustomButton onPress={() => onList()}>
-                      loading more
+                    {T.translate("t_0046")}
                     </CustomButton>
                   </View>
                 )}

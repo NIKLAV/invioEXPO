@@ -8,6 +8,7 @@ import {
   Text,
   SafeAreaView,
 } from "react-native";
+import T from "i18n-react";
 import Footer from "../common/Footer/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTrades } from "../../redux/actions";
@@ -74,7 +75,7 @@ const TradesHistory = ({ navigation }) => {
                 navigation.openDrawer();
               }}
             >
-              TRADES HISTORY
+              {T.translate("t_0042")}
             </Header>
             <TabBar navigation={navigation} />
             {all ? (
@@ -145,7 +146,7 @@ const TradesHistory = ({ navigation }) => {
                       <View>
                         <Text>
                           <Text style={{ color: "#5e5e5e" }}>
-                            Trade with{" "}
+                            {T.translate("t_0043")}{" "}
                             {item.buyer_username === userName ? (
                               <Text style={styles.name}>
                                 {item.seller_username}
@@ -164,7 +165,7 @@ const TradesHistory = ({ navigation }) => {
                     </View>
                     <View style={{ paddingLeft: 10 }}>
                       <Text>
-                        paid -
+                        {T.translate("t_0044")} -
                         {item.buyer_username !== userName ? (
                           <Text style={styles.send}>
                             {Number(item.amount).toFixed(8) +
@@ -177,7 +178,7 @@ const TradesHistory = ({ navigation }) => {
                         )}
                       </Text>
                       <Text>
-                        got +
+                        {T.translate("t_0045")} +
                         {item.buyer_username === userName ? (
                           <Text style={styles.take}>
                             {Number(item.amount).toFixed(8) +
@@ -191,11 +192,11 @@ const TradesHistory = ({ navigation }) => {
                       </Text>
                     </View>
                   </View>
-                ))} 
+                ))}
                 {page < lastPageBuy && (
                   <View style={{ marginTop: 55 }}>
                     <CustomButton onPress={() => onList()}>
-                      loading more
+                    {T.translate("t_0046")}
                     </CustomButton>
                   </View>
                 )}

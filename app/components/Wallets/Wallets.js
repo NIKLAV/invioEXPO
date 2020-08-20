@@ -11,6 +11,7 @@ import {
   Linking,
   RefreshControl,
 } from "react-native";
+import T from "i18n-react";
 import Header from "../common/Header/Header";
 import CustomButton from "../common/Button/CustomButton";
 import Footer from "../common/Footer/Footer";
@@ -124,7 +125,7 @@ const Wallets = ({ navigation }) => {
           style={styles.container}
         >
           <Header onPress={() => navigation.openDrawer()}>
-            <Text style={{ fontWeight: "bold", fontSize: 28, /* fontFamily: 'Montserrat-Bold' */ }}>WALLETS</Text>
+            <Text style={{ fontWeight: "bold", fontSize: 28, /* fontFamily: 'Montserrat-Bold' */ }}>{T.translate("t_0015")}</Text>
           </Header>
           {/* <View style={styles.logo}>
             <Text style={styles.logo__text}>Wallets</Text>
@@ -181,7 +182,7 @@ const Wallets = ({ navigation }) => {
                 )}
               />
               <View style={styles.box__footer}>
-                <Text style={styles.box__footerText}>Total balance: </Text>
+                <Text style={styles.box__footerText}>{T.translate("t_0016")} </Text>
                 {response && (
                   <Text style={styles.box__footerText}>
                     {response.total_usd} USD
@@ -249,7 +250,7 @@ const Wallets = ({ navigation }) => {
                   });
                 }}
               >
-                Deposit
+                {T.translate("t_0017")}
               </CustomButtonLight>
             </View>
             <View style={styles.button__container}>
@@ -271,7 +272,7 @@ const Wallets = ({ navigation }) => {
                   }
                 }}
               >
-                Withdraw
+                {T.translate("t_0018")}
               </CustomButton>
             </View>
             <View style={styles.buttonSmall__container}>
@@ -283,7 +284,7 @@ const Wallets = ({ navigation }) => {
                     ) /* props.navigation.navigate('Transactions') */
                 }
               >
-                Buy
+                {T.translate("t_0019")}
               </CustomButtonLightSmall>
               <CustomButtonLightSmall
                 onPress={
@@ -293,7 +294,7 @@ const Wallets = ({ navigation }) => {
                     ) /* props.navigation.navigate('Transactions') */
                 }
               >
-                Sell
+                {T.translate("t_0020")}
               </CustomButtonLightSmall>
               {/* <CustomButtonLightSmall>Sell/Buy</CustomButtonLightSmall> */}
             </View>

@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+import T from "i18n-react";
 import Footer from "../common/Footer/Footer";
 import Accordian from "../common/Accordion/Accordion";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,7 +78,9 @@ const DepositWithdrawHistory = ({ navigation }) => {
               </View> */}
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Amount</Text>
+                  <Text style={styles.child__item__text}>
+                    {T.translate("t_0033")}
+                  </Text>
                 </View>
                 <Text style={styles.child__item__value}>
                   {Number(item.amount).toFixed(8)}
@@ -85,7 +88,9 @@ const DepositWithdrawHistory = ({ navigation }) => {
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Fee</Text>
+                  <Text style={styles.child__item__text}>
+                    {T.translate("t_0051")}
+                  </Text>
                 </View>
                 <Text style={styles.child__item__value}>
                   {Number(item.fee).toFixed(8)}
@@ -93,13 +98,17 @@ const DepositWithdrawHistory = ({ navigation }) => {
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Wallet address</Text>
+                  <Text style={styles.child__item__text}>
+                    {T.translate("t_0052")}
+                  </Text>
                 </View>
                 <Text style={styles.child__item__value}>{item.address}</Text>
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Type</Text>
+                  <Text style={styles.child__item__text}>
+                    {T.translate("t_0053")}
+                  </Text>
                 </View>
                 <Text style={styles.child__item__value}>
                   {item.transaction_type}
@@ -107,7 +116,9 @@ const DepositWithdrawHistory = ({ navigation }) => {
               </View>
               <View style={styles.child__item}>
                 <View style={styles.test}>
-                  <Text style={styles.child__item__text}>Status</Text>
+                  <Text style={styles.child__item__text}>
+                    {T.translate("t_0054")}
+                  </Text>
                 </View>
                 <Text style={styles.child__item__value}>{item.status}</Text>
               </View>
@@ -138,7 +149,7 @@ const DepositWithdrawHistory = ({ navigation }) => {
             style={styles.container}
           >
             <Header onPress={() => navigation.openDrawer()}>
-              DEPOSIT/WITHDRAW HISTORY
+              {T.translate("t_0050")}
             </Header>
             <TabBar navigation={navigation} />
             {!loading && history.length > 0 ? (
@@ -147,7 +158,7 @@ const DepositWithdrawHistory = ({ navigation }) => {
                 {page < lastPage && (
                   <View style={{ marginTop: 55 }}>
                     <CustomButton onPress={() => onList()}>
-                      loading more
+                      {T.translate("t_0046")}
                     </CustomButton>
                   </View>
                 )}
@@ -205,13 +216,13 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   accordionContainer: {
-   /*  minHeight: windowHeight, */
+    /*  minHeight: windowHeight, */
     flex: 1,
     paddingTop: 20,
     paddingBottom: 20,
     marginTop: 50,
     /* justifyContent: "center", */
-    alignItems: "center", 
+    alignItems: "center",
     width: "100%",
     backgroundColor: "#e0e0e0",
     borderTopLeftRadius: 18,

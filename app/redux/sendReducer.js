@@ -1,42 +1,42 @@
+import T from "i18n-react";
 const initialState = {
   data: [],
-  errorMessagesSend: '',
+  errorMessagesSend: "",
 };
 
 const sendReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'SEND_SEND':
+    case "SEND_SEND":
       return {
         ...state,
         errorMessagesSend: [
           ...state.errorMessagesSend,
-          `You sent ${action.payload.amount} ${
+          `${T.translate("t_0065")} ${action.payload.amount} ${
             action.payload.currencyCode
-          } to @${action.payload.username} successfully!`,
+          } ${T.translate("t_0066")} @${action.payload.username} ${T.translate(
+            "t_0067"
+          )}`,
         ],
       };
-    case 'ADD_ERROR_SEND':
-      return {...state, errorMessagesSend: action.payload};
-    case 'ADD_ERROR_LENGTH_SEND':
+    case "ADD_ERROR_SEND":
+      return { ...state, errorMessagesSend: action.payload };
+    case "ADD_ERROR_LENGTH_SEND":
+      return {
+        ...state,
+        errorMessagesSend: [...state.errorMessagesSend, T.translate("t_0068")],
+      };
+    case "ADD_ERROR_AMOUNT_SEND":
       return {
         ...state,
         errorMessagesSend: [
           ...state.errorMessagesSend,
-          'fill in the appropriate fields and choose currency',
+          T.translate("t_0069"),
         ],
       };
-    case 'ADD_ERROR_AMOUNT_SEND':
+    case "CLEAR_ERROR_SEND":
       return {
         ...state,
-        errorMessagesSend: [
-          ...state.errorMessagesSend,
-          'Need available amount',
-        ],
-      };
-    case 'CLEAR_ERROR_SEND':
-      return {
-        ...state,
-        errorMessagesSend: '',
+        errorMessagesSend: "",
       };
     default:
       return state;
